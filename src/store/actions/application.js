@@ -36,3 +36,8 @@ export const getParams = () => dispatch => {
   return appApi.getParams()
     .then(r => dispatch(appReducer.setParams(r)))
 }
+
+export const getSprReason = () => dispatch => {
+  return appApi.getSprReason()
+      .then(r => dispatch(appReducer.setSprReason(r)))
+}

@@ -37,3 +37,9 @@ export const newProf = (payload) => {
     const url = API + `/patient/prof/`
     return request("POST", url, {}, {...payload})
 }
+
+export const newReg = (payload) => {
+    console.log(payload)
+    const url = API + `/patient/${payload.patientId}/uchet/`
+    return request("POST", url, {}, {...payload})
+}

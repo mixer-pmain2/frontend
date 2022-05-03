@@ -13,6 +13,7 @@ const Initialisation = ({dispatch}) => {
     dispatch(appActions.getSprPrava())
     dispatch(appActions.getSprVisit())
     dispatch(appActions.getParams())
+    dispatch(appActions.getSprReason())
 
     console.log("Initialisation")
     return null

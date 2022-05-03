@@ -39,3 +39,10 @@ export const getHistoryHospital = (payload) => dispatch =>
             dispatch(patientReducer.setHospital(res))
             return res
         })
+
+export const newReg = (payload) => dispatch =>
+    patientApi.newReg(payload)
+        .then(res => {
+            // dispatch(getUchet(payload))
+            return res
+        })

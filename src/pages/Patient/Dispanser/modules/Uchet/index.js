@@ -6,8 +6,9 @@ import * as patientActions from "store/actions/patient";
 import {formatDate, formatDateToInput} from "utility/string";
 import useParams from "utility/app";
 import Patient from "classes/Patient";
-
-
+import NewUchet from "./NewUchet";
+import {reason} from "../../../../../consts/uchet";
+import Notify, {notifyType} from "../../../../../components/Notify";
 
 
 const HistoryUchet = ({patient}) => {
@@ -64,12 +65,6 @@ const HistoryUchet = ({patient}) => {
     </div>
 }
 
-const NewUchet = ({onClose}) => {
-    return <div>
-        newuchet
-        <button className="btn btn-outline-danger" onClick={onClose}>Закрыть</button>
-    </div>
-}
 
 const NewSomSin = ({onClose}) => {
     return <div>
@@ -87,32 +82,24 @@ const Uchet = ({dispatch, patient, application}) => {
         tab: T_UCHET,
         enableTransfer: false
     })
-    const [form, setForm] = useState({
-        date: formatDateToInput(new Date()),
-    })
-    const [dateRange, setDateRange] = useState({
-        min: "",
-        max: ""
-    })
-    const params = useParams(application.params)
-
-    const onChangeForm = (e) => {
-        setForm({
-            ...form,
-            [e.target.name]: e.target.value
-        })
+    const handleNew = () => {
+        const pat = new Patient(patient)
+        const patLastReason =  pat.getLastUchet().reason
+        if (patLastReason === reason.DEAD) {
+            notifyWarning("Для умершего не доступно")
+            return
+        }
+        setState({...state, tab: T_NEW})
     }
-
-    const handleNew = () => setState({...state, tab: T_NEW})
     const handleSomSin = () => setState({...state, tab: T_SIN_SOM})
     const closeTab = () => setState({...state, tab: T_UCHET})
 
+    const notifyWarning = (message) => Notify(notifyType.WARNING, message)()
+    const notifySuccess = (message) => Notify(notifyType.SUCCESS, message)()
+
+
     useEffect(() => {
         dispatch(patientActions.getUchet({id: patient.id}))
-        setDateRange({
-            min: params.visit.minDate,
-            max: params.visit.maxDate
-        })
         const p = new Patient(patient)
         if (p.getLastUchet().category) setState({...state, enableTransfer: true})
     }, [])
@@ -120,13 +107,10 @@ const Uchet = ({dispatch, patient, application}) => {
     return <div>
         <div className="d-flex flex-row justify-content-between">
             <div className="d-flex flex-row align-items-center">
-                <button className="btn btn-outline-primary" style={{marginRight: 15}} onClick={handleNew}>+</button>
+                <button className="btn btn-outline-primary" style={{marginRight: 5}} onClick={handleNew}>+</button>
                 {state.enableTransfer && <button className="btn btn-outline-primary" style={{marginRight: 15}}>
                     Прием с других участков
                 </button>}
-                <input className="form-control" style={{width: 150, marginRight: 15}} type="date" name="date"
-                       value={form.date || formatDateToInput(new Date())} onChange={onChangeForm}
-                       min={dateRange.min} max={dateRange.max}/>
                 <span></span>
             </div>
             <button className="btn btn-outline-primary" onClick={handleSomSin}>Синдром и хронические заболевания</button>

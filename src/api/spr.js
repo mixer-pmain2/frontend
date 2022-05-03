@@ -24,3 +24,8 @@ export const getParams = () => {
   const url = API + `/service/`
   return request('GET', url, {}, {})
 }
+
+export const getSprReason = () => {
+  const url = API + `/spr/reason/`
+  return request('GET', url, {}, {})
+}

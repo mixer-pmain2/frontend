@@ -91,7 +91,18 @@ export const applicationStore = createSlice({
       }
       saveToStore(state, storeName)
       return state
-    }
+    },
+    setSprReason: (state, action) => {
+      state = {
+        ...state,
+        spr: {
+          ...state.spr,
+          reason: action.payload
+        }
+      }
+      saveToStore(state, storeName)
+      return state
+    },
   }
 })
 
@@ -104,6 +115,7 @@ export const {
   loadingListRemove,
   loadingListReset,
   setSprVisit,
-  setParams
+  setParams,
+  setSprReason,
 } = applicationStore.actions
 export default applicationStore.reducer
