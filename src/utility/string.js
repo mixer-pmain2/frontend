@@ -1,4 +1,5 @@
 export const formatDate = (s = "", format="dd.mm.YYYY") => {
+    if (s === "") return ""
     // s = 1998-11-18
     const [year, month, day] = s.split("-")
     let res = []

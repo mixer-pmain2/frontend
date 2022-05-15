@@ -17,15 +17,14 @@ export default (params) => {
     return formatDateToInput(date)
   }
 
-  const getMaxVisitDate = () => {
-    const date = new Date()
-    return formatDateToInput(date)
-  }
-
   const _params = {
     visit: {
       minDate: getMinVisitDate(),
-      maxDate: getMaxVisitDate()
+      maxDate: getParam(params, "current_date").paramS
+    },
+    registrat: {
+      minDate: getParam(params, "registrat_min_date").paramS,
+      maxDate: getParam(params, "current_date").paramS
     }
   }
 

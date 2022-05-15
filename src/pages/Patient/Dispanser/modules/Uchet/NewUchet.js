@@ -9,22 +9,34 @@ import Patient from "classes/Patient";
 import {category, categoryAmbulance, categoryConsultant, reason} from "consts/uchet";
 import Notify, {notifyType} from "components/Notify";
 import {loadingAdd, loadingRemove} from "store/actions/application";
-import Modal from "../../../../../components/Modal";
-import DiagnoseTree, {getTypeDiagsModal} from "../../../components/DiagnoseTree";
+import Modal, {BTN_NO, BTN_OK, BTN_YES} from "components/Modal";
+import DiagnoseTree, {getTypeDiagsModal} from "pages/Patient/components/DiagnoseTree";
+import SelectSection from "./SelectSection";
+import * as patientActions from "../../../../../store/actions/patient";
 
-const NewUchet = ({dispatch, application, patient, onClose}) => {
-    const [state, setState] = useState({
-        isOpenDiagModal: false,
-        isShowCategory: true,
-        isShowExitReason: false,
-        isSubmit: false
-    })
+const NewUchet = ({dispatch, application, patient, user, onClose}) => {
     const params = useParams(application.params)
     const pat = new Patient(patient)
     const [form, setForm] = useState({
         patientId: patient.id,
         date: formatDateToInput(new Date()),
-        category: pat.getLastUchet()?.category?.toString()
+        category: pat.getLastUchet()?.category,
+        section: pat.getLastUchet()?.section,
+        dockId: user.id
+    })
+    const [state, setState] = useState({
+        isOpenDiagModal: false,
+        isShowCategory: true,
+        isShowExitReason: false,
+        isOpenSectionModal: false,
+        isSelectedSection: false,
+        isSubmit: false,
+        section: user.section[user.unit]?.[0] || 0,
+        diagType: 5,
+        //Контроль обязательного изменения
+        isOpenQuestionChangeDiag: false, //показать окно с вопросом
+        changeDiagRequire: false, //проверка на изменение если тру
+        isChangedDiagRequire: false //уже изменен
     })
     const [dateRange, setDateRange] = useState({
         min: "",
@@ -35,9 +47,12 @@ const NewUchet = ({dispatch, application, patient, onClose}) => {
     const notifyError = message => Notify(notifyType.ERROR, message)()
 
     const onChangeForm = (e) => {
+        const name = e.target.name
+        let value = e.target.value
+        if (name === 'category') value = Number(value)
         setForm({
             ...form,
-            [e.target.name]: e.target.value
+            [name]: value
         })
     }
 
@@ -59,9 +74,10 @@ const NewUchet = ({dispatch, application, patient, onClose}) => {
     }
 
     const isAvailableCategory = (c) => {
-        if (form?.reason === reason.TRANSFER_TO_CONSULTATION) return categoryConsultant.indexOf(10) + 1
+        if (form?.reason === reason.TRANSFER_TO_CONSULTATION) return categoryConsultant.indexOf(Number(c)) + 1
         if (form?.reason === reason.TRANSFER_TO_AMBULANCE) return categoryAmbulance.indexOf(Number(c)) + 1
         if (form?.reason === reason.TRANSFER_CATEGORY) return categoryAmbulance.indexOf(Number(c)) + 1
+        if (form?.reason === reason.NEW) return true
 
         return false
     }
@@ -70,23 +86,89 @@ const NewUchet = ({dispatch, application, patient, onClose}) => {
         setState({
             ...state,
             isOpenDiagModal: false,
-            isSubmit: true
+            isSubmit: true,
+            isChangedDiagRequire: true
         })
         setForm({
             ...form,
             diagnose: diagnose,
         })
+    }
 
+    const onCancelDiag = () => {
+        setState({
+            ...state,
+            isOpenDiagModal: false,
+            isSubmit: false
+        })
+    }
+
+    const onSelectSection = () => {
+        setState({
+            ...state,
+            isOpenSectionModal: false,
+            isSelectedSection: true,
+            isSubmit: true
+        })
+        setForm({
+            ...form,
+            section: state.section
+        })
+    }
+
+    const onCancelSection = () => {
+        setState({
+            ...state,
+            isOpenSectionModal: false,
+            isSubmit: false,
+        })
+    }
+
+    const onChangeToRequired = () => {
+        setState({
+            ...state,
+            isOpenQuestionChangeDiag: false,
+            isChangedDiagRequire: false,
+            changeDiagRequire: true,
+            isOpenDiagModal: true,
+            diagType: 5
+        })
+    }
+    const onChangeToNotRequired = () => {
+        setState({
+            ...state,
+            isOpenQuestionChangeDiag: false,
+            changeDiagRequire: false,
+            isChangedDiagRequire: true,
+            isSubmit: true,
+        })
     }
 
     const submitForm = () => {
-        if (!form?.diagnose && form.reason === reason.CHANGE_DIAG) {
+        if (form.reason === reason.NEW && !state.isSelectedSection) {
+            setState({
+                ...state,
+                isOpenSectionModal: true
+            })
+            return
+        }
+
+        if (state.changeDiagRequire && !state.isChangedDiagRequire) {
+            setState({
+                ...state,
+                isOpenQuestionChangeDiag: true,
+            })
+            return
+        }
+
+        if ((state.changeDiagRequire && !state.isChangedDiagRequire) || (!form?.diagnose && [reason.CHANGE_DIAG, reason.NEW].indexOf(form.reason) + 1)) {
             setState({
                 ...state,
                 isOpenDiagModal: true
             })
             return
         }
+
         newReg()
     }
 
@@ -96,8 +178,9 @@ const NewUchet = ({dispatch, application, patient, onClose}) => {
         dispatch(patientAction.newReg(form))
             .then(res => {
                 if (res?.success) {
+                    dispatch(patientActions.getUchet({id: patient.id, cache: false}))
                     notifySuccess("Учетные данные изменены")
-                    // onClose()
+                    onClose()
                 } else {
                     notifyError(res?.message)
                 }
@@ -106,32 +189,50 @@ const NewUchet = ({dispatch, application, patient, onClose}) => {
     }
 
     useEffect(() => {
+        let diagType = 5
+        if (form.reason === reason.CHANGE_DIAG) {
+            if (!pat.getLastUchet()) {
+                if (form.section > 16) diagType = 4
+                else diagType = 0
+            }
+        }
+        setState({
+            ...state,
+            diagType: diagType
+        })
+
+    }, [form.section, form.reason])
+
+    useEffect(() => {
         if (state?.isSubmit) {
-            newReg()
+            submitForm()
         }
 
-    }, [state.isSubmit])
+    }, [state.isSubmit, state.isSelectedSection, form.section, form.diagnose])
 
     useEffect(() => {
         setState({
             ...state,
             isShowCategory: !(form.reason === reason.CHANGE_DIAG || form.reason === reason.UNREGISTER),
-            isShowExitReason: form.reason === reason.UNREGISTER
+            isShowExitReason: form.reason === reason.UNREGISTER,
+            changeDiagRequire: [reason.TRANSFER_TO_AMBULANCE, reason.TRANSFER_TO_CONSULTATION, reason.TRANSFER_CATEGORY].indexOf(form.reason) + 1
         })
 
+        const _category = form.reason === reason.TRANSFER_TO_CONSULTATION ? 10 : pat.getLastUchet()?.category
         setForm({
             ...form,
-            category: form.reason === reason.TRANSFER_TO_CONSULTATION ? '10' : pat.getLastUchet()?.category?.toString()
+            category: Number(_category)
         })
     }, [form?.reason])
 
     useEffect(() => {
         setDateRange({
-            min: params.visit.minDate,
-            max: params.visit.maxDate
+            min: params.registrat.minDate,
+            max: params.registrat.maxDate
         })
     }, [])
-
+    console.log(state)
+    console.log(form)
     return <div>
         <div className="d-flex justify-content-between flex-wrap">
             <div className="d-flex justify-content-start flex-wrap">
@@ -156,7 +257,8 @@ const NewUchet = ({dispatch, application, patient, onClose}) => {
                         )}
                     </div>
                 </div>
-                {state.isShowCategory && <div className="border border-1" style={{padding: 10, marginRight: 15, minWidth: 150}}>
+                {state.isShowCategory &&
+                <div className="border border-1" style={{padding: 10, marginRight: 15, minWidth: 150}}>
                     {Object.keys(category).map((v, i) =>
                         <div className="form-check" key={i}>
                             <input
@@ -165,7 +267,7 @@ const NewUchet = ({dispatch, application, patient, onClose}) => {
                                 value={v} name={"category"}
                                 id={`category_${v}`}
                                 onChange={onChangeForm}
-                                checked={form.category === v}
+                                checked={form.category == v}
                                 disabled={!isAvailableCategory(v)}
                             />
                             <label className="form-check-label" htmlFor={`category_${v}`}>
@@ -203,14 +305,31 @@ const NewUchet = ({dispatch, application, patient, onClose}) => {
         <hr/>
         <Modal
             style={{maxWidth: 750}}
-            body={<DiagnoseTree type={getTypeDiagsModal(form.uch)} onSelect={onSelectDiag}/>}
+            body={<DiagnoseTree type={state.diagType} onSelect={onSelectDiag}/>}
             isOpen={state.isOpenDiagModal}
-            onClose={() => setState({...state, isOpenDiagModal: false})}
+            onClose={onCancelDiag}
+        />
+        <Modal
+            title={"№ участка"}
+            body={<SelectSection sections={user.section?.[user?.unit] || []} section={state.section}
+                                 onChange={v => setState({...state, section: Number(v)})}/>}
+            isOpen={state.isOpenSectionModal}
+            btnNum={user.section?.[user?.unit] ? BTN_OK : 0}
+            onOk={onSelectSection}
+            onClose={onCancelSection}
+        />
+        <Modal
+            body={<div>Изменить диагноз?</div>}
+            btnNum={BTN_YES + BTN_NO}
+            isOpen={state.isOpenQuestionChangeDiag}
+            onYes={onChangeToRequired}
+            onNo={onChangeToNotRequired}
         />
     </div>
 }
 
 export default connect(state => ({
     application: state.application,
-    patient: state.patient
+    patient: state.patient,
+    user: state.user
 }))(NewUchet)

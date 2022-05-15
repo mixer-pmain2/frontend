@@ -13,8 +13,8 @@ export const findByID = ({id}) => {
     return request("GET", url, {}, {})
 }
 
-export const findUchet = ({id}) => {
-    const url = API + `/patient/${id}/uchet/`
+export const findUchet = (payload) => {
+    const url = API + `/patient/${payload.id}/uchet/?`+paramsToUrlQuery(payload)
     return request("GET", url, {}, {})
 }
 

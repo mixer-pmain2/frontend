@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from "react";
 import {connect} from "react-redux";
 
-import * as patientActions from "../../../../../store/actions/patient"
+import * as patientActions from "store/actions/patient"
 import * as appActions from "../../../../../store/actions/application"
 
-import Table from "../../../../../components/Table";
-import {formatDate, shorty} from "../../../../../utility/string";
+import Table from "components/Table";
+import {formatDate, shorty} from "utility/string";
 
 
 const LOADING_VISIT = "history_visit"
