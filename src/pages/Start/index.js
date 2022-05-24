@@ -13,42 +13,42 @@ import {useNavigate} from "react-router-dom";
 const unitList = [
     {
         title: "Взрослая психиатрия",
-        img: require("../../assets/images/295067-3f51b5.svg"),
+        img: require("assets/images/295067-3f51b5.svg"),
         unit: 1
     },
     {
         title: "Психотерапия",
-        img: require("../../assets/images/295067-3f51b5.svg"),
+        img: require("assets/images/295067-3f51b5.svg"),
         unit: 2
     },
     {
         title: "Специалисты",
-        img: require("../../assets/images/295067-3f51b5.svg"),
+        img: require("assets/images/295067-3f51b5.svg"),
         unit: 1024
     },
     {
         title: "Суицидология",
-        img: require("../../assets/images/295067-3f51b5.svg"),
+        img: require("assets/images/295067-3f51b5.svg"),
         unit: 4
     },
     {
         title: "ОИЛС",
-        img: require("../../assets/images/295067-3f51b5.svg"),
+        img: require("assets/images/295067-3f51b5.svg"),
         unit: 8
     },
     {
         title: "Детский диспансер",
-        img: require("../../assets/images/2025726-3f51b5.svg"),
+        img: require("assets/images/2025726-3f51b5.svg"),
         unit: 16
     },
     {
         title: "Подростковая психиатрия",
-        img: require("../../assets/images/295067-3f51b5.svg"),
+        img: require("assets/images/295067-3f51b5.svg"),
         unit: 16777216
     },
     {
         title: "Детская консультация",
-        img: require("../../assets/images/295067-3f51b5.svg"),
+        img: require("assets/images/295067-3f51b5.svg"),
         unit: 33554432
     }
 ]

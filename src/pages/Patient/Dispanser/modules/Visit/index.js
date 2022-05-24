@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 
 import DiagnoseTree, {getTypeDiagsModal} from "pages/Patient/components/DiagnoseTree";
 import Modal, {BTN_NO, BTN_YES} from "components/Modal";
-import Notify, {notifyType} from "components/Notify";
+import {notifySuccess, notifyWarning} from "components/Notify";
 
 import {getHistoryVisits} from "store/actions/patient";
 import * as apiPatient from "api/patient"
@@ -45,9 +45,6 @@ const Visit = ({dispatch, application, patient, user}) => {
     })
     const sprVisit = application?.spr?.visit || {};
     const messageNotValidYearOld = user.unit === 1 ? messageNotValidAge.sup : messageNotValidAge.sub
-
-    const notifySuccess = (message) => Notify(notifyType.SUCCESS, message)()
-    const notifyError = (message) => Notify(notifyType.WARNING, message)()
 
     const isValidVisit = () => {
         // if (form.visit === 0) return false
@@ -171,7 +168,7 @@ const Visit = ({dispatch, application, patient, user}) => {
                     dispatch(getHistoryVisits({id: patient.id, cache: false}))
                 }
                 if (res?.error) {
-                    notifyError(res?.message)
+                    notifyWarning(res?.message)
                     setState({
                         ...state,
                         error: res?.message

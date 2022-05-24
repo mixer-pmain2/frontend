@@ -29,4 +29,9 @@ const Notify = (type, message) => {
     }
 }
 
+export const notifyWarning = (message) => Notify(notifyType.WARNING, message)()
+export const notifySuccess = (message) => Notify(notifyType.SUCCESS, message)()
+export const notifyInfo = (message) => Notify(notifyType.INFO, message)()
+export const notifyError = (message) => Notify(notifyType.ERROR, message)()
+
 export default Notify

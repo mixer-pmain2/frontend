@@ -3,7 +3,7 @@ import React, {useState} from "react";
 import * as appActions from "../../store/actions/application"
 
 import {SideLoading} from "../../components/Loading";
-import Notify, {notifyType} from "../../components/Notify";
+import {notifyError, notifyInfo, notifySuccess, notifyWarning} from "../../components/Notify";
 import Modal, {BTN_CANCEL, BTN_CLOSE, BTN_NO, BTN_OK, BTN_SAVE, BTN_YES} from "../../components/Modal";
 
 
@@ -12,10 +12,10 @@ const Test = ({dispatch}) => {
   const [isOpenModal, setOpenModal] = useState(false)
   return <div>
     <div>
-      <button onClick={_ => Notify(notifyType.INFO, "info")()}>info</button>
-      <button onClick={_ => Notify(notifyType.SUCCESS, "success")()}>success</button>
-      <button onClick={_ => Notify(notifyType.ERROR, "error")()}>error</button>
-      <button onClick={_ => Notify(notifyType.WARNING, "warning")()}>warning</button>
+      <button onClick={_ => notifyInfo("info")}>info</button>
+      <button onClick={_ => notifySuccess("success")}>success</button>
+      <button onClick={_ => notifyError("error")}>error</button>
+      <button onClick={_ => notifyWarning("warning")}>warning</button>
     </div>
     <div>
       <button onClick={_ => setIsLoading(true)}>on</button>

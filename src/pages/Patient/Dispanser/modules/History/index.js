@@ -2,10 +2,10 @@ import React, {useEffect, useState} from "react";
 import {connect} from "react-redux";
 
 import * as patientActions from "store/actions/patient"
-import * as appActions from "../../../../../store/actions/application"
 
 import Table from "components/Table";
 import {formatDate, shorty} from "utility/string";
+import {loadingAdd, loadingRemove} from "store/actions/application";
 
 
 const LOADING_VISIT = "history_visit"
@@ -88,29 +88,29 @@ const History = ({dispatch, patient}) => {
 
     useEffect(() => {
         if (!patient?.visit) {
-            // dispatch(appActions.loadingAdd(LOADING_VISIT))
             setState({
                 ...state,
-                isLoadingVisit: true
+                isLoadingVisit: true,
             })
+            dispatch(loadingAdd(LOADING_VISIT))
             dispatch(patientActions.getHistoryVisits({id: patient.id}))
                 .finally(_ => {
+                    dispatch(loadingRemove(LOADING_VISIT))
                     setState({
                         ...state,
-                        isLoadingVisit: false
+                        isLoadingVisit: false,
                     })
-                    // dispatch(appActions.loadingRemove(LOADING_VISIT))
                 })
         }
         if (!patient?.hospital) {
-            // dispatch(appActions.loadingAdd(LOADING_HOSPITAL))
             setState({
                 ...state,
                 isLoadingHospital: true
             })
+            dispatch(loadingAdd(LOADING_HOSPITAL))
             dispatch(patientActions.getHistoryHospital({id: patient.id}))
                 .finally(_ => {
-                    // dispatch(appActions.loadingRemove(LOADING_HOSPITAL))
+                    dispatch(loadingRemove(LOADING_HOSPITAL))
                     setState({
                         ...state,
                         isLoadingHospital: false

@@ -43,7 +43,7 @@ function Layout({children, user, application, dispatch, patient}) {
         <NotificationContainer/>
         <SideLoading isLoading={application.loading}/>
         <div style={{position: "fixed", bottom: 35, right: 35}}>
-            <Loading type={typeLoading.INFO} isLoading={application?.loadingList?.length > 0}/>
+            <Loading type={typeLoading.PRIMARY} isLoading={application?.loadingList?.length > 0}/>
         </div>
         {application?.loadingList?.length > 0 && <Progress style={{position: "fixed", top: 0, left: 0, width: "100%"}}/>}
         <footer style={{height: 150}}>

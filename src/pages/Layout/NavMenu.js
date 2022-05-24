@@ -12,7 +12,7 @@ const NavMenu = ({onLogout, user, app, patient}) => {
     const uAccess = user?.access ? user?.access[user?.unit] : 0
 
     const urlPatient = () =>
-        linkDict.patient.replaceAll(':id', patient?.id)
+        linkDict.patient.replace(/:id/g, patient?.id)
 
     const fio = capitalizeFirstLetter(user?.lname?.toLowerCase())+" "
         +capitalizeFirstLetter(user?.fname?.toLowerCase())[0]+"."

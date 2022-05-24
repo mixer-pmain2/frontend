@@ -21,7 +21,6 @@ export const linkDict = {
     profile: "/profile",
     signin: "/signin",
 
-    disp: "/disp",
     patient: "/patient/:id",
     findPatient: "/patient/find",
     dispVisit: "/disp/patient/visit",

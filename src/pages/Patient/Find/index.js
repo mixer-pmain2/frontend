@@ -53,7 +53,7 @@ const FindPatient = ({dispatch, type = app.DISPANSER}) => {
             .then(res => {
                 if (res?.id) {
                     dispatch(patientActions.select(res))
-                    navigate(linkDict.patient.replaceAll(":id", id))
+                    navigate(linkDict.patient.replace(/:id/g, id))
                 } else {
                     notifyInfo("Нет данных")
                 }
@@ -79,7 +79,7 @@ const FindPatient = ({dispatch, type = app.DISPANSER}) => {
 
     const handleSelectPatient = (e) => {
         dispatch(patientActions.select(e))
-        navigate(linkDict.patient.replaceAll(":id", e.id))
+        navigate(linkDict.patient.replace(/:id/g, e.id))
     }
 
     const mapper = (row) => {

@@ -2,12 +2,11 @@ import React, {useEffect, useState} from "react";
 import {connect} from "react-redux";
 
 import {formatDateToInput} from "utility/string";
-import Notify, {notifyType} from "components/Notify";
+import {notifySuccess, notifyWarning} from "components/Notify";
 import useParams from "utility/app";
 import {profVisit} from "consts/visit";
 import * as apiPatient from "api/patient";
-import {getHistoryVisits} from "store/actions/patient";
-import {loadingAdd, loadingRemove} from "../../../../../store/actions/application";
+
 
 const Prof = ({dispatch, user, application}) => {
     const [state, setState] = useState({
@@ -27,9 +26,6 @@ const Prof = ({dispatch, user, application}) => {
         count: 0
     })
 
-
-    const notifySuccess = (message) => Notify(notifyType.SUCCESS, message)()
-    const notifyError = (message) => Notify(notifyType.WARNING, message)()
 
     const onChangeHome = (e) => {
         setForm({
@@ -66,7 +62,7 @@ const Prof = ({dispatch, user, application}) => {
                     })
                 }
                 if (res?.error) {
-                    notifyError(res?.message)
+                    notifyWarning(res?.message)
                     setState({
                         ...state,
                         error: res?.message

@@ -7,8 +7,14 @@ import {formatDate, formatDateToInput} from "utility/string";
 import useParams from "utility/app";
 import Patient from "classes/Patient";
 import NewUchet from "./NewUchet";
-import {reason} from "../../../../../consts/uchet";
-import Notify, {notifyType} from "../../../../../components/Notify";
+import {reason} from "consts/uchet";
+import Notify, {notifyType, notifyWarning} from "../../../../../components/Notify";
+import {Access} from "consts/user";
+import Modal, {BTN_CANCEL, BTN_OK} from "components/Modal";
+
+import SelectSection from "./SelectSection";
+import SelectCategory from "./SelectCategory";
+import {AccessRoleAdminDispanser} from "configs/access";
 
 
 const HistoryUchet = ({patient}) => {
@@ -77,14 +83,28 @@ const T_UCHET = 0
 const T_NEW = 1
 const T_SIN_SOM = 2
 
-const Uchet = ({dispatch, patient, application}) => {
+const initForm = {
+    section: false,
+    category: false
+}
+
+const CATEGORY_NON_PRINUD = [1, 2, 3, 4, 5, 6]
+const CATEGORY_PRINUD = [7, 8]
+
+const Uchet = ({dispatch, patient, application, user}) => {
     const [state, setState] = useState({
         tab: T_UCHET,
-        enableTransfer: false
+        isDoctor: user.access[user.unit] | AccessRoleAdminDispanser,
+        enableTransfer: false,
+        patientLastState: "",
+        isOpenSectionModal: false,
+        isOpenCategoryModal: false,
+        isSubmit: false
     })
+    const [form, setForm] = useState(initForm)
     const handleNew = () => {
         const pat = new Patient(patient)
-        const patLastReason =  pat.getLastUchet().reason
+        const patLastReason = pat.getLastUchet().reason
         if (patLastReason === reason.DEAD) {
             notifyWarning("Для умершего не доступно")
             return
@@ -94,35 +114,160 @@ const Uchet = ({dispatch, patient, application}) => {
     const handleSomSin = () => setState({...state, tab: T_SIN_SOM})
     const closeTab = () => setState({...state, tab: T_UCHET})
 
-    const notifyWarning = (message) => Notify(notifyType.WARNING, message)()
-    const notifySuccess = (message) => Notify(notifyType.SUCCESS, message)()
 
+    const isEnableTransfer = () => {
+        const p = new Patient(patient)
+        let isEnable = !!p.getLastUchet().category
+
+        isEnable = isEnable && user.section[user.unit]?.filter(v => v > 17).length
+        isEnable = isEnable && (user.access[user.unit] & Access.dispanser["Работа регистратора"]) === 0
+        isEnable = isEnable && (user.access[user.unit] & Access.dispanser["Только просмотр (справочная система)"]) === 0
+        isEnable = isEnable && !p.getLastUchet().reason.startsWith('S')
+        isEnable = isEnable || user.section[user.unit]?.filter(v => v === 10).length
+        isEnable = isEnable || (user.access[user.unit] & Access.dispanser["Прямой доступ к данным"]) > 0
+
+        return isEnable
+    }
+
+    const onSelectSection = () => {
+        setState({
+            ...state,
+            isOpenSectionModal: false,
+            isSubmit: true
+        })
+        setForm({
+            ...form,
+            section: state.section
+        })
+    }
+
+    const onCancelSection = () => {
+        setState({
+            ...state,
+            isOpenSectionModal: false,
+            isSubmit: false
+        })
+    }
+
+    const onSelectCategory = () => {
+        setState({
+            ...state,
+            isOpenCategoryModal: false,
+            isSubmit: true,
+        })
+        setForm({
+            ...form,
+            category: state.category
+        })
+    }
+
+    const onCloseCategory = () => {
+        setState({
+            ...state,
+            isOpenCategoryModal: false,
+            isSubmit: false
+        })
+    }
+
+    const handleNewTransfer = () => {
+        setState({
+            ...state,
+            isOpenSectionModal: true,
+            isSubmit: true
+        })
+    }
 
     useEffect(() => {
-        dispatch(patientActions.getUchet({id: patient.id}))
+        if (state.isSubmit) {
+            console.log(form)
+            if (!form.section) {
+                setState({
+                    ...state,
+                    isOpenSectionModal: true
+                })
+                return
+            }
+            if (!form.category) {
+                setState({
+                    ...state,
+                    isOpenCategoryModal: true
+                })
+                return
+            }
+
+            //todo create new transfer
+            setForm(initForm)
+            setState({
+                ...state,
+                isSubmit: false
+            })
+        }
+
+    }, [state.isSubmit, form])
+
+    useEffect(() => {
         const p = new Patient(patient)
-        if (p.getLastUchet().category) setState({...state, enableTransfer: true})
+        dispatch(patientActions.getUchet({id: patient.id}))
+        const lastState = p.getLastUchet().reason.startsWith('S')
+            ? `Снят с учета ${formatDate(p.getLastUchet().date)}г. Причина: ${p.getLastUchet()?.reasonS?.toLowerCase()}`
+            : ""
+        setState({
+            ...state,
+            enableTransfer: isEnableTransfer(),
+            patientLastState: lastState,
+            section: user.section?.[user?.unit]?.filter(v => v > 17)?.[0],
+            category: p?.category || 0
+        })
     }, [])
 
     return <div>
         <div className="d-flex flex-row justify-content-between">
             <div className="d-flex flex-row align-items-center">
-                <button className="btn btn-outline-primary" style={{marginRight: 5}} onClick={handleNew}>+</button>
-                {state.enableTransfer && <button className="btn btn-outline-primary" style={{marginRight: 15}}>
+                {state.isDoctor && <button className="btn btn-outline-primary" style={{marginRight: 5}} onClick={handleNew}>+</button>}
+                {state.enableTransfer && state.isDoctor &&
+                <button className="btn btn-outline-primary" style={{marginRight: 15}} onClick={handleNewTransfer}>
                     Прием с других участков
                 </button>}
-                <span></span>
+                <span>{state.patientLastState}</span>
             </div>
-            <button className="btn btn-outline-primary" onClick={handleSomSin}>Синдром и хронические заболевания</button>
+            <button className="btn btn-outline-primary" onClick={handleSomSin}>
+                Синдром и хронические заболевания
+            </button>
         </div>
         <hr/>
         {state.tab === T_UCHET && <HistoryUchet patient={patient}/>}
         {state.tab === T_NEW && <NewUchet onClose={closeTab}/>}
         {state.tab === T_SIN_SOM && <NewSomSin onClose={closeTab}/>}
+        <Modal
+            title={"№ участка"}
+            body={<SelectSection
+                sections={user.section?.[user?.unit]?.filter(v => v > 17) || []}
+                section={state.section}
+                onChange={v => {
+                    setState({...state, section: Number(v)})
+                }}
+            />}
+            isOpen={state.isOpenSectionModal}
+            btnNum={BTN_OK + BTN_CANCEL}
+            onOk={onSelectSection}
+            onCancel={onCancelSection}
+        />
+        <Modal
+            title={"Смена группы"}
+            body={<SelectCategory
+                categories={([18, 19].indexOf(form.section) + 1) ? CATEGORY_PRINUD : CATEGORY_NON_PRINUD}
+                onChange={v => setState({...state, category: Number(v)})}
+            />}
+            isOpen={state.isOpenCategoryModal}
+            btnNum={BTN_OK}
+            onOk={onSelectCategory}
+            onClose={onCloseCategory}
+        />
     </div>
 }
 
 export default connect(state => ({
     patient: state.patient,
-    application: state.application
+    application: state.application,
+    user: state.user
 }))(Uchet)
