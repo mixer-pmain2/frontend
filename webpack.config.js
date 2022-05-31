@@ -26,7 +26,6 @@ module.exports = {
             fs: false
         },
         alias: {
-            '@': path.join(__dirname, 'src/'),
             'components': path.resolve(__dirname, 'src/components/'),
             'api': path.resolve(__dirname, 'src/api/'),
             'store': path.resolve(__dirname, 'src/store/'),
@@ -34,7 +33,8 @@ module.exports = {
             'utility': path.resolve(__dirname, 'src/utility/'),
             'pages': path.resolve(__dirname, 'src/pages/'),
             'classes': path.resolve(__dirname, 'src/classes/'),
-            'assets': path.resolve(__dirname, 'src/assets/')
+            'assets': path.resolve(__dirname, 'src/assets/'),
+            'style': path.resolve(__dirname, 'src/style/')
         }
     },
     performance: {

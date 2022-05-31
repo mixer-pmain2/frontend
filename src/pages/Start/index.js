@@ -8,47 +8,48 @@ import Card from "./components/Card";
 import * as userActions from "../../store/actions/user";
 import {linkDict} from "../../routes";
 import {useNavigate} from "react-router-dom";
+import {iconsUnit} from "components/Icons";
 
 
 const unitList = [
     {
         title: "Взрослая психиатрия",
-        img: require("assets/images/295067-3f51b5.svg"),
+        img: iconsUnit[1],
         unit: 1
     },
     {
         title: "Психотерапия",
-        img: require("assets/images/295067-3f51b5.svg"),
+        img: iconsUnit[2],
         unit: 2
     },
     {
         title: "Специалисты",
-        img: require("assets/images/295067-3f51b5.svg"),
+        img: iconsUnit[1024],
         unit: 1024
     },
     {
         title: "Суицидология",
-        img: require("assets/images/295067-3f51b5.svg"),
+        img: iconsUnit[4],
         unit: 4
     },
     {
         title: "ОИЛС",
-        img: require("assets/images/295067-3f51b5.svg"),
+        img: iconsUnit[8],
         unit: 8
     },
     {
         title: "Детский диспансер",
-        img: require("assets/images/2025726-3f51b5.svg"),
+        img: iconsUnit[16],
         unit: 16
     },
     {
         title: "Подростковая психиатрия",
-        img: require("assets/images/295067-3f51b5.svg"),
+        img: iconsUnit[16777216],
         unit: 16777216
     },
     {
         title: "Детская консультация",
-        img: require("assets/images/295067-3f51b5.svg"),
+        img: iconsUnit[33554432],
         unit: 33554432
     }
 ]

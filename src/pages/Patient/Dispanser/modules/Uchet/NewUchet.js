@@ -1,27 +1,28 @@
 import React, {useEffect, useState} from "react";
 import {connect} from "react-redux";
 
-import * as patientAction from "store/actions/patient"
+import * as patientActions from "store/actions/patient"
+import {loadingAdd, loadingRemove} from "store/actions/application";
 
 import {formatDateToInput} from "utility/string";
 import useParams from "utility/app";
-import Patient from "classes/Patient";
 import {category, categoryAmbulance, categoryConsultant, reason} from "consts/uchet";
-import Notify, {notifyType} from "components/Notify";
-import {loadingAdd, loadingRemove} from "store/actions/application";
-import Modal, {BTN_NO, BTN_OK, BTN_YES} from "components/Modal";
-import DiagnoseTree, {getTypeDiagsModal} from "pages/Patient/components/DiagnoseTree";
-import SelectSection from "./SelectSection";
-import * as patientActions from "../../../../../store/actions/patient";
+import Patient from "classes/Patient";
 
-const NewUchet = ({dispatch, application, patient, user, onClose}) => {
-    const params = useParams(application.params)
+import Notify, {notifyType} from "components/Notify";
+import SelectSection from "./SelectSection";
+import Modal, {BTN_NO, BTN_OK, BTN_YES} from "components/Modal";
+import DiagnoseTree from "components/DiagnoseTree";
+
+
+const NewUchet = ({dispatch, application, patient, user, onClose, date}) => {
     const pat = new Patient(patient)
     const [form, setForm] = useState({
         patientId: patient.id,
-        date: formatDateToInput(new Date()),
-        category: pat.getLastUchet()?.category,
-        section: pat.getLastUchet()?.section,
+        date: date,
+        // diagnose: pat.getLastUchet()?.diagnose,
+        // category: pat.getLastUchet()?.category,
+        // section: pat.getLastUchet()?.section,
         dockId: user.id
     })
     const [state, setState] = useState({
@@ -37,10 +38,6 @@ const NewUchet = ({dispatch, application, patient, user, onClose}) => {
         isOpenQuestionChangeDiag: false, //показать окно с вопросом
         changeDiagRequire: false, //проверка на изменение если тру
         isChangedDiagRequire: false //уже изменен
-    })
-    const [dateRange, setDateRange] = useState({
-        min: "",
-        max: ""
     })
 
     const notifySuccess = message => Notify(notifyType.SUCCESS, message)()
@@ -175,10 +172,9 @@ const NewUchet = ({dispatch, application, patient, user, onClose}) => {
     const newReg = () => {
         const loaderName = "newReg"
         dispatch(loadingAdd(loaderName))
-        dispatch(patientAction.newReg(form))
+        dispatch(patientActions.newReg(form))
             .then(res => {
                 if (res?.success) {
-                    dispatch(patientActions.getUchet({id: patient.id, cache: false}))
                     notifySuccess("Учетные данные изменены")
                     onClose()
                 } else {
@@ -225,25 +221,10 @@ const NewUchet = ({dispatch, application, patient, user, onClose}) => {
         })
     }, [form?.reason])
 
-    useEffect(() => {
-        setDateRange({
-            min: params.registrat.minDate,
-            max: params.registrat.maxDate
-        })
-    }, [])
-    console.log(state)
-    console.log(form)
     return <div>
         <div className="d-flex justify-content-between flex-wrap">
             <div className="d-flex justify-content-start flex-wrap">
                 <div style={{marginRight: 15, minWidth: 300}}>
-                    <div className="d-flex flex-row align-items-center">
-                        <label style={{marginRight: 5}} htmlFor="date">Дата изменения</label>
-                        <input className="form-control" style={{width: 150, marginRight: 15}} type="date" id="date"
-                               name="date"
-                               value={form.date || formatDateToInput(new Date())} onChange={onChangeForm}
-                               min={dateRange.min} max={dateRange.max}/>
-                    </div>
                     <div>
                         <h6>Причины</h6>
                         {filterReason(application.spr.reason).map((v, i) =>

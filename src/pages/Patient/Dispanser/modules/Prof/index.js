@@ -6,6 +6,9 @@ import {notifySuccess, notifyWarning} from "components/Notify";
 import useParams from "utility/app";
 import {profVisit} from "consts/visit";
 import * as apiPatient from "api/patient";
+import {PageTitle} from "components/Title";
+import {dispanserSubModules} from "consts/app";
+import InputDate from "components/Input/date";
 
 
 const Prof = ({dispatch, user, application}) => {
@@ -34,10 +37,10 @@ const Prof = ({dispatch, user, application}) => {
         })
     }
 
-    const setDate = (e) => {
+    const setDate = (date) => {
         setForm({
             ...form,
-            date: e.target.value
+            date: date
         })
     }
 
@@ -116,6 +119,7 @@ const Prof = ({dispatch, user, application}) => {
     }, [])
 
     return <div>
+        <PageTitle title={dispanserSubModules.prof.title}/>
         <div className="d-flex align-items-center">
             <div className="form-check form-switch" style={{marginRight: 15}}>
                 <input className="form-check-input" type="checkbox" id="home" onChange={onChangeHome}
@@ -123,7 +127,7 @@ const Prof = ({dispatch, user, application}) => {
                 <label className="form-check-label" htmlFor="home">Вне диспансера</label>
             </div>
             <div className="">
-                <input className="form-control" style={{width: 150, marginRight: 15}} type="date"
+                <InputDate className="form-control" style={{width: 150, marginRight: 15}}
                        value={form.date || formatDateToInput(new Date())} onChange={setDate}
                        min={dateRange.min} max={dateRange.max}/>
             </div>

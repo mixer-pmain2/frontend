@@ -5,7 +5,7 @@ import Layout from "../Layout";
 import SubMenu from "components/SubMenu";
 import Test from "./Test";
 import UserParams from "./UserParams";
-import DiagnoseTree from "../Patient/components/DiagnoseTree";
+import DiagnoseTree from "components/DiagnoseTree";
 
 const tabs = [
     {

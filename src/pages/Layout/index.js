@@ -31,7 +31,7 @@ function Layout({children, user, application, dispatch, patient}) {
         <NavMenu onLogout={handleLogout} user={user} app={application} patient={patient}/>,
         []
     )
-    return <div className={`container`}>
+    return <div className={`container-xxl`}>
         {
             user?.isAuth ? <div>
                 <div className="mb-5">

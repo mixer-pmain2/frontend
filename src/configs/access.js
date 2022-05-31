@@ -13,7 +13,9 @@ export const isAccessed = (accessList, uUnit, uAccess) => {
 
 
 export const AccessRoleASU = Access.dispanser["Прямой доступ к данным"]
-export const AccessRoleDoct = Access.dispanser["Прием пациентов"]
+export const AccessRoleDoct = Access.dispanser["Прием пациентов"] |
+    Access.dispanser["Работа с инвалидностью"]
+
 export const AccessRoleRegistrator = Access.dispanser["Работа регистратора"] | Access.dispanser["Только просмотр (справочная система)"]
 export const AccessRoleUKL = Access.dispanser["Ввод УКЛ 1 уровня"] |
     Access.dispanser["Ввод УКЛ 2 уровня"] |

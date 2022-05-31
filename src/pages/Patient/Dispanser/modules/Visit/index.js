@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {connect} from "react-redux";
 
-import DiagnoseTree, {getTypeDiagsModal} from "pages/Patient/components/DiagnoseTree";
+import DiagnoseTree, {getTypeDiagsModal} from "components/DiagnoseTree";
 import Modal, {BTN_NO, BTN_YES} from "components/Modal";
 import {notifySuccess, notifyWarning} from "components/Notify";
 
@@ -14,6 +14,9 @@ import useParams from "utility/app"
 
 import {Unit} from "consts/user";
 import {messageNotValidAge, srcReason, visitHomeTypeGroup, visitTypeGroup} from "consts/visit";
+import {PageTitle} from "components/Title";
+import {dispanserSubModules} from "consts/app";
+import InputDate from "components/Input/date";
 
 
 const Visit = ({dispatch, application, patient, user}) => {
@@ -194,7 +197,7 @@ const Visit = ({dispatch, application, patient, user}) => {
     const setDate = (e) => {
         setForm({
             ...form,
-            date: e.target.value
+            date: e
         })
     }
 
@@ -254,6 +257,7 @@ const Visit = ({dispatch, application, patient, user}) => {
     }, [patient.visit])
 
     return <div>
+        <PageTitle title={dispanserSubModules.visit.title}/>
         <div className="d-flex align-items-center">
             <div className="form-check form-switch" style={{marginRight: 15}}>
                 <input className="form-check-input" type="checkbox" id="home" onChange={onChangeHome}
@@ -261,9 +265,14 @@ const Visit = ({dispatch, application, patient, user}) => {
                 <label className="form-check-label" htmlFor="home">На дому</label>
             </div>
             <div>
-                <input className="form-control" style={{width: 150, marginRight: 15}} type="date"
-                       value={form.date || formatDateToInput(new Date())} onChange={setDate}
-                       min={dateRange.min} max={dateRange.max}/>
+                <InputDate
+                    className="form-control"
+                    style={{width: 150, marginRight: 15}}
+                    value={form.date || formatDateToInput(new Date())}
+                    onChange={setDate}
+                    min={dateRange.min}
+                    max={dateRange.max}
+                />
             </div>
             <div>
                 <span>Диагноз: {form.diagnose}</span>

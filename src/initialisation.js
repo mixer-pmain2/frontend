@@ -15,7 +15,7 @@ const Initialisation = ({dispatch}) => {
     dispatch(appActions.getParams())
     dispatch(appActions.getSprReason())
 
-    console.log("Initialisation")
+    console.log("Initialization")
     return null
 }
 

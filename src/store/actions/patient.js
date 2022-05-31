@@ -43,6 +43,41 @@ export const getHistoryHospital = (payload) => dispatch =>
 export const newReg = (payload) => dispatch =>
     patientApi.newReg(payload)
         .then(res => {
-            // dispatch(getUchet(payload))
+            dispatch(getUchet({...payload, cache: false}))
+            return res
+        })
+
+export const newRegTransfer = (payload) => dispatch =>
+    patientApi.newRegTransfer(payload)
+        .then(res => {
+            dispatch(getUchet({...payload, cache: false}))
+            return res
+        })
+
+export const getHistorySindrom = (payload) => dispatch =>
+    patientApi.getSindrom(payload)
+        .then(res => {
+            dispatch(patientReducer.setSindrom(res))
+            return res
+        })
+
+export const deleteSindrom = (payload) => dispatch =>
+    patientApi.deleteSindrom(payload)
+        .then(res => {
+            dispatch(getHistorySindrom({...payload, id: payload.patientId, cache: false}))
+            return res
+        })
+
+export const addSindrom = (payload) => dispatch =>
+    patientApi.addSindrom(payload)
+        .then(res => {
+            dispatch(getHistorySindrom({...payload, id: payload.patientId, cache: false}))
+            return res
+        })
+
+export const getInvalid = (payload) => dispatch =>
+    patientApi.getInvalid(payload)
+        .then(res => {
+            dispatch(patientReducer.setInvalid(res))
             return res
         })

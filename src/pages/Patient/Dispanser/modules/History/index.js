@@ -6,6 +6,7 @@ import * as patientActions from "store/actions/patient"
 import Table from "components/Table";
 import {formatDate, shorty} from "utility/string";
 import {loadingAdd, loadingRemove} from "store/actions/application";
+import {PageTitle} from "components/Title";
 
 
 const LOADING_VISIT = "history_visit"
@@ -125,6 +126,7 @@ const History = ({dispatch, patient}) => {
     })
 
     return <div>
+        <PageTitle title={"История пациента"}/>
         <div style={{marginBottom: 20}}>
             <HistoryVisit patient={patient} loading={state.isLoadingVisit}/>
         </div>
