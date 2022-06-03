@@ -122,11 +122,11 @@ const NewSindrom = ({dispatch, patient, user, onClose}) => {
     }
 
     const countSindrom = () => {
-        return patient.sindrom?.filter(v => v.diagnose.indexOf('F') + 1).length
+        return patient.sindrom?.filter(v => v.diagnose.indexOf('F') + 1).length || 0
     }
 
     const countSomat = () => {
-        return patient.sindrom?.filter(v => v.diagnose.indexOf('F')).length
+        return patient.sindrom?.filter(v => v.diagnose.indexOf('F')).length || 0
     }
 
     const mapper = (v) => <>

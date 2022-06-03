@@ -2,24 +2,24 @@ import React, {useEffect, useState} from "react";
 import {connect} from "react-redux";
 import {useNavigate} from "react-router-dom";
 
-import * as patientActions from "../../../store/actions/patient"
-import * as appActions from "../../../store/actions/application"
+import * as patientActions from "store/actions/patient"
+import * as appActions from "store/actions/application"
 
-import {app} from "../../../consts/app"
 import {linkDict} from "../../../routes";
-import {formatDate} from "../../../utility/string";
+import {formatDate} from "utility/string";
 
-import Layout from "../../Layout";
+import Layout from "pages/Layout";
 
-import Table from "../../../components/Table";
-import notify, {notifyType} from "../../../components/Notify";
+import Table from "components/Table";
+import notify, {notifyType} from "components/Notify";
 
 
-const FindPatient = ({dispatch, type = app.DISPANSER}) => {
+const FindPatient = ({dispatch}) => {
     const [isFounded, setIsFounded] = useState(false)
     const [fio, setFio] = useState("")
     const [patientId, setPatientId] = useState("")
     const [foundPatient, setFoundPatient] = useState([])
+    const [address, setAddress] = useState("")
 
     const navigate = useNavigate()
 
@@ -31,7 +31,7 @@ const FindPatient = ({dispatch, type = app.DISPANSER}) => {
         setPatientId("")
     }
 
-    const notifyInfo = (message) => notify(type = notifyType.INFO, message)()
+    const notifyInfo = (message) => notify(notifyType.INFO, message)()
 
 
     const findByFio = fio => {
@@ -75,6 +75,11 @@ const FindPatient = ({dispatch, type = app.DISPANSER}) => {
         } else {
             notifyInfo("Нужно больше информации")
         }
+    }
+
+    const handleClickPatient = (e) => {
+        dispatch(patientActions.getAddress({patientId: e.id}))
+            .then(res => setAddress(res?.address))
     }
 
     const handleSelectPatient = (e) => {
@@ -123,7 +128,7 @@ const FindPatient = ({dispatch, type = app.DISPANSER}) => {
         <form onSubmit={handleFindPatient} autoComplete="off">
             <div className="mb-3 d-flex flex-row">
                 <a href="#" className="btn btn-outline-secondary" style={{marginRight: 10}} onClick={onReset}>Сброс</a>
-                <div className="input-group w-25" style={{marginRight: 10}} >
+                <div className="input-group w-25" style={{marginRight: 10}}>
                     <span className="input-group-text">Шифр</span>
                     <input
                         type="text"
@@ -158,13 +163,17 @@ const FindPatient = ({dispatch, type = app.DISPANSER}) => {
                 <button className="input-group-text btn btn-outline-primary">Найти</button>
             </div>
         </form>
-        {isFounded && <Table
-            columns={["Шифр", "Фамилия", "Имя", "Отчество", "Дата рождения"]}
-            data={foundPatient}
-            mapper={mapper}
-            onDoubleClick={handleSelectPatient}
-            selecting={true}
-        />}
+        {isFounded && <>
+            <label className="form-label">Адрес: {address}</label>
+            <Table
+                columns={["Шифр", "Фамилия", "Имя", "Отчество", "Дата рождения"]}
+                data={foundPatient}
+                mapper={mapper}
+                onDoubleClick={handleSelectPatient}
+                onClick={handleClickPatient}
+                selecting={true}
+            />
+        </>}
     </Layout>
 }
 

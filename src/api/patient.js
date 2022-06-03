@@ -1,6 +1,11 @@
 import {API, paramsToUrlQuery, request} from "./request";
 
 
+export const newPatient = (payload) => {
+    const url = API + `/patient/new/`
+    return request("POST", url, {}, payload)
+}
+
 export const findByFio = ({fio}) => {
     const [lname, fname, sname] = fio.split(" ")
     const url = API + `/patient/find/?lname=${lname||""}&fname=${fname||""}&sname=${sname||""}`
@@ -64,5 +69,10 @@ export const addSindrom = (payload) => {
 
 export const getInvalid = (payload) => {
     const url = API + `/patient/${payload.patientId}/invalid/?`+paramsToUrlQuery(payload)
+    return request("GET", url, {}, {})
+}
+
+export const getAddress = (payload) => {
+    const url = API + `/patient/${payload.patientId}/address/?`+paramsToUrlQuery(payload)
     return request("GET", url, {}, {})
 }

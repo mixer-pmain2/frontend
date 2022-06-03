@@ -17,9 +17,11 @@ import {messageNotValidAge, srcReason, visitHomeTypeGroup, visitTypeGroup} from 
 import {PageTitle} from "components/Title";
 import {dispanserSubModules} from "consts/app";
 import InputDate from "components/Input/date";
+import Patient from "classes/Patient";
 
 
 const Visit = ({dispatch, application, patient, user}) => {
+    const p = new Patient(patient)
     const [state, setState] = useState({
         error: "",
         src: -1,
@@ -29,7 +31,7 @@ const Visit = ({dispatch, application, patient, user}) => {
         isSubmit: false,
     })
     const params = useParams(application.params)
-    const srcEnable = user.unit === 16 || user.unit === 16777216 || user.unit === 33554432 ? true : false
+    const srcEnable = user.unit === 16 || user.unit === 16777216 || user.unit === 33554432
     const [dateRange, setDateRange] = useState({
         min: "",
         max: ""
@@ -58,7 +60,9 @@ const Visit = ({dispatch, application, patient, user}) => {
     }
 
     const getLastDiag = () => {
-        return patient?.visit?.length === 0 || user.unit === 1024 ? "" : patient?.visit?.[0]?.diag
+        if (form.unit === Unit["Специалисты"] || p.lastUchet.diagnose === "")
+            return p.lastVisit?.diagnose || ""
+        return p.lastUchet?.diagnose || ""
     }
 
     const ItemVisit = ({value}) => <label className="mb-1">
@@ -128,7 +132,6 @@ const Visit = ({dispatch, application, patient, user}) => {
             isOpenConfirmAge: false,
             isSubmit: true
         })
-        // handleNewVisit()
     }
 
     const handleAcceptAgeNo = () => {
@@ -154,7 +157,7 @@ const Visit = ({dispatch, application, patient, user}) => {
             })
             return
         }
-        console.log(!state.isAcceptNotValidAge, !isValidAge())
+
         if (!state.isAcceptNotValidAge && !isValidAge()) {
             setState({
                 ...state,

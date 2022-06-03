@@ -27,11 +27,14 @@ const Dispanser = (props) => {
     const [currentTab, setCurrentTab] = useState(-1)
 
     const tabsFilter = (tabs) => {
-        return tabs.filter(v => (v.unit & user.unit) && (v.access & user.access[user.unit]))
+        return tabs.filter(v =>
+            (v.unit & user.unit) &&
+            (v.access & user.access[user.unit]) &&
+            [Boolean(patient.id), false].indexOf(v.patientRequire) + 1)
     }
 
     return <div>
-        {patient?.id && <Menu
+        {<Menu
             tabs={tabsFilter(AmbTabs)}
             curTab={currentTab}
             onChange={setCurrentTab}

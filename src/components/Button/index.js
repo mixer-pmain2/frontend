@@ -2,7 +2,7 @@ import React from "react";
 import Icons from "components/Icons";
 
 const Button = (props) => {
-    return <button {...props}>{props.children}</button>
+    return <button {...props} className={`btn ${props.className}`}>{props.children}</button>
 }
 
 export const ButtonRemove = (props) => {

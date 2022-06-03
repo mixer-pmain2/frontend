@@ -2,7 +2,7 @@ import React from "react";
 import Tooltip, {TooltipTypes} from "components/Tooltip";
 
 
-const SubMenu = ({tabs, onChange, curTab, style}) => {
+const SubMenu = ({tabs, onChange, curTab, style, tooltip=true}) => {
     style = {...style, cursor: "pointer"}
     return <ul className="nav nav-tabs" style={{...style}}>
         {
@@ -16,15 +16,14 @@ const SubMenu = ({tabs, onChange, curTab, style}) => {
                         data-tip
                         data-for={`bnt${i}`}
                     >
-                        {/*<span style={{marginRight: 5}}>{v.title}</span>*/}
                         {v.img ? v.img : v.title}
 
                     </a>
-                    <Tooltip
+                    {tooltip && <Tooltip
                         type={TooltipTypes.primary}
                         body={<span>{v.title}</span>}
                         id={`bnt${i}`}
-                    />
+                    />}
                 </li>
             })
         }

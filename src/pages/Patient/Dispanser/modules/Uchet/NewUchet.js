@@ -16,13 +16,13 @@ import DiagnoseTree from "components/DiagnoseTree";
 
 
 const NewUchet = ({dispatch, application, patient, user, onClose, date}) => {
-    const pat = new Patient(patient)
+    const p = new Patient(patient)
     const [form, setForm] = useState({
         patientId: patient.id,
         date: date,
-        // diagnose: pat.getLastUchet()?.diagnose,
-        // category: pat.getLastUchet()?.category,
-        // section: pat.getLastUchet()?.section,
+        // diagnose: p.getLastUchet()?.diagnose,
+        // category: p.getLastUchet()?.category,
+        // section: p.getLastUchet()?.section,
         dockId: user.id
     })
     const [state, setState] = useState({
@@ -55,8 +55,8 @@ const NewUchet = ({dispatch, application, patient, user, onClose, date}) => {
 
     const filterReason = (sprReason) => {
         const _reason = Object.keys(sprReason)
-        const lastUchet = pat.getLastUchet()
-        if (lastUchet?.reason?.startsWith('S') || !lastUchet) {
+        const lastUchet = p.getLastUchet()
+        if (!p.isUchet()) {
             return _reason.filter(v => v === reason.NEW)
         }
         if (lastUchet?.section > 0) {
@@ -187,7 +187,7 @@ const NewUchet = ({dispatch, application, patient, user, onClose, date}) => {
     useEffect(() => {
         let diagType = 5
         if (form.reason === reason.CHANGE_DIAG) {
-            if (!pat.getLastUchet()) {
+            if (!p.getLastUchet()) {
                 if (form.section > 16) diagType = 4
                 else diagType = 0
             }
@@ -214,7 +214,7 @@ const NewUchet = ({dispatch, application, patient, user, onClose, date}) => {
             changeDiagRequire: [reason.TRANSFER_TO_AMBULANCE, reason.TRANSFER_TO_CONSULTATION, reason.TRANSFER_CATEGORY].indexOf(form.reason) + 1
         })
 
-        const _category = form.reason === reason.TRANSFER_TO_CONSULTATION ? 10 : pat.getLastUchet()?.category
+        const _category = form.reason === reason.TRANSFER_TO_CONSULTATION ? 10 : p.getLastUchet()?.category
         setForm({
             ...form,
             category: Number(_category)

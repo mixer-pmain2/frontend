@@ -7,6 +7,7 @@ import {TreeView} from "components/Tree";
 import Modal, {BTN_NO, BTN_YES} from "components/Modal";
 
 export const getTypeDiagsModal = (uch) => {
+  if (uch > 16) return 4
   switch (uch) {
     case 11:
     case 12:
@@ -25,7 +26,6 @@ export const getTypeDiagsModal = (uch) => {
 const DiagnoseTree = ({dispatch, onSelect = console.log, type = 1}) => {
   const [diags, setDiags] = useState([])
   const [selected, setSelected] = useState("")
-  const [isOpenModalDiag, setIsOpenModalDiag] = useState(false)
   const [isOpenConfirm, setIsOpenConfirm] = useState(false)
 
   const mapper = (data) => data.map((v, i) => ({

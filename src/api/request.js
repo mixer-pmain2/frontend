@@ -15,7 +15,6 @@ export const paramsToUrlQuery = (payload) => {
 }
 
 export const request = (method, url, headers = {}, body = {}) => {
-    console.log("request", method, url)
     method = method.toUpperCase()
     return axios({
         method,
@@ -28,7 +27,6 @@ export const request = (method, url, headers = {}, body = {}) => {
         data: body
     })
         .then(res => {
-            console.log(res)
             if (res.status === 200) {
                 return res.data
             }

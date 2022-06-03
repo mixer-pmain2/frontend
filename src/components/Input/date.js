@@ -9,18 +9,23 @@ import {formatDateToInput} from "utility/string";
 registerLocale("ru", ruLocale)
 
 
-const InputDate = ({className, style, value, onChange, min, max}) => {
+const InputDate = ({className, style, value, onChange, min, max, title, isRow=true, showYearDropdown=false}) => {
 
-    return <DatePicker
-        className={className}
-        selected={stringToDate(value)}
-        dateFormat={"dd.MM.yyyy"}
-        onChange={(v, _) => onChange(formatDateToInput(v))}
-        minDate={stringToDate(min)}
-        locale="ru"
-        maxDate={stringToDate(max)}
-        customInput={<input style={style}/>}
-    />
+    return <div className={`d-flex ${isRow ? 'flex-row' :'flex-column'} align-items-start`}>
+        {title && <label className="form-label">{title}</label>}
+        <DatePicker
+            className={`form-control ${className}`}
+            selected={value ? stringToDate(value) : ""}
+            dateFormat={"dd.MM.yyyy"}
+            onChange={(v, _) => onChange(formatDateToInput(v))}
+            showYearDropdown={showYearDropdown}
+            scrollableYearDropdown
+            minDate={min ? stringToDate(min) : ""}
+            locale="ru"
+            maxDate={max ? stringToDate(max) : ""}
+            customInput={<input style={style}/>}
+        />
+    </div>
 }
 
 export default InputDate

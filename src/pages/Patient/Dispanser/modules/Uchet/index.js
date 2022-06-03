@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {connect} from "react-redux";
 
-import {AccessRoleAdminDispanser, AccessRoleDoct} from "configs/access";
 import {formatDate, formatDateToInput} from "utility/string";
 import useParams from "utility/app";
 import Patient from "classes/Patient";
@@ -22,6 +21,7 @@ import {PageTitle} from "components/Title";
 import {dispanserSubModules} from "consts/app";
 import Icons from "components/Icons";
 import InputDate from "components/Input/date";
+import {accessRole} from "../../../../../configs/access";
 
 
 const HistoryUchet = ({patient}) => {
@@ -81,13 +81,14 @@ const Uchet = ({dispatch, patient, application, user}) => {
     const params = useParams(application.params)
     const [state, setState] = useState({
         tab: T_UCHET,
-        isDoctor: user.access[user.unit] | AccessRoleAdminDispanser | AccessRoleDoct,
+        isDoctor: user.access[user.unit] | accessRole.dispanser.administrator | accessRole.dispanser.doct,
         enableTransfer: false,
         patientLastState: "",
         isOpenSectionModal: false,
         isOpenCategoryModal: false,
         isSubmit: false,
-        isHis: false
+        isHis: false,
+        isUchet: false,
     })
 
     const [form, setForm] = useState({
@@ -146,7 +147,8 @@ const Uchet = ({dispatch, patient, application, user}) => {
 
     const isHis = () => {
         const p = new Patient(patient)
-        return Boolean(user.section[user.unit]?.indexOf(p.getLastUchet().section) + 1) && !p.getLastUchet().reason.startsWith('S')
+        return (Boolean(user.section[user.unit]?.indexOf(p.getLastUchet().section) + 1) && p.isUchet()) ||
+            Boolean(user.section[user.unit]?.indexOf(10) + 1)
     }
 
     const onSelectSection = () => {
@@ -252,7 +254,9 @@ const Uchet = ({dispatch, patient, application, user}) => {
             patientLastState: lastState,
             section: user.section?.[user?.unit]?.filter(v => v > 17)?.[0],
             category: p?.category || 0,
-            isHis: isHis()
+            isHis: isHis(),
+            isUchet: p.isUchet(),
+            isAnonim: p.isAnonim()
         })
     }, [])
 
@@ -267,24 +271,26 @@ const Uchet = ({dispatch, patient, application, user}) => {
         <PageTitle title={dispanserSubModules.uchet.title}/>
         <div className="d-flex flex-row justify-content-between">
             <div className="d-flex flex-row align-items-center">
-                {state.isDoctor && state.isHis &&
-                <button className="btn btn-outline-primary" style={{marginRight: 5}} onClick={handleNew}>{Icons.event.add}</button>}
                 {
-                    state.enableTransfer && !state.isHis && state.isDoctor &&
+                    state.isDoctor && (state.isHis || !state.isUchet) && !state.isAnonim &&
+                    <button className="btn btn-outline-primary" style={{marginRight: 5}}
+                            onClick={handleNew}>{Icons.event.add}</button>}
+                {
+                    state.enableTransfer && !state.isHis && state.isDoctor && !state.isAnonim &&
                     <button className="btn btn-outline-primary" style={{marginRight: 15}} onClick={handleNewTransfer}>
                         Прием с других участков
                     </button>
                 }
                 <div className="d-flex flex-row align-items-center">
                     {/*<label style={{marginRight: 5}} htmlFor="date">Дата изменения</label>*/}
-                    <InputDate className="form-control" style={{width: 150, marginRight: 15}} type="date"
-                           name="date"
-                           value={form.date || formatDateToInput(new Date())} onChange={setDate}
-                           min={dateRange.min} max={dateRange.max}/>
+                    <InputDate className="form-control" style={{width: 150, marginRight: 15}}
+                               name="date"
+                               value={form.date || formatDateToInput(new Date())} onChange={setDate}
+                               min={dateRange.min} max={dateRange.max}/>
                 </div>
                 <span>{state.patientLastState}</span>
             </div>
-            {state.isDoctor && state.isHis && <button className="btn btn-outline-primary" onClick={handleSomSin}>
+            {state.isDoctor && <button className="btn btn-outline-primary" onClick={handleSomSin}>
                 Синдром и хронические заболевания
             </button>}
         </div>

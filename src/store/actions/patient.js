@@ -1,6 +1,9 @@
 import * as patientApi from "../../api/patient"
 import * as patientReducer from "../../store/reducers/patient"
 
+export const newPatient = (payload) => dispatch =>
+    patientApi.newPatient(payload)
+
 export const findByFio = ({fio}) => dispatch =>
     patientApi.findByFio({fio})
         .then(res => {
@@ -43,7 +46,7 @@ export const getHistoryHospital = (payload) => dispatch =>
 export const newReg = (payload) => dispatch =>
     patientApi.newReg(payload)
         .then(res => {
-            dispatch(getUchet({...payload, cache: false}))
+            dispatch(getUchet({...{...payload, id: payload.patientId}, cache: false}))
             return res
         })
 
@@ -79,5 +82,11 @@ export const getInvalid = (payload) => dispatch =>
     patientApi.getInvalid(payload)
         .then(res => {
             dispatch(patientReducer.setInvalid(res))
+            return res
+        })
+
+export const getAddress = (payload) => dispatch =>
+    patientApi.getAddress(payload)
+        .then(res => {
             return res
         })

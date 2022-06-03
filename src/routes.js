@@ -14,6 +14,9 @@ import AdminPage from "./pages/Admin";
 import * as access from "./configs/access";
 import Page404 from "./pages/ErrorPage/404";
 import FindPatient from "./pages/Patient/Find";
+import Report from "pages/Report";
+import NewPatient from "pages/Patient/New";
+import Administration from "pages/Patient/Dispanser/modules/Administration";
 
 export const linkDict = {
     start: "/",
@@ -22,9 +25,11 @@ export const linkDict = {
     signin: "/signin",
 
     patient: "/patient/:id",
+    newPatient: "/patient/new",
     findPatient: "/patient/find",
-    dispVisit: "/disp/patient/visit",
 
+    dispAdministration: "/disp/administration",
+    report: "/report",
     admin: "/admin",
 }
 
@@ -32,12 +37,16 @@ const main = NewMiddleWare()
 main.add(middlewareAuthRequire)
 
 const disp = NewMiddleWare()
-disp.add(middlewareAccessRequire, {access: access.accessDispPage})
+disp.add(middlewareAccessRequire, {access: access.accessPage.dispanser})
 disp.add(middlewareAuthRequire)
+
+const dispAdministration = NewMiddleWare()
+dispAdministration.add(middlewareAccessRequire, {access: access.accessPage.administration})
+dispAdministration.add(middlewareAuthRequire)
 
 const admin = NewMiddleWare()
 admin.add(middlewareAuthRequire)
-admin.add(middlewareAccessRequire, {access: access.accessAdminPage})
+admin.add(middlewareAccessRequire, {access: access.accessPage.adminAsu})
 
 
 const routes = [
@@ -58,12 +67,20 @@ const routes = [
         element: disp.middleware(<FindPatient/>)
     },
     {
-        path: linkDict.dispVisit,
-        element: disp.middleware(<VisitPage/>)
+        path: linkDict.newPatient,
+        element: disp.middleware(<NewPatient/>)
     },
     {
         path: linkDict.patient,
         element: disp.middleware(<GetPatient/>)
+    },
+    {
+        path: linkDict.dispAdministration,
+        element: dispAdministration.middleware(<Administration/>)
+    },
+    {
+        path: linkDict.report,
+        element: disp.middleware(<Report/>)
     },
 
 
