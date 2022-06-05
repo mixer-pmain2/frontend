@@ -29,3 +29,23 @@ export const getSprReason = () => {
   const url = API + `/spr/reason/`
   return request('GET', url, {}, {})
 }
+
+export const getSprInvalidKind = () => {
+  const url = API + `/spr/invalid/kind/`
+  return request('GET', url, {}, {})
+}
+
+export const getSprInvalidChildAnomaly = () => {
+  const url = API + `/spr/invalid/anomaly/`
+  return request('GET', url, {}, {})
+}
+
+export const getSprInvalidChildLimit = () => {
+  const url = API + `/spr/invalid/limit/`
+  return request('GET', url, {}, {})
+}
+
+export const getSprInvalidReason = () => {
+  const url = API + `/spr/invalid/reason/`
+  return request('GET', url, {}, {})
+}

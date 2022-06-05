@@ -1,21 +1,29 @@
-import React from "react";
+import React, { useEffect } from 'react'
 import {connect} from "react-redux";
 
 import * as appActions from "./store/actions/application"
-import {setBasic} from "./api/request";
 
 
 // Не добавлять состояния иначе будет часто вызываться
 const Initialisation = ({dispatch}) => {
 
-    dispatch(appActions.loadingReset())
-    dispatch(appActions.getSprPodr())
-    dispatch(appActions.getSprPrava())
-    dispatch(appActions.getSprVisit())
-    dispatch(appActions.getParams())
-    dispatch(appActions.getSprReason())
 
-    console.log("Initialization")
+    useEffect(async () => {
+        await dispatch(appActions.loadingAdd("initialization"))
+        await dispatch(appActions.getSprPodr())
+        await dispatch(appActions.getSprPrava())
+        await dispatch(appActions.getSprVisit())
+        await dispatch(appActions.getParams())
+        await dispatch(appActions.getSprReason())
+        await dispatch(appActions.getSprInvalidKind())
+        await dispatch(appActions.getSprInvalidChildAnomaly())
+        await dispatch(appActions.getSprInvalidChildLimit())
+        await dispatch(appActions.getSprInvalidReason())
+        await dispatch(appActions.loadingReset())
+        await dispatch(appActions.loadingRemove("initialization"))
+        console.log("Initialization")
+    }, [])
+
     return null
 }
 

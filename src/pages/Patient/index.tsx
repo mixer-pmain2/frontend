@@ -1,4 +1,5 @@
-import React, {useEffect, useState} from "react";
+import * as React from "react";
+import {useEffect} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import {connect} from "react-redux"
 
@@ -13,8 +14,13 @@ import {formatDate} from "utility/string";
 import Dispanser from "./Dispanser";
 import Patient from "classes/Patient";
 
+type PatientDetailProps = {
+    onReset: () => any
+    patient: PatientStore
+}
 
-const PatientDetail = ({onReset, patient}) => {
+
+const PatientDetail = ({onReset, patient}: PatientDetailProps) => {
     const p = new Patient(patient)
     const state = {
         lastUchet: p.getLastUchet(),
@@ -32,7 +38,7 @@ const PatientDetail = ({onReset, patient}) => {
             {text}
         </span>
     </div>
-    console.log(state)
+
     return <div>
         <div className="mb-3 d-flex flex-row justify-content-between">
             <a href="#" className="btn btn-outline-secondary" style={{marginRight: 10}}
@@ -67,17 +73,23 @@ const PatientDetail = ({onReset, patient}) => {
             <button className="input-group-text btn btn-outline-primary">Найти</button>
         </div>
         <div className="mb-3 d-flex flex-row">
-            {!state.isUchet && state.lastUchet.reason && patLabel("Снят с учета", `${formatDate(p.getLastUchet().date)}г.`)}
-            {!state.isUchet && state.lastUchet.reason && patLabel("Причина", `${p.getLastUchet()?.reasonS?.toLowerCase()}`)}
+            {!state.isUchet && state.lastUchet?.reason && patLabel("Снят с учета", `${formatDate(p.getLastUchet().date)}г.`)}
+            {!state.isUchet && state.lastUchet?.reason && patLabel("Причина", `${p.getLastUchet()?.reasonS?.toLowerCase()}`)}
             {state.isUchet && patLabel("Участок", state.lastUchet?.section)}
             {state.isUchet && patLabel("Учет", state.lastUchet?.categoryS)}
             {state.isUchet && patLabel("Диагноз учета", state.lastUchet?.diagnose)}
-            {patLabel("Адрес", patient?.address)}
+            {patLabel("Адрес", patient.address)}
         </div>
     </div>
 }
 
-const GetPatient = (props) => {
+type GetPatientProps = {
+    dispatch: (p: any) => any
+    patient: PatientStore
+    application: ApplicationStore
+}
+
+const GetPatient = (props: GetPatientProps) => {
     const {dispatch, patient, application} = props
 
     const navigation = useNavigate()
@@ -132,7 +144,7 @@ const GetPatient = (props) => {
     </Layout>
 }
 
-export default connect(state => ({
+export default connect((state: RootStore) => ({
     patient: state.patient,
     application: state.application
 }))(GetPatient)

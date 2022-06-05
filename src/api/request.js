@@ -1,17 +1,21 @@
-import axios from "axios";
+import axios from 'axios'
+import Cookies from 'js-cookie'
 
-import Notify, {notifyType} from "../components/Notify";
+import Notify, { notifyType } from '../components/Notify'
 
-export const API = (process.env.NODE_ENV === 'production') ? "/api/v0" : "http://localhost:80/api/v0"
+export const API = (process.env.NODE_ENV === 'production') ? '/api/v0' : 'http://localhost:80/api/v0'
 
-export let basicAuth = "";
+export const setToken = (v) =>
+    Cookies.set('token', v)
 
-export const setBasic = (token) => {
-    basicAuth = "Basic "+token
-}
+export const getToken = () =>
+    Cookies.get('token')
+
+export const removeToken = () =>
+    Cookies.remove("token")
 
 export const paramsToUrlQuery = (payload) => {
-    return Object.keys(payload).map((v, i) => `${v}=${payload[v]}`).join("&")
+    return Object.keys(payload).map((v, i) => `${v}=${payload[v]}`).join('&')
 }
 
 export const request = (method, url, headers = {}, body = {}) => {
@@ -20,8 +24,8 @@ export const request = (method, url, headers = {}, body = {}) => {
         method,
         url,
         headers: {
-            'Authorization': basicAuth,
-            'Content-Type': "text/plain",
+            'Authorization': `Basic ${getToken()}`,
+            'Content-Type': 'text/plain',
             ...headers
         },
         data: body
@@ -40,11 +44,12 @@ export const reqError = (err) => {
 
     switch (status) {
         case 401:
-            Notify(notifyType.ERROR, "Ошибка авторизации")()
+            Notify(notifyType.ERROR, 'Ошибка авторизации')()
             break
         default:
             Notify(notifyType.ERROR, err.message)()
     }
+    return status
 
 }
 

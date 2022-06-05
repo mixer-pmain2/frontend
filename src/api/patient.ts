@@ -76,3 +76,18 @@ export const getAddress = (payload) => {
     const url = API + `/patient/${payload.patientId}/address/?`+paramsToUrlQuery(payload)
     return request("GET", url, {}, {})
 }
+
+export const newInvalid = (payload) => {
+    const url = API + `/patient/${payload.patientId}/invalid/`
+    return request("POST", url, {}, payload)
+}
+
+export const updInvalid = (payload) => {
+    const url = API + `/patient/${payload.patientId}/invalid/`
+    return request("PUT", url, {}, payload)
+}
+
+export const getCustody = (payload) => {
+    const url = API + `/patient/${payload.patientId}/custody/`
+    return request("GET", url, {}, {})
+}

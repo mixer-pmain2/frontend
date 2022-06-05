@@ -2,15 +2,34 @@ import React, {useEffect, useState} from "react"
 import Pagination from "../Pagination";
 import Loading from "../Loading";
 
-const PAGE_SIZE = 10
 
-const Table = ({columns, data, mapper, onDoubleClick, selecting, onClick, loading}) => {
+type TableProps = {
+    columns: string[]
+    data: any[]
+    mapper: (row: Object) => any
+    onDoubleClick?
+    selecting?
+    onClick?
+    loading?: boolean
+    style?
+    pageSize?: number
+    onCancelSelect?: (call: () => void) => void
+}
+
+const Table = (props: TableProps) => {
+    const PAGE_SIZE = props.pageSize || 10
+    const {columns, data, mapper, onDoubleClick, selecting, onClick, loading, style} = props
     const [currentPage, setCurrentPage] = useState(0)
-    const [selectedRow, setSelectedRow] = useState(false)
+    const [selectedRow, setSelectedRow] = useState(null)
     const selectedStyle = selecting ? {backgroundColor: "gray", color: "white"} : {}
 
     let total = Math.floor(data.length / PAGE_SIZE)
     if (data.length % PAGE_SIZE > 0) total += 1
+
+    const cancelSelect = () => {
+        setSelectedRow(null)
+    }
+
 
     const handleNextPage = () => {
         if (currentPage >= total) return
@@ -36,11 +55,12 @@ const Table = ({columns, data, mapper, onDoubleClick, selecting, onClick, loadin
         onClick && onClick(data[i])
     }
 
+    props.onCancelSelect && props.onCancelSelect(cancelSelect)
     useEffect(() => {
         setCurrentPage(0)
     }, [data])
 
-    return <div>
+    return <div style={{...style}}>
         <table className="table table-striped table-hover">
             {
                 columns && <thead>

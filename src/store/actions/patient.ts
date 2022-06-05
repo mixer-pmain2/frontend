@@ -1,17 +1,17 @@
-import * as patientApi from "../../api/patient"
-import * as patientReducer from "../../store/reducers/patient"
+import * as patientApi from '../../api/patient'
+import * as patientReducer from '../../store/reducers/patient'
 
 export const newPatient = (payload) => dispatch =>
     patientApi.newPatient(payload)
 
-export const findByFio = ({fio}) => dispatch =>
-    patientApi.findByFio({fio})
+export const findByFio = ({ fio }) => dispatch =>
+    patientApi.findByFio({ fio })
         .then(res => {
             return res
         })
 
-export const findById = ({id}) => dispatch =>
-    patientApi.findByID({id})
+export const findById = ({ id }) => dispatch =>
+    patientApi.findByID({ id })
         .then(res => {
             return res
         })
@@ -46,14 +46,14 @@ export const getHistoryHospital = (payload) => dispatch =>
 export const newReg = (payload) => dispatch =>
     patientApi.newReg(payload)
         .then(res => {
-            dispatch(getUchet({...{...payload, id: payload.patientId}, cache: false}))
+            dispatch(getUchet({ ...{ ...payload, id: payload.patientId }, cache: false }))
             return res
         })
 
 export const newRegTransfer = (payload) => dispatch =>
     patientApi.newRegTransfer(payload)
         .then(res => {
-            dispatch(getUchet({...payload, cache: false}))
+            dispatch(getUchet({ ...payload, cache: false }))
             return res
         })
 
@@ -67,14 +67,14 @@ export const getHistorySindrom = (payload) => dispatch =>
 export const deleteSindrom = (payload) => dispatch =>
     patientApi.deleteSindrom(payload)
         .then(res => {
-            dispatch(getHistorySindrom({...payload, id: payload.patientId, cache: false}))
+            dispatch(getHistorySindrom({ ...payload, id: payload.patientId, cache: false }))
             return res
         })
 
 export const addSindrom = (payload) => dispatch =>
     patientApi.addSindrom(payload)
         .then(res => {
-            dispatch(getHistorySindrom({...payload, id: payload.patientId, cache: false}))
+            dispatch(getHistorySindrom({ ...payload, id: payload.patientId, cache: false }))
             return res
         })
 
@@ -88,5 +88,26 @@ export const getInvalid = (payload) => dispatch =>
 export const getAddress = (payload) => dispatch =>
     patientApi.getAddress(payload)
         .then(res => {
+            return res
+        })
+
+export const addInvalid = payload => dispatch =>
+    patientApi.newInvalid(payload)
+        .then(res => {
+            dispatch(getInvalid({...payload, cache: false}))
+            return res
+        })
+
+export const updInvalid = payload => dispatch =>
+    patientApi.updInvalid(payload)
+        .then(res => {
+            dispatch(getInvalid({...payload, cache: false}))
+            return res
+        })
+
+export const getCustody = payload => dispatch =>
+    patientApi.getCustody(payload)
+        .then(res => {
+            // dispatch(getCustody({...payload, cache: false}))
             return res
         })

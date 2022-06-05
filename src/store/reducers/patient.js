@@ -50,6 +50,7 @@ export const patientStore = createSlice({
                 ...state,
                 sindrom: action.payload
             }
+            saveToStore(state, storeName)
             return state
         },
         setInvalid: (state, action) => {
@@ -57,6 +58,7 @@ export const patientStore = createSlice({
                 ...state,
                 invalid: action.payload
             }
+            saveToStore(state, storeName)
             return state
         }
     }

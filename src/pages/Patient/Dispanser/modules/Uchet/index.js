@@ -266,7 +266,7 @@ const Uchet = ({dispatch, patient, application, user}) => {
             max: params.registrat.maxDate
         })
     }, [])
-
+    console.log(form)
     return <div>
         <PageTitle title={dispanserSubModules.uchet.title}/>
         <div className="d-flex flex-row justify-content-between">

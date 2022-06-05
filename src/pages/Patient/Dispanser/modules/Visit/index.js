@@ -19,8 +19,15 @@ import {dispanserSubModules} from "consts/app";
 import InputDate from "components/Input/date";
 import Patient from "classes/Patient";
 
+interface VisitProps {
+    dispatch?: () => any,
+    application?: any,
+    patient: PatientStore,
+    user?: any
+}
 
-const Visit = ({dispatch, application, patient, user}) => {
+
+const Visit = ({dispatch, application, patient, user}: VisitProps) => {
     const p = new Patient(patient)
     const [state, setState] = useState({
         error: "",
