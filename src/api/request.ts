@@ -1,7 +1,7 @@
 import axios from 'axios'
 import Cookies from 'js-cookie'
 
-import Notify, { notifyType } from '../components/Notify'
+import Notify, {notifyType} from '../components/Notify'
 
 export const API = (process.env.NODE_ENV === 'production') ? '/api/v0' : 'http://localhost:80/api/v0'
 
@@ -18,9 +18,13 @@ export const paramsToUrlQuery = (payload) => {
     return Object.keys(payload).map((v, i) => `${v}=${payload[v]}`).join('&')
 }
 
-export const request = (method, url, headers = {}, body = {}) => {
+export const request = async (method, url, headers = {}, body = {}): Promise<{ success: boolean }> => {
     method = method.toUpperCase()
-    return axios({
+    if (method === "GET") {
+        url = url + "?" + paramsToUrlQuery(body)
+        body = {}
+    }
+    return await axios({
         method,
         url,
         headers: {

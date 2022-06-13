@@ -74,3 +74,47 @@ export const getSprInvalidReason = () => dispatch => {
         })
 }
 
+export const getSprCustodyWho = () => dispatch => {
+    return appApi.getSprCustodyWho()
+        .then(r => {
+            dispatch(appReducer.setSprCustodyWho(r))
+            return r
+        })
+}
+
+export const findRepublic = (payload) => dispatch => {
+    return appApi.findRepublic(payload)
+        .then(r => {
+            return r
+        })
+}
+
+export const findRegion = (payload) => dispatch => {
+    return appApi.findRegion(payload)
+        .then(r => {
+            return r
+        })
+}
+
+export const findDistrict = (payload) => dispatch => {
+    return appApi.findDistrict(payload)
+        .then(r => {
+            return r
+        })
+}
+
+export const findArea = (payload) => dispatch => {
+    return appApi.findArea(payload)
+        .then(r => {
+            return r
+        })
+}
+
+export const findStreet = (payload) => dispatch => {
+    return appApi.findStreet(payload)
+        .then(r => {
+            return r
+        })
+}
+
+

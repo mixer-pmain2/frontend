@@ -3,7 +3,6 @@ import {connect} from "react-redux";
 import {useNavigate} from "react-router-dom";
 
 import * as patientActions from "store/actions/patient"
-import * as appActions from "store/actions/application"
 
 import {linkDict} from "../../../routes";
 import {formatDate} from "utility/string";
@@ -35,31 +34,23 @@ const FindPatient = ({dispatch}) => {
 
 
     const findByFio = fio => {
-        const loadingName = "find_by_fio"
-        dispatch(appActions.loadingAdd(loadingName))
         dispatch(patientActions.findByFio({fio}))
             .then(res => {
                 setFoundPatient(res)
             })
             .finally(() => {
-                dispatch(appActions.loadingRemove(loadingName))
                 setIsFounded(true)
             })
     }
 
     const findById = id => {
-        dispatch(appActions.enableLoading())
         dispatch(patientActions.findById({id}))
             .then(res => {
                 if (res?.id) {
-                    dispatch(patientActions.select(res))
                     navigate(linkDict.patient.replace(/:id/g, id))
                 } else {
                     notifyInfo("Нет данных")
                 }
-            })
-            .finally(_ => {
-                dispatch(appActions.disableLoading())
             })
     }
 

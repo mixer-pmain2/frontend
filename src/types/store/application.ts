@@ -37,5 +37,10 @@ type ApplicationStore = {
         inv_reason?: {
             [name: number]: string
         }
+        custody?: {
+            who: {
+                [name: string]: string
+            }
+        }
     }
 }

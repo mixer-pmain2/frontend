@@ -13,8 +13,18 @@ import {
     RiMicroscopeFill,
     RiNumbersFill,
     RiDeleteBin2Fill,
-    RiAddLine
+    RiAddLine,
+    RiSubtractLine,
+    RiPassportFill,
+    RiEditFill,
+    RiArrowRightSFill,
+    RiArrowRightSLine,
+    RiFilePaper2Fill
 } from "react-icons/ri";
+import {
+    GiPistolGun
+} from "react-icons/gi"
+
 
 export const iconsUnit = {
     1: require("assets/images/295067-3f51b5.svg"),
@@ -39,12 +49,19 @@ const Icons = {
             vaccinations: <RiSyringeFill/>,
             infection: <RiMicroscopeFill/>,
             UKL: <RiNumbersFill/>,
-            prof: <RiContactsBook2Fill/>
+            prof: <RiContactsBook2Fill/>,
+            section23: <GiPistolGun/>,
+            passport: <RiPassportFill/>,
+            section22: <RiFilePaper2Fill/>,
         }
     },
     event: {
         remove: <RiDeleteBin2Fill className="btn-outline-danger"/>,
-        add: <RiAddLine/>
+        add: <RiAddLine/>,
+        delete: <RiSubtractLine/>,
+        edit: <RiEditFill/>,
+        arrowRight: <RiArrowRightSFill/>,
+        arrowRightLine: <RiArrowRightSLine/>
     }
 }
 export default Icons

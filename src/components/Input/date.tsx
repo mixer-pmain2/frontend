@@ -26,8 +26,8 @@ type InputDateProps = {
 const InputDate = (props: InputDateProps) => {
     const {className, style, value, onChange, min, max, title, isRow = true, showYearDropdown = false, disabled} = props
 
-    return <div className={`d-flex ${isRow ? 'flex-row' : 'flex-column'} align-items-center`} style={{...style}}>
-        {title && <label className="form-label" style={{...props.labelStyle}}>{title}</label>}
+    return <div className={`d-flex ${isRow ? 'flex-row' : 'flex-column'} ${isRow ? "align-items-center" : "justify-items-center"}`} style={{...style}}>
+        {title && <label className="form-label" style={{marginRight: 5, ...props.labelStyle}}>{title}</label>}
         <DatePicker
             className={`form-control ${className? className: ""}`}
             selected={disabled ? "" : (value ? stringToDate(value) : "")}

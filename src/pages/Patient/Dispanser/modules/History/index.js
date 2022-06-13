@@ -2,15 +2,14 @@ import React, {useEffect, useState} from "react";
 import {connect} from "react-redux";
 
 import * as patientActions from "store/actions/patient"
+import * as appConst from "consts/app"
 
 import Table from "components/Table";
 import {formatDate, shorty} from "utility/string";
 import {loadingAdd, loadingRemove} from "store/actions/application";
 import {PageTitle} from "components/Title";
+import { useLoading } from 'components/Progress'
 
-
-const LOADING_VISIT = "history_visit"
-const LOADING_HOSPITAL = "history_hospital"
 
 
 const HistoryVisit = ({patient, loading}) => {
@@ -81,57 +80,25 @@ const HistoryHospital = ({patient, loading}) => {
     </div>
 }
 
-const History = ({dispatch, patient}) => {
-    const [state, setState] = useState({
-        isLoadingVisit: false,
-        isLoadingHospital: false
-    })
+const History = ({dispatch, patient, application}) => {
 
     useEffect(() => {
         if (!patient?.visit) {
-            setState({
-                ...state,
-                isLoadingVisit: true,
-            })
-            dispatch(loadingAdd(LOADING_VISIT))
             dispatch(patientActions.getHistoryVisits({id: patient.id}))
-                .finally(_ => {
-                    dispatch(loadingRemove(LOADING_VISIT))
-                    setState({
-                        ...state,
-                        isLoadingVisit: false,
-                    })
-                })
         }
         if (!patient?.hospital) {
-            setState({
-                ...state,
-                isLoadingHospital: true
-            })
-            dispatch(loadingAdd(LOADING_HOSPITAL))
             dispatch(patientActions.getHistoryHospital({id: patient.id}))
-                .finally(_ => {
-                    dispatch(loadingRemove(LOADING_HOSPITAL))
-                    setState({
-                        ...state,
-                        isLoadingHospital: false
-                    })
-                })
         }
 
     }, [])
 
-    useEffect(() => {
-        console.log(patient)
-    })
-
     return <div>
         <PageTitle title={"История пациента"}/>
         <div style={{marginBottom: 20}}>
-            <HistoryVisit patient={patient} loading={state.isLoadingVisit}/>
+            <HistoryVisit patient={patient} loading={useLoading(appConst.loadComponent.history_visit)}/>
         </div>
         <div>
-            <HistoryHospital patient={patient} loading={state.isLoadingHospital}/>
+            <HistoryHospital patient={patient} loading={useLoading(appConst.loadComponent.history_hospital)}/>
         </div>
     </div>
 }

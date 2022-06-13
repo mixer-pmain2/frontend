@@ -88,6 +88,27 @@ export const updInvalid = (payload) => {
 }
 
 export const getCustody = (payload) => {
-    const url = API + `/patient/${payload.patientId}/custody/`
+    const url = API + `/patient/${payload.patientId}/custody/?`+paramsToUrlQuery(payload)
     return request("GET", url, {}, {})
 }
+
+export const addCustody = (payload) =>
+    request("POST", API + `/patient/${payload.patientId}/custody/`, {}, payload)
+
+export const cancelCustody = (payload) =>
+    request("PUT", API + `/patient/${payload.patientId}/custody/`, {}, payload)
+
+export const getVaccination = (payload) =>
+    request("GET", API + `/patient/${payload.patientId}/vaccination/?`+paramsToUrlQuery(payload), {}, {})
+
+export const getInfection = (payload) =>
+    request("GET", API + `/patient/${payload.patientId}/infection/?`+paramsToUrlQuery(payload), {}, {})
+
+export const updPassport = (payload) =>
+    request("PUT", API + `/patient/${payload.id}/passport/`, {}, payload)
+
+export const updAddress = (payload) =>
+    request("PUT", API + `/patient/${payload.id}/address/`, {}, payload)
+
+export const getSection22 = (payload) =>
+    request("GET", API + `/patient/${payload.id}/section22/`, {}, payload)

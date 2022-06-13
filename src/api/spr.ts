@@ -1,4 +1,4 @@
-import {API, request} from "./request";
+import {API, paramsToUrlQuery, request} from "./request";
 
 export const getSprPodr = () => {
   const url = API + "/spr/podr/"
@@ -49,3 +49,21 @@ export const getSprInvalidReason = () => {
   const url = API + `/spr/invalid/reason/`
   return request('GET', url, {}, {})
 }
+
+export const getSprCustodyWho = () =>
+  request('GET', API + `/spr/custody/who/`, {}, {})
+
+export const findRepublic = (payload) =>
+    request('GET', API + `/spr/address/republic/`, {}, payload)
+
+export const findRegion = (payload) =>
+    request('GET', API + `/spr/address/region/`, {}, payload)
+
+export const findDistrict = (payload) =>
+    request('GET', API + `/spr/address/district/`, {}, payload)
+
+export const findArea = (payload) =>
+    request('GET', API + `/spr/address/area/`, {}, payload)
+
+export const findStreet = (payload) =>
+    request('GET', API + `/spr/address/street/`, {}, payload)

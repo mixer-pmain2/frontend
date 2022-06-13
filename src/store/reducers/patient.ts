@@ -3,7 +3,7 @@ import {saveToStore} from "./_save";
 
 const storeName = "patient"
 
-const initialState = localStorage.getItem(storeName) ? JSON.parse(localStorage.getItem(storeName)) : {}
+const initialState: PatientStore = localStorage.getItem(storeName) ? JSON.parse(localStorage.getItem(storeName)) : {}
 
 export const patientStore = createSlice({
     name: storeName,
@@ -16,8 +16,10 @@ export const patientStore = createSlice({
             saveToStore(state, storeName)
             return state
         },
-        reset: state => {
-            state = {}
+        reset: (state) => {
+            state = {
+                ...initialState
+            }
             saveToStore(state, storeName)
             return state
         },
@@ -26,7 +28,6 @@ export const patientStore = createSlice({
                 ...state,
                 uchet: action.payload
             }
-            saveToStore(state, storeName)
             return state
         },
         setVisits: (state, action) => {
@@ -34,7 +35,6 @@ export const patientStore = createSlice({
                 ...state,
                 visit: action.payload
             }
-            saveToStore(state, storeName)
             return state
         },
         setHospital: (state, action) => {
@@ -42,7 +42,6 @@ export const patientStore = createSlice({
                 ...state,
                 hospital: action.payload
             }
-            saveToStore(state, storeName)
             return state
         },
         setSindrom: (state, action) => {
@@ -50,7 +49,6 @@ export const patientStore = createSlice({
                 ...state,
                 sindrom: action.payload
             }
-            saveToStore(state, storeName)
             return state
         },
         setInvalid: (state, action) => {
@@ -58,11 +56,42 @@ export const patientStore = createSlice({
                 ...state,
                 invalid: action.payload
             }
-            saveToStore(state, storeName)
             return state
-        }
+        },
+        setCustody: (state, action) => {
+            state = {
+                ...state,
+                custody: action.payload
+            }
+            return state
+        },
+        setVaccination: (state, action) => {
+            state = {
+                ...state,
+                vaccination: action.payload
+            }
+            return state
+        },
+        setInfection: (state, action) => {
+            state = {
+                ...state,
+                infection: action.payload
+            }
+            return state
+        },
     }
 })
 
-export const {select, reset, setUchet, setVisits, setHospital, setSindrom, setInvalid} = patientStore.actions
+export const {
+    select,
+    reset,
+    setUchet,
+    setVisits,
+    setHospital,
+    setSindrom,
+    setInvalid,
+    setCustody,
+    setVaccination,
+    setInfection
+} = patientStore.actions
 export default patientStore.reducer

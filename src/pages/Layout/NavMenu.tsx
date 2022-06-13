@@ -4,11 +4,18 @@ import {Link} from "react-router-dom";
 import {linkDict} from "../../routes";
 
 import {capitalizeFirstLetter} from "utility/string";
-import {accessPage, accessRole, isAccessed} from "configs/access";
+import {accessPage, accessRole, isAccessed, isAccessedPage} from "configs/access";
 import {UnitName} from "consts/user";
 
 
-const NavMenu = ({onLogout, user, app, patient}) => {
+type NavMenuProps = {
+    onLogout?
+    user: UserStore,
+    app: ApplicationStore,
+    patient: PatientStore
+}
+
+const NavMenu = ({onLogout, user, app, patient}: NavMenuProps) => {
     const uUnit = user?.unit
     const uAccess = user?.access ? user?.access[user?.unit] : 0
 
@@ -37,9 +44,9 @@ const NavMenu = ({onLogout, user, app, patient}) => {
                             <li>
                                 <Link to={linkDict.findPatient} className="dropdown-item">Поиск пациента</Link>
                             </li>
-                            <li>
+                            {isAccessedPage(accessPage.newPatient, user) && <li>
                                 <Link to={linkDict.newPatient} className="dropdown-item">Новый пациент</Link>
-                            </li>
+                            </li>}
                             <li>
                                 <hr className="dropdown-divider"/>
                             </li>
@@ -54,7 +61,7 @@ const NavMenu = ({onLogout, user, app, patient}) => {
                         </ul>
                     </li>}
 
-                    {user.unit && <li className="nav-item">
+                    {isAccessedPage(accessPage.report, user) && <li className="nav-item">
                         <Link to={linkDict.report} className="nav-link">Отчеты</Link>
                     </li>}
                     {isAdministrator()  && <li className="nav-item" aria-disabled={true}>

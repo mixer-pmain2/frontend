@@ -12,13 +12,15 @@ import Checkbox from "components/Input/checkbox";
 import Button from "components/Button";
 
 import {formatDate} from "utility/string";
-import {dispanserSubModules} from "consts/app";
+import {dispanserSubModules, loadComponent} from "consts/app";
 import {Access} from "consts/user";
 import TableKind from "./TableKind";
 import TableAnomaly from "./TableAnomaly";
 import TableLimit from "./TableLimit";
 import TableReason from "./TableReason";
 import {notifyError, notifySuccess} from "../../../../../components/Notify";
+import {useLoading} from "../../../../../components/Progress";
+import {loadingAdd, loadingRemove} from "../../../../../store/actions/application";
 
 type NewInvalidProps = {
     onCancel
@@ -336,7 +338,7 @@ const Invalid = ({dispatch, patient, user, application}: InvalidProps) => {
             <td>{v.reasonS}</td>
         </>
     }
-    console.log(form)
+
     return <div>
         <PageTitle title={dispanserSubModules.invalid.title}/>
         {state.isAccessed && <div className="d-flex flex-row" style={{marginBottom: 15}}>
@@ -347,11 +349,13 @@ const Invalid = ({dispatch, patient, user, application}: InvalidProps) => {
             {patient.invalid?.length > 0 &&
             <button className="btn btn-outline-primary" onClick={handleShowChangeDate}>Сдача документов</button>}
         </div>}
+        <hr/>
         <Table
             columns={["Начало", "Конец", "Сдача док.", "Группа", "Причина"]}
             data={patient?.invalid || []}
             mapper={mapper}
             style={{marginBottom: 15}}
+            loading={useLoading(loadComponent.history_invalid)}
         />
         {state.visibleNewInvalid && <NewInvalid
             form={form}

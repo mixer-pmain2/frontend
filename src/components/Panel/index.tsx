@@ -5,15 +5,17 @@ type PanelProps = {
     title?: string
     children: React.ReactNode
     className?: string
+    childrenClass?: string
+    style?
 }
 
-const Panel = ({title, children, className}: PanelProps) => {
+const Panel = ({title, children, className, childrenClass="", style={}}: PanelProps) => {
 
-    return <div className={`card ${className ? className : ""}`}>
+    return <div className={`card ${className ? className : ""}`} style={style}>
         {title && <div className="card-header">
             {title}
         </div>}
-        <div className="card-body">
+        <div className={`card-body ${childrenClass}`}>
             {children}
         </div>
     </div>

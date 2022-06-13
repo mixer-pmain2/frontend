@@ -18,10 +18,13 @@ import SelectCategory from "./SelectCategory";
 import NewUchet from "./NewUchet";
 import NewSindrom from "./NewSindrom";
 import {PageTitle} from "components/Title";
-import {dispanserSubModules} from "consts/app";
+import { dispanserSubModules, loadComponent } from 'consts/app'
 import Icons from "components/Icons";
 import InputDate from "components/Input/date";
 import {accessRole} from "../../../../../configs/access";
+import { useLoading } from 'components/Progress'
+import { loadingAdd } from 'store/actions/application.ts'
+import { loadingRemove } from 'store/actions/application'
 
 
 const HistoryUchet = ({patient}) => {
@@ -48,6 +51,7 @@ const HistoryUchet = ({patient}) => {
             columns={["Участок", "Дата", "Категори", "Причина", "Учет", "Расшифровка диагноза", "Врач"]}
             data={patient?.uchet || []}
             mapper={mapper}
+            loading={useLoading(loadComponent.history_uchet)}
         />
         <div className="mb-4">
             <h6>Синдромы</h6>
@@ -133,7 +137,7 @@ const Uchet = ({dispatch, patient, application, user}) => {
 
     const isEnableTransfer = () => {
         const p = new Patient(patient)
-        let isEnable = !!p.getLastUchet().category
+        let isEnable = !!p.getLastUchet()?.category
 
         isEnable = isEnable && user.section[user.unit]?.filter(v => v > 17).length
         isEnable = isEnable && (user.access[user.unit] & Access.dispanser["Работа регистратора"]) === 0
@@ -266,7 +270,7 @@ const Uchet = ({dispatch, patient, application, user}) => {
             max: params.registrat.maxDate
         })
     }, [])
-    console.log(form)
+
     return <div>
         <PageTitle title={dispanserSubModules.uchet.title}/>
         <div className="d-flex flex-row justify-content-between">

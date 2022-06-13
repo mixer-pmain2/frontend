@@ -20,7 +20,7 @@ const AccessRequire = (props) => {
     return <>{children}</>
 }
 
-const AccessRequireState = connect(state => ({
+const AccessRequireState = connect((state: RootStore) => ({
     user: state.user
 }))(AccessRequire)
 

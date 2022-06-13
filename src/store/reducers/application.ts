@@ -3,7 +3,7 @@ import { saveToStore } from './_save'
 
 const storeName = 'app'
 
-const initialState = localStorage.getItem(storeName) ? JSON.parse(localStorage.getItem(storeName)) : {
+const initialState: ApplicationStore = localStorage.getItem(storeName) ? JSON.parse(localStorage.getItem(storeName)) : {
     loading: false,
     loadingList: [],
     spr: {},
@@ -59,7 +59,6 @@ export const applicationStore = createSlice({
                     unit: action.payload
                 }
             }
-            saveToStore(state, storeName)
             return state
         },
         setSprPrava: (state, action) => {
@@ -70,7 +69,6 @@ export const applicationStore = createSlice({
                     access: action.payload
                 }
             }
-            saveToStore(state, storeName)
             return state
         },
         setSprVisit: (state, action) => {
@@ -81,7 +79,6 @@ export const applicationStore = createSlice({
                     visit: action.payload
                 }
             }
-            saveToStore(state, storeName)
             return state
         },
         setParams: (state, action) => {
@@ -89,7 +86,6 @@ export const applicationStore = createSlice({
                 ...state,
                 params: action.payload
             }
-            saveToStore(state, storeName)
             return state
         },
         setSprReason: (state, action) => {
@@ -100,7 +96,6 @@ export const applicationStore = createSlice({
                     reason: action.payload
                 }
             }
-            saveToStore(state, storeName)
             return state
         },
         setSprInvalidKind: (state, action) => {
@@ -111,7 +106,6 @@ export const applicationStore = createSlice({
                     inv_kind: action.payload
                 }
             }
-            saveToStore(state, storeName)
             return state
         },
         setSprInvalidChildAnomaly: (state, action) => {
@@ -122,7 +116,6 @@ export const applicationStore = createSlice({
                     inv_anomaly: action.payload
                 }
             }
-            saveToStore(state, storeName)
             return state
         },
         setSprInvalidChildLimit: (state, action) => {
@@ -133,7 +126,6 @@ export const applicationStore = createSlice({
                     inv_limit: action.payload
                 }
             }
-            saveToStore(state, storeName)
             return state
         },
         setSprInvalidReason: (state, action) => {
@@ -142,6 +134,19 @@ export const applicationStore = createSlice({
                 spr: {
                     ...state.spr,
                     inv_reason: action.payload
+                }
+            }
+            return state
+        },
+        setSprCustodyWho: (state, action) => {
+            state = {
+                ...state,
+                spr: {
+                    ...state.spr,
+                    custody: {
+                        ...state.spr.custody,
+                        who: action.payload
+                    }
                 }
             }
             saveToStore(state, storeName)
@@ -164,6 +169,7 @@ export const {
     setSprInvalidKind,
     setSprInvalidChildAnomaly,
     setSprInvalidChildLimit,
-    setSprInvalidReason
+    setSprInvalidReason,
+    setSprCustodyWho
 } = applicationStore.actions
 export default applicationStore.reducer
