@@ -3,7 +3,9 @@ import {saveToStore} from "./_save";
 
 const storeName = "patient"
 
-const initialState: PatientStore = localStorage.getItem(storeName) ? JSON.parse(localStorage.getItem(storeName)) : {}
+const initialState: PatientStore = localStorage.getItem(storeName) ? JSON.parse(localStorage.getItem(storeName)) : {
+
+}
 
 export const patientStore = createSlice({
     name: storeName,
@@ -16,11 +18,8 @@ export const patientStore = createSlice({
             saveToStore(state, storeName)
             return state
         },
-        reset: (state) => {
-            state = {
-                ...initialState
-            }
-            saveToStore(state, storeName)
+        reset: (state: {}) => {
+            state = {}
             return state
         },
         setUchet: (state, action) => {

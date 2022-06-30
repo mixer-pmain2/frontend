@@ -1,4 +1,4 @@
-import { accessModule } from '../configs/access'
+import {accessModule, accessRole, unit} from '../configs/access'
 import icons from 'components/Icons'
 import {iota} from "../utility/app";
 
@@ -135,6 +135,17 @@ export const dispanserSubModules = {
 
 }
 
+export const appPages = {
+    dispanser: dispanserSubModules,
+    administration: {
+        id: iota(),
+        title: 'Администрирование',
+        img: null,
+        unit: unit.disp,
+        access: accessRole.dispanser.administrator
+    }
+}
+
 export const loadComponent = {
     find_by_fio: iota(),
     find_by_id: iota(),
@@ -145,4 +156,10 @@ export const loadComponent = {
     history_invalid: iota(),
     history_sindrom: iota(),
     history_custody: iota(),
+    administration: {
+        locationDoctor: {
+            doctor: iota()
+
+        }
+    }
 }

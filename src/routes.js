@@ -1,6 +1,5 @@
 import React from 'react'
 import StartPage from './pages/Start'
-import VisitPage from './pages/Patient/Dispanser/modules/Visit/index'
 
 import GetPatient from './pages/Patient'
 import ProfilePage from './pages/Profile'
@@ -15,7 +14,7 @@ import Page404 from './pages/ErrorPage/404'
 import FindPatient from './pages/Patient/Find'
 import Report from 'pages/Report'
 import NewPatient from 'pages/Patient/New'
-import Administration from 'pages/Patient/Dispanser/modules/Administration'
+import Administration from 'pages/Administration'
 
 export const linkDict = {
     start: '/',
@@ -27,7 +26,7 @@ export const linkDict = {
     newPatient: '/patient/new',
     findPatient: '/patient/find',
 
-    dispAdministration: '/disp/administration',
+    administration: '/administration',
     report: '/report',
     admin: '/admin',
 }
@@ -38,10 +37,6 @@ main.add(middlewareAuthRequire)
 const disp = NewMiddleWare()
 disp.add(middlewareAccessRequire, { access: access.accessPage.dispanser })
 disp.add(middlewareAuthRequire)
-
-const dispAdministration = NewMiddleWare()
-dispAdministration.add(middlewareAccessRequire, { access: access.accessPage.administration })
-dispAdministration.add(middlewareAuthRequire)
 
 const admin = NewMiddleWare()
 admin.add(middlewareAuthRequire)
@@ -65,11 +60,11 @@ const routes = [
     },
     {
         path: linkDict.profile,
-        element: disp.middleware(<ProfilePage/>)
+        element: page(access.accessPage.profile)(<ProfilePage/>)
     },
     {
         path: linkDict.findPatient,
-        element: disp.middleware(<FindPatient/>)
+        element: page(access.accessPage.findPatient)(<FindPatient/>)
     },
     {
         path: linkDict.newPatient,
@@ -80,8 +75,8 @@ const routes = [
         element: disp.middleware(<GetPatient/>)
     },
     {
-        path: linkDict.dispAdministration,
-        element: dispAdministration.middleware(<Administration/>)
+        path: linkDict.administration,
+        element: page(access.accessPage.administration)(<Administration/>)
     },
     {
         path: linkDict.report,

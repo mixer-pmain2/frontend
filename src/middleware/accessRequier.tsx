@@ -1,4 +1,4 @@
-import React from "react";
+import React, {memo} from "react";
 import {connect} from "react-redux";
 
 import NotAccessedPage from "../pages/NotAccessed";
@@ -20,9 +20,11 @@ const AccessRequire = (props) => {
     return <>{children}</>
 }
 
+const AccessRequireMemo = memo(AccessRequire)
+
 const AccessRequireState = connect((state: RootStore) => ({
     user: state.user
-}))(AccessRequire)
+}))(AccessRequireMemo)
 
 const middlewareAccessRequire = (next, params) => {
     return <AccessRequireState params={params}>

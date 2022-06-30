@@ -67,9 +67,9 @@ const Visit = ({dispatch, application, patient, user}: VisitProps) => {
     }
 
     const getLastDiag = () => {
-        if (form.unit === Unit["Специалисты"] || p.lastUchet.diagnose === "")
-            return p.lastVisit?.diagnose || ""
-        return p.lastUchet?.diagnose || ""
+        if (form.unit === Unit["Специалисты"] || p.lastUchet().diagnose === "")
+            return p.lastVisit()?.diag || ""
+        return p.lastUchet()?.diagnose || ""
     }
 
     const ItemVisit = ({value}) => <label className="mb-1">
@@ -242,7 +242,7 @@ const Visit = ({dispatch, application, patient, user}: VisitProps) => {
             handleNewVisit()
         }
 
-    }, [state.isSubmit])
+    }, [state.isSubmit, state.isAcceptNotValidAge])
 
     useEffect(() => {
         let action = false
@@ -254,6 +254,10 @@ const Visit = ({dispatch, application, patient, user}: VisitProps) => {
                 max: params.visit.maxDate
             })
         }
+        setForm({
+            ...form,
+            diagnose: getLastDiag()
+        })
         return () => {
             action = true
         }

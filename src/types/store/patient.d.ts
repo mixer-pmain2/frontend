@@ -16,6 +16,7 @@ type PatientUchetStore = {
 type PatientVisitStore = {
     id: number
     date: string
+    diag: string
     diagS: string
     dockName: string
     reason: string
@@ -86,27 +87,27 @@ type PatientSection22Store = {
 }
 
 type PatientStore = {
-    id: number
-    lname: string
-    fname: string
-    sname: string
-    bday: string
-    sex: string
-    snils: string
-    visibility: number
-    address: string
-    passportSeries: string
-    passportNumber: number
-    works: number
-    republic: number
-    region: number
-    district: number
-    area: number
-    street: number
-    house: string
-    build: string
-    flat: string
-    domicile: number
+    id?: number
+    lname?: string
+    fname?: string
+    sname?: string
+    bday?: string
+    sex?: string
+    snils?: string
+    visibility?: number
+    address?: string
+    passportSeries?: string
+    passportNumber?: number
+    works?: number
+    republic?: number
+    region?: number
+    district?: number
+    area?: number
+    street?: number
+    house?: string
+    build?: string
+    flat?: string
+    domicile?: number
     visit?: PatientVisitStore[]
     uchet?: PatientUchetStore[]
     hospital?: PatientHospitalStore[]

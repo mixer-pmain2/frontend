@@ -5,7 +5,7 @@ export const isAccessed = (accessList, uUnit, uAccess) => {
     for (let i = 0; i < accessList.length; i++) {
         const unit = accessList[i].unit
         const access = accessList[i].access
-        if ((uUnit === unit || unit === 0) && (uAccess & access) > 0)
+        if ((uUnit === unit || unit === 0) && (((uAccess & access) > 0) || (access === 0)))
             return true
     }
     return false
@@ -199,6 +199,12 @@ export const accessPage = {
     adminAsu: [
         {unit: 0, access: 1073741824}
     ],
+    findPatient: [
+        {
+            unit: 0,
+            access: 0
+        }
+    ],
     newPatient: [
         {
             unit: 0,
@@ -216,6 +222,12 @@ export const accessPage = {
                 Access.dispanser["Администр. взрослого диспансера"] |
                 Access.dispanser["Администр. детского диспансера"] |
                 Access.dispanser["Работа регистратора"]
+        }
+    ],
+    profile: [
+        {
+            unit: 0,
+            access: 0
         }
     ]
 }

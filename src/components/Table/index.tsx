@@ -1,10 +1,9 @@
-import React, {useEffect, useState} from "react"
+import React, {CSSProperties, memo, useEffect, useState} from "react"
 import Pagination from "../Pagination";
 import Loading from "../Loading";
 
-
 type TableProps = {
-    columns: string[]
+    columns?: string[]
     data: any[]
     mapper: (row: Object) => any
     onDoubleClick?
@@ -14,11 +13,13 @@ type TableProps = {
     style?
     pageSize?: number
     onCancelSelect?: (call: () => void) => void
+    pagination?: boolean
+    height?: string
 }
 
 const Table = (props: TableProps) => {
     const PAGE_SIZE = props.pageSize || 10
-    const {columns, data, mapper, onDoubleClick, selecting, onClick, loading, style} = props
+    const {columns, data, mapper, onDoubleClick, selecting, onClick, loading, style, pagination = true} = props
     const [currentPage, setCurrentPage] = useState(0)
     const [selectedRow, setSelectedRow] = useState(null)
     const selectedStyle = selecting ? {backgroundColor: "gray", color: "white"} : {}
@@ -29,7 +30,6 @@ const Table = (props: TableProps) => {
     const cancelSelect = () => {
         setSelectedRow(null)
     }
-
 
     const handleNextPage = () => {
         if (currentPage >= total) return
@@ -58,21 +58,32 @@ const Table = (props: TableProps) => {
     props.onCancelSelect && props.onCancelSelect(cancelSelect)
     useEffect(() => {
         setCurrentPage(0)
+        setSelectedRow(null)
     }, [data])
 
-    return <div style={{...style}}>
-        <table className="table table-striped table-hover">
+    const headerStyle: CSSProperties = !pagination ? {
+        display: "block",
+
+    } : {}
+    const bodyStyle: CSSProperties = !pagination ? {
+        overflowY: "auto",
+        height: `${props.height}`,
+        display: "block"
+    } : {}
+
+    return <div style={{...style}} >
+        <table className="table table-striped table-hover w-100">
             {
-                columns && <thead>
+                columns && <thead style={headerStyle}>
                 <tr>
                     {columns.map((v, i) => <th scope="col" key={i}>{v}</th>)}
                 </tr>
                 </thead>
             }
-            <tbody>
+            <tbody style={{...bodyStyle}}>
             {
                 loading ? <tr>
-                    <td colSpan={columns.length}>
+                    <td colSpan={columns?.length || 1}>
                         <div className="d-flex justify-content-center">
                             <Loading isLoading={true}/>
                         </div>
@@ -87,7 +98,7 @@ const Table = (props: TableProps) => {
                             {mapper(row)}
                         </tr>)}
                     {data.length === 0 && <tr>
-                        <td colSpan={columns.length}>
+                        <td colSpan={columns?.length || 1}>
                             <div className="d-flex justify-content-center">Нет данных</div>
                         </td>
                     </tr>}</>
@@ -107,4 +118,4 @@ const Table = (props: TableProps) => {
     </div>
 }
 
-export default Table
+export default memo(Table)

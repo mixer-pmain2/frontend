@@ -122,7 +122,10 @@ const Passport = (p: PassportProps) => {
     })
 
     const submitForm = () => {
-        p.dispatch(updPassport(form))
+        p.dispatch(updPassport({
+            ...form,
+            passportNumber: Number(form.passportNumber)
+        }))
             .then(res => {
                 if (res.success) {
                     notifySuccess("Данные обновлены")
@@ -161,7 +164,6 @@ const Passport = (p: PassportProps) => {
     }
 
     const handleAddressClick = useCallback((name) => (e) => {
-        console.log(name, e)
         setForm(f => {
             let data = {
                 ...f,
@@ -268,7 +270,7 @@ const Passport = (p: PassportProps) => {
             />
             <InputText
                 name={"passportNumber"}
-                type={"passportNumber"}
+                type={"number"}
                 value={form.passportNumber}
                 title={"Номер паспорта"}
                 isRow={false}

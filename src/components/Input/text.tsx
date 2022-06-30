@@ -13,6 +13,8 @@ type InputTextProps = {
     maxLength?: number
     readOnly?: boolean
     inputStyle?
+    step?: number
+    error?
 }
 
 const InputText = (p: InputTextProps) => {
@@ -28,14 +30,16 @@ const InputText = (p: InputTextProps) => {
         style = {},
         maxLength,
         readOnly = false,
-        inputStyle = {}
+        inputStyle = {},
+        step = 1,
+        error
     } = p
 
     return <div className={`d-flex ${isRow ? 'flex-row' : 'flex-column'} ${isRow ? "align-items-center" : "justify-items-center"}`} style={style}>
         <label htmlFor="input" className="form-label" style={{marginRight: 5}}>{title}</label>
         <input
             type={type}
-            className="form-control"
+            className={`form-control ${error ? "border-danger" : ""}`}
             name={name}
             id={id}
             value={value}
@@ -45,8 +49,10 @@ const InputText = (p: InputTextProps) => {
             maxLength={maxLength}
             readOnly={readOnly}
             style={inputStyle}
+            step={step}
         >
         </input>
+        {error && <div className="text-danger">{error}</div>}
     </div>
 }
 

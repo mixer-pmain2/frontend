@@ -7,14 +7,27 @@ export const BTN_CANCEL = 8;
 export const BTN_YES = 16;
 export const BTN_NO = 32;
 
+type ModalProps = {
+  onClose
+  onSave?
+  onOk?
+  onNo?
+  onYes?
+  onCancel?
+  isOpen: boolean
+  title?: string
+  body
+  btnNum: number
+  style?
+}
 
-const Modal = ({onClose, onSave, onOk, onNo, onYes, onCancel, isOpen = false, title = "", body, btnNum = 1, style={}}) => {
+const Modal = ({onClose, onSave, onOk, onNo, onYes, onCancel, isOpen = false, title = "", body, btnNum = 1, style={}}: ModalProps) => {
 
   if (!isOpen) {
     return null
   }
 
-  return <div className="modal" tabIndex="-1" style={{display: "block", backgroundColor: "rgba(0,0,0,.2)"}}>
+  return <div className="modal" style={{display: "block", backgroundColor: "rgba(0,0,0,.2)"}}>
     <div className="modal-dialog" style={{opacity: 1, ...style}}>
       <div className="modal-content">
         <div className="modal-header">

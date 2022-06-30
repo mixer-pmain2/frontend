@@ -5,7 +5,7 @@ type PageTitleProps = {
 }
 
 export const PageTitleLvl2 = ({title}: PageTitleProps) => {
-    return <h5 className="mb-2">{title}</h5>
+    return <h5 className="mb-3">{title}</h5>
 }
 
 export const PageTitle = ({title}: PageTitleProps) => {

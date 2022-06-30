@@ -15,9 +15,9 @@ export const getSprVisit = () => {
   return request('GET', url, {}, {})
 }
 
-export const getSprDiag = ({diag = ""}) => {
-  const url = API + `/spr/diag/?diag=${diag}`
-  return request('GET', url, {}, {})
+export const getSprDiag = (req) => {
+  const url = API + `/spr/diag/`
+  return request('GET', url, {}, req)
 }
 
 export const getParams = () => {
@@ -67,3 +67,12 @@ export const findArea = (payload) =>
 
 export const findStreet = (payload) =>
     request('GET', API + `/spr/address/street/`, {}, payload)
+
+export const findSection = (payload) =>
+    request('GET', API + `/spr/section/`, {}, payload)
+
+export const findSectionDoctor = (payload) =>
+    request('GET', API + `/spr/doctor/section/`, {}, payload)
+
+export const getDoctors = (payload) =>
+    request('GET', API + `/spr/doctors/`, {}, payload)

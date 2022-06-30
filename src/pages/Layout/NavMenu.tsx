@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 import {linkDict} from "../../routes";
 
 import {capitalizeFirstLetter} from "utility/string";
-import {accessPage, accessRole, isAccessed, isAccessedPage} from "configs/access";
+import {accessPage, isAccessed, isAccessedPage} from "configs/access";
 import {UnitName} from "consts/user";
 
 
@@ -25,10 +25,6 @@ const NavMenu = ({onLogout, user, app, patient}: NavMenuProps) => {
     const fio = capitalizeFirstLetter(user?.lname?.toLowerCase()) + " "
         + capitalizeFirstLetter(user?.fname?.toLowerCase())[0] + "."
         + capitalizeFirstLetter(user?.sname?.toLowerCase())[0] + "."
-
-    const isAdministrator = () => {
-        return (user.access?.[user.unit] & accessRole.dispanser.administrator) > 0
-    }
 
     return <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <div className="container-fluid">
@@ -64,8 +60,8 @@ const NavMenu = ({onLogout, user, app, patient}: NavMenuProps) => {
                     {isAccessedPage(accessPage.report, user) && <li className="nav-item">
                         <Link to={linkDict.report} className="nav-link">Отчеты</Link>
                     </li>}
-                    {isAdministrator()  && <li className="nav-item" aria-disabled={true}>
-                        <Link to={linkDict.dispAdministration} className="nav-link">Администрирование</Link>
+                    {isAccessedPage(accessPage.administration, user) && <li className="nav-item" aria-disabled={true}>
+                        <Link to={linkDict.administration} className="nav-link">Администрирование</Link>
                     </li>}
                 </ul>
             </div>
@@ -73,7 +69,12 @@ const NavMenu = ({onLogout, user, app, patient}: NavMenuProps) => {
                 {isAccessed(accessPage.adminAsu, uUnit, uAccess) && <button className="btn btn-outline-danger">
                     <Link to={linkDict.admin} className="nav-link link-dark" style={{padding: 0}}>admin</Link>
                 </button>}
-                <span className="m-2 navbar-text">Пользователь: {fio}</span>
+                Пользователь: {isAccessed(accessPage.profile, uUnit, uAccess) && <span className="m-2 navbar-text">
+                    <Link to={linkDict.profile} style={{padding: 0}}>
+                         {fio}
+                    </Link>
+                </span>}
+
                 <button className="btn btn-outline-primary" onClick={onLogout}>Выход</button>
             </div>
         </div>

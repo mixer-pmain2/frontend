@@ -25,11 +25,11 @@ const AmbTabs = [
     dispanserSubModules.uchet,
     dispanserSubModules.invalid,
     dispanserSubModules.custody,
-    dispanserSubModules.groupWork,
+    // dispanserSubModules.groupWork,
     dispanserSubModules.vaccinations,
     dispanserSubModules.infection,
-    dispanserSubModules.section23,
-    dispanserSubModules.UKL,
+    // dispanserSubModules.section23,
+    // dispanserSubModules.UKL,
     dispanserSubModules.passport,
     dispanserSubModules.section22
 ]

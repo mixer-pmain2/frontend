@@ -1,0 +1,16 @@
+.locationDoctor table {
+    width: 100%; /* Optional */
+}
+.locationDoctor tbody td:nth-child(1),
+.locationDoctor thead th:nth-child(1) {
+    width: 50px;  /* Optional */
+}
+.locationDoctor tbody td:nth-child(2),
+.locationDoctor thead th:nth-child(2) {
+    width: 220px;  /* Optional */
+}
+.locationDoctor tbody td:nth-child(3),
+.locationDoctor thead th:nth-child(3) {
+    width: 250px;  /* Optional */
+}
+

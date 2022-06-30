@@ -5,7 +5,7 @@ import Layout from "../pages/Layout";
 import SignInPage from "../pages/Signin";
 
 const AuthRequire = (props) => {
-    const {children, dispatch, user} = props
+    const {children, user} = props
 
     console.log("middleware Auth")
 

@@ -8,8 +8,8 @@ export const newPatient = (payload) => {
 
 export const findByFio = ({fio}) => {
     const [lname, fname, sname] = fio.split(" ")
-    const url = API + `/patient/find/?lname=${lname||""}&fname=${fname||""}&sname=${sname||""}`
-    return request("GET", url, {}, {})
+    const url = API + `/patient/find/`
+    return request("GET", url, {}, {lname, fname, sname})
 }
 
 export const findByID = ({id}) => {
@@ -18,18 +18,18 @@ export const findByID = ({id}) => {
 }
 
 export const findUchet = (payload) => {
-    const url = API + `/patient/${payload.id}/uchet/?`+paramsToUrlQuery(payload)
-    return request("GET", url, {}, {})
+    const url = API + `/patient/${payload.id}/uchet/`
+    return request("GET", url, {}, payload)
 }
 
 export const getVisits = (payload) => {
-    const url = API + `/patient/${payload.id}/visit/?`+paramsToUrlQuery(payload)
-    return request("GET", url, {}, {})
+    const url = API + `/patient/${payload.id}/visit/`
+    return request("GET", url, {}, payload)
 }
 
 export const getHospital = (payload) => {
-    const url = API + `/patient/${payload.id}/hospital/?`+paramsToUrlQuery(payload)
-    return request("GET", url, {}, {})
+    const url = API + `/patient/${payload.id}/hospital/`
+    return request("GET", url, {}, payload)
 }
 
 export const newVisit = (payload) => {
@@ -53,8 +53,8 @@ export const newRegTransfer = (payload) => {
 }
 
 export const getSindrom = (payload) => {
-    const url = API + `/patient/${payload.id}/sindrom/?`+paramsToUrlQuery(payload)
-    return request("GET", url, {}, {})
+    const url = API + `/patient/${payload.id}/sindrom/`
+    return request("GET", url, {}, payload)
 }
 
 export const deleteSindrom = (payload) => {
@@ -68,13 +68,13 @@ export const addSindrom = (payload) => {
 }
 
 export const getInvalid = (payload) => {
-    const url = API + `/patient/${payload.patientId}/invalid/?`+paramsToUrlQuery(payload)
-    return request("GET", url, {}, {})
+    const url = API + `/patient/${payload.patientId}/invalid/`
+    return request("GET", url, {}, payload)
 }
 
 export const getAddress = (payload) => {
-    const url = API + `/patient/${payload.patientId}/address/?`+paramsToUrlQuery(payload)
-    return request("GET", url, {}, {})
+    const url = API + `/patient/${payload.patientId}/address/`
+    return request("GET", url, {}, payload)
 }
 
 export const newInvalid = (payload) => {
@@ -88,8 +88,8 @@ export const updInvalid = (payload) => {
 }
 
 export const getCustody = (payload) => {
-    const url = API + `/patient/${payload.patientId}/custody/?`+paramsToUrlQuery(payload)
-    return request("GET", url, {}, {})
+    const url = API + `/patient/${payload.patientId}/custody/`
+    return request("GET", url, {}, payload)
 }
 
 export const addCustody = (payload) =>
@@ -99,10 +99,10 @@ export const cancelCustody = (payload) =>
     request("PUT", API + `/patient/${payload.patientId}/custody/`, {}, payload)
 
 export const getVaccination = (payload) =>
-    request("GET", API + `/patient/${payload.patientId}/vaccination/?`+paramsToUrlQuery(payload), {}, {})
+    request("GET", API + `/patient/${payload.patientId}/vaccination/`, {}, payload)
 
 export const getInfection = (payload) =>
-    request("GET", API + `/patient/${payload.patientId}/infection/?`+paramsToUrlQuery(payload), {}, {})
+    request("GET", API + `/patient/${payload.patientId}/infection/`, {}, payload)
 
 export const updPassport = (payload) =>
     request("PUT", API + `/patient/${payload.id}/passport/`, {}, payload)
@@ -112,3 +112,6 @@ export const updAddress = (payload) =>
 
 export const getSection22 = (payload) =>
     request("GET", API + `/patient/${payload.id}/section22/`, {}, payload)
+
+export const addSection22 = (payload) =>
+    request("POST", API + `/patient/${payload.patientId}/section22/`, {}, payload)

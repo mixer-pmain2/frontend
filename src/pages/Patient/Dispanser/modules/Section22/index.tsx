@@ -4,13 +4,14 @@ import {PageTitle} from "components/Title";
 import {dispanserSubModules} from "consts/app";
 import Button from "components/Button";
 import Icons from "components/Icons";
-import {getSection22} from "store/actions/patient";
+import {addSection22, getSection22} from "store/actions/patient";
 import {Access} from "consts/user";
 import Table from "components/Table";
 import {formatDate, formatDateToInput} from "utility/string";
 import Panel from "components/Panel";
 import InputDate from "components/Input/date";
 import InputText from "components/Input/text";
+import {notifyError, notifySuccess} from "../../../../../components/Notify";
 
 
 const mapper = (row: PatientSection22Store) => <>
@@ -50,9 +51,12 @@ const Section22 = (p: Section22Props) => {
     }
 
     const handleChangeFormInput = (e) => {
+        let value = e.target.value;
+        if (["section", "part"].indexOf(e.target.name)+1)
+            value = Number(value)
         setForm(f => ({
             ...f,
-            [e.target.name]: e.target.value
+            [e.target.name]: value
         }))
     }
 
@@ -64,13 +68,29 @@ const Section22 = (p: Section22Props) => {
     }
 
     const getData = () => {
-        p.dispatch(getSection22({id: p.patient.id}))
+        p.dispatch(getSection22({id: p.patient.id, cache: false}))
             .then(res => {
                 if (Array.isArray(res)) {
-                    setState({
-                        ...state,
+                    setState(s => ({
+                        ...s,
                         section22: res
-                    })
+                    }))
+                }
+            })
+    }
+
+    const onSubmit = () => {
+        p.dispatch(addSection22(form))
+            .then(res => {
+                if (res.success) {
+                    notifySuccess("Статья добавлена")
+                    getData()
+                    setState(s => ({
+                        ...s,
+                        isOpenAddSection: false
+                    }))
+                } else {
+                    notifyError(res.message)
                 }
             })
     }
@@ -78,7 +98,7 @@ const Section22 = (p: Section22Props) => {
     useEffect(() => {
         getData()
     }, [])
-    console.log(form)
+
     return <div>
         <PageTitle title={dispanserSubModules.section22.title}/>
         {state.adding ? <div>
@@ -128,8 +148,8 @@ const Section22 = (p: Section22Props) => {
                     </div>
                 </div>
                 <div className="d-flex flex-column" style={{maxWidth: 200}}>
-                    <Button className="btn-outline-danger mb-1">Отменить</Button>
-                    <Button className="btn-outline-primary">Записать</Button>
+                    <Button className="btn-outline-danger mb-1" onClick={toggleShowAddSection}>Отменить</Button>
+                    <Button className="btn-outline-primary" onClick={onSubmit}>Записать</Button>
                 </div>
 
             </div>

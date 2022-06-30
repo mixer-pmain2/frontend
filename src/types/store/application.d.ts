@@ -1,6 +1,6 @@
 type ApplicationStore = {
     loading: boolean
-    loadingList: string[]
+    loadingList: number[]
     params: {
         comment: string
         dateEnd: string
@@ -43,4 +43,37 @@ type ApplicationStore = {
             }
         }
     }
+}
+
+type Tab = {
+    component?
+    id
+    title
+    img?
+}
+type SprUchN = {
+    id
+    section
+    name
+    plan
+    hour
+    spec
+    unit
+}
+
+type LocationDoctor = {
+    section
+    spec
+    doctId
+    lname
+    fname
+    sname
+    unit
+}
+
+type SectionDoctor = {
+    section
+    spec?
+    doctorName?
+    doctorId
 }

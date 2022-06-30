@@ -11,7 +11,7 @@ export const disableLoading = () => dispatch =>
 export const loadingAdd = (payload) => dispatch =>
     dispatch(appReducer.loadingListAdd(payload))
 
-export const loadingReset = (payload) => dispatch =>
+export const loadingReset = () => dispatch =>
     dispatch(appReducer.loadingListReset())
 
 export const loadingRemove = (payload) => dispatch =>
@@ -114,6 +114,27 @@ export const findStreet = (payload) => dispatch => {
     return appApi.findStreet(payload)
         .then(r => {
             return r
+        })
+}
+
+export const findSection = (payload) => dispatch => {
+    return appApi.findSection(payload)
+        .then(r => {
+            return r
+        })
+}
+
+export const findSectionDoctor = (payload) => dispatch => {
+    return appApi.findSectionDoctor(payload)
+        .then(r => {
+            return r
+        })
+}
+
+export const getDoctors = (payload: {unit: number, cache?: boolean}) => dispatch => {
+    return appApi.getDoctors(payload)
+        .then((r) => {
+            return r as unknown as Doctor[]
         })
 }
 

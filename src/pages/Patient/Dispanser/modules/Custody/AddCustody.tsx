@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useCallback, useMemo, useState} from "react";
 import {connect} from "react-redux";
 
 import Table from "components/Table";
@@ -34,6 +34,7 @@ const AddCustody = (p: AddCustodyProps) => {
         patientId: patient.id,
         dateStart: formatDateToInput(new Date())
     })
+    const sprCustodyWho = useMemo(() => Object.values(application.spr.custody.who), [application.spr.custody.who])
 
     const setDate = (v) => {
         setForm(f => ({
@@ -62,12 +63,12 @@ const AddCustody = (p: AddCustodyProps) => {
             })
         dispatch(loadingRemove("insert_custody"))
     }
-    console.log(form)
+
     return <div className="d-flex flex-row ">
         <div style={{width: 300, marginRight: 15}}>
             <Table
                 columns={["Наличие опекуна"]}
-                data={Object.values(application.spr.custody.who)}
+                data={sprCustodyWho}
                 mapper={sprMapper}
                 selecting={true}
                 onClick={setCustody}
@@ -76,7 +77,7 @@ const AddCustody = (p: AddCustodyProps) => {
         </div>
         <div className="d-flex flex-column" style={{width: 150}}>
             <InputDate title={"Дата решения суда"} isRow={false} value={form.dateStart} onChange={setDate} className="mb-5"/>
-            <Button className="btn-outline-danger mb-1" onClick={p.onClose}>Отмента</Button>
+            <Button className="btn-outline-danger mb-1" onClick={p.onClose}>Отмена</Button>
             <Button className="btn-outline-primary mb-1" onClick={NewCustody}>Записать</Button>
         </div>
     </div>

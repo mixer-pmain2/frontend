@@ -23,3 +23,6 @@ export const getUch = ({id}) => {
     const url = API + `/user/${id}/uch/`
     return request('GET', url, {}, {})
 }
+
+export const changePassword = (payload: ChangePassword) =>
+    request('POST', API + `/user/${payload.userId}/changepassword`, {}, payload)

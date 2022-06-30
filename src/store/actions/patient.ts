@@ -52,7 +52,7 @@ export const getHistoryVisits = (payload) => dispatch => {
     dispatch(loadingAdd(loadComponent.history_visit))
     return patientApi.getVisits(payload)
         .then(res => {
-            dispatch(patientReducer.setUchet(res))
+            dispatch(getUchet({id: payload.id, cache: false}))
             dispatch(patientReducer.setVisits(res))
             return res
         })
@@ -206,6 +206,12 @@ export const updAddress = payload => dispatch =>
 
 export const getSection22 = payload => dispatch =>
     patientApi.getSection22(payload)
+        .then(res => {
+            return res
+        })
+
+export const addSection22 = payload => dispatch =>
+    patientApi.addSection22(payload)
         .then(res => {
             return res
         })

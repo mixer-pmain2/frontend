@@ -1,8 +1,15 @@
 import React from "react";
 import Tooltip, {TooltipTypes} from "components/Tooltip";
 
+type SubMenuProps = {
+    tabs: Tab[]
+    onChange?
+    curTab
+    style?
+    tooltip?: boolean
+}
 
-const SubMenu = ({tabs, onChange, curTab, style, tooltip=true}) => {
+const SubMenu = ({tabs, onChange, curTab, style, tooltip=true}: SubMenuProps) => {
     style = {...style, cursor: "pointer"}
     return <ul className="nav nav-tabs" style={{...style}}>
         {

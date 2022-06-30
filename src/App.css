@@ -42,3 +42,13 @@
     outline: none;
     outline-offset: unset;
 }
+
+.btn.btn-menu-primary {
+    border-left: solid 10px #0d6efd;
+    transition-duration: 0.3s;
+}
+
+.btn.btn-menu-primary:hover {
+    border-left: solid 10px #0d6efd;
+    transition-duration: 0.3s;
+}

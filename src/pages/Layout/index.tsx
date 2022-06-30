@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect} from "react"
+import React, {useEffect} from "react"
 import {connect} from "react-redux";
 
 import SignInPage from "../Signin";
@@ -11,13 +11,20 @@ import Loading, {SideLoading, typeLoading} from "../../components/Loading";
 import NavMenu from "./NavMenu";
 import Progress from "../../components/Progress";
 
+type LayoutProps = {
+    children
+    user: UserStore
+    application: ApplicationStore
+    dispatch
+    patient: PatientStore
+}
 
-function Layout({children, user, application, dispatch, patient}) {
+function Layout({children, user, application, dispatch, patient}: LayoutProps) {
     useEffect(() => {
         let action = false
         if (!action) {
             if (user?.token) {
-                dispatch(checkUser({token: user?.token}))
+                dispatch(checkUser())
             }
         }
         return () => {
@@ -27,10 +34,9 @@ function Layout({children, user, application, dispatch, patient}) {
 
     const handleLogout = () => dispatch(logout())
 
-    const navMenu = useCallback((user, application, patient) =>
-        <NavMenu onLogout={handleLogout} user={user} app={application} patient={patient}/>,
-        []
-    )
+    const navMenu = (user, application, patient) =>
+        <NavMenu onLogout={handleLogout} user={user} app={application} patient={patient}/>
+
     return <div className={`container-xxl`}>
         {
             user?.isAuth ? <div>
@@ -52,7 +58,7 @@ function Layout({children, user, application, dispatch, patient}) {
     </div>
 }
 
-export default connect((state) => ({
+export default connect((state: RootStore) => ({
     user: state.user,
     application: state.application,
     patient: state.patient
