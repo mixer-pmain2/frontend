@@ -135,6 +135,10 @@ export const accessModule = {
                 accessRole.dispanser.doct,
             unit: unit.disp,
         },
+        ood: {
+            access: 0,
+            unit: Unit.АПЛ
+        }
     }
 }
 

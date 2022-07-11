@@ -53,7 +53,8 @@ const ProfilePage = (p: ProfilePageProps) => {
         <div className="d-flex flex-row">
             <div className="d-flex flex-column" style={{marginRight: 15, width: 220}}>
                 {
-                    subPages.map(v => <MenuItem
+                    subPages.map((v, i) => <MenuItem
+                        key={i}
                         onClick={() => onChangeTab(v.id)}
                         className={`${v.id === curTab ? "btn-menu-primary" : ""}`}
                     >
@@ -64,7 +65,7 @@ const ProfilePage = (p: ProfilePageProps) => {
             <div className="p-3">
                 {
                     subPages.filter(v => v.id === curTab)
-                        .map(v => <v.component {...p}/>)
+                        .map((v, i) => <v.component key={i} {...p}/>)
                 }
             </div>
         </div>

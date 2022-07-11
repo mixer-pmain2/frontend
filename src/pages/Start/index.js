@@ -9,6 +9,7 @@ import * as userActions from "../../store/actions/user";
 import {linkDict} from "../../routes";
 import {useNavigate} from "react-router-dom";
 import {iconsUnit} from "components/Icons";
+import { UnitName } from 'consts/user.ts'
 
 
 const unitList = [
@@ -31,6 +32,11 @@ const unitList = [
         title: "Суицидология",
         img: iconsUnit[4],
         unit: 4
+    },
+    {
+        title: UnitName['2048'],
+        img: iconsUnit['2048'],
+        unit: 2048
     },
     {
         title: "ОИЛС",

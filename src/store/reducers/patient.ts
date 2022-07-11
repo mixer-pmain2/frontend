@@ -43,10 +43,10 @@ export const patientStore = createSlice({
             }
             return state
         },
-        setSindrom: (state, action) => {
+        setSyndrome: (state, action) => {
             state = {
                 ...state,
-                sindrom: action.payload
+                syndrome: action.payload
             }
             return state
         },
@@ -87,7 +87,7 @@ export const {
     setUchet,
     setVisits,
     setHospital,
-    setSindrom,
+    setSyndrome,
     setInvalid,
     setCustody,
     setVaccination,

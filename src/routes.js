@@ -44,8 +44,8 @@ admin.add(middlewareAccessRequire, { access: access.accessPage.adminAsu })
 
 const page = (access) => {
     const p = NewMiddleWare()
-    p.add(middlewareAuthRequire)
     p.add(middlewareAccessRequire, { access })
+    p.add(middlewareAuthRequire)
     return p.middleware
 }
 

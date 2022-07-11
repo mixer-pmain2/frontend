@@ -3,7 +3,8 @@ import {
     BsFillPersonLinesFill,
     BsClockFill,
     BsBookFill,
-    BsEmojiSunglassesFill
+    BsEmojiSunglassesFill,
+    BsReddit
 } from "react-icons/bs";
 import {
     RiParentFill,
@@ -19,20 +20,34 @@ import {
     RiEditFill,
     RiArrowRightSFill,
     RiArrowRightSLine,
-    RiFilePaper2Fill
+    RiFilePaper2Fill,
+    RiRedditLine
 } from "react-icons/ri";
 import {
     GiPistolGun
 } from "react-icons/gi"
+import {
+    GrStatusGood
+} from "react-icons/gr";
+import {
+    FaRegClock
+} from "react-icons/fa";
+import {
+    MdDownloadForOffline,
+    MdErrorOutline
+} from "react-icons/md";
+import {Provider} from "react-redux";
+
 
 
 export const iconsUnit = {
     1: require("assets/images/295067-3f51b5.svg"),
     2: require("assets/images/295067-3f51b5.svg"),
-    1024: require("assets/images/295067-3f51b5.svg"),
     4: require("assets/images/295067-3f51b5.svg"),
     8: require("assets/images/295067-3f51b5.svg"),
     16: require("assets/images/2025726-3f51b5.svg"),
+    1024: require("assets/images/295067-3f51b5.svg"),
+    2048: require("assets/images/295067-3f51b5.svg"),
     16777216: require("assets/images/295067-3f51b5.svg"),
     33554432: require("assets/images/295067-3f51b5.svg"),
 }
@@ -53,6 +68,7 @@ const Icons = {
             section23: <GiPistolGun/>,
             passport: <RiPassportFill/>,
             section22: <RiFilePaper2Fill/>,
+            ood: <BsReddit/>,
         }
     },
     event: {
@@ -61,7 +77,14 @@ const Icons = {
         delete: <RiSubtractLine/>,
         edit: <RiEditFill/>,
         arrowRight: <RiArrowRightSFill/>,
-        arrowRightLine: <RiArrowRightSLine/>
+        arrowRightLine: <RiArrowRightSLine/>,
+        information: <MdErrorOutline/>
+    },
+    status: {
+        NEW: <FaRegClock/>,
+        PROGRESS: <FaRegClock/>,
+        ERROR: <MdErrorOutline/>,
+        DONE: <MdDownloadForOffline/>
     }
 }
 export default Icons

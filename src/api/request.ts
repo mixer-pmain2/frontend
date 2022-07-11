@@ -18,7 +18,7 @@ export const paramsToUrlQuery = (payload) => {
     return Object.keys(payload).map((v, i) => `${v}=${payload[v]}`).join('&')
 }
 
-export const request = async (method, url, headers = {}, body = {}): Promise<{ success: boolean }> => {
+export const request = async (method, url, headers = {}, body = {}) => {
     method = method.toUpperCase()
     if (method === "GET") {
         url = url + "?" + paramsToUrlQuery(body)

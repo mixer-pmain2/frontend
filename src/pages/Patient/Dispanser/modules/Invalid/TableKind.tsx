@@ -21,8 +21,6 @@ const TableKind = (props: TableKindProps) => {
         onSelect && onSelect(key)
     }
 
-    useEffect(() => {
-    }, [])
 
     return <Table
         columns={["Группа инвалидности"]}
@@ -32,6 +30,7 @@ const TableKind = (props: TableKindProps) => {
         mapper={mapper}
         pageSize={100}
         onClick={handleClick}
+        updState={false}
     />
 }
 

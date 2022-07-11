@@ -7,14 +7,18 @@ export const newPatient = (payload) => {
 }
 
 export const findByFio = ({fio}) => {
-    const [lname, fname, sname] = fio.split(" ")
+    var [lname, fname, sname] = fio.split(" ")
+    if (!lname) lname = ""
+    if (!fname) fname = ""
+    if (!sname) sname = ""
+
     const url = API + `/patient/find/`
     return request("GET", url, {}, {lname, fname, sname})
 }
 
-export const findByID = ({id}) => {
-    const url = API + `/patient/${id}/`
-    return request("GET", url, {}, {})
+export const findByID = (payload) => {
+    const url = API + `/patient/${payload.id}/`
+    return request("GET", url, {}, payload)
 }
 
 export const findUchet = (payload) => {
@@ -52,18 +56,18 @@ export const newRegTransfer = (payload) => {
     return request("POST", url, {}, {...payload})
 }
 
-export const getSindrom = (payload) => {
-    const url = API + `/patient/${payload.id}/sindrom/`
+export const getSyndrome = (payload) => {
+    const url = API + `/patient/${payload.id}/syndrome/`
     return request("GET", url, {}, payload)
 }
 
-export const deleteSindrom = (payload) => {
-    const url = API + `/patient/${payload.patientId}/sindrom/`
+export const deleteSyndrome = (payload) => {
+    const url = API + `/patient/${payload.patientId}/syndrome/`
     return request("DELETE", url, {}, payload)
 }
 
-export const addSindrom = (payload) => {
-    const url = API + `/patient/${payload.patientId}/sindrom/`
+export const addSyndrome = (payload) => {
+    const url = API + `/patient/${payload.patientId}/syndrome/`
     return request("POST", url, {}, payload)
 }
 
@@ -115,3 +119,18 @@ export const getSection22 = (payload) =>
 
 export const addSection22 = (payload) =>
     request("POST", API + `/patient/${payload.patientId}/section22/`, {}, payload)
+
+export const getSod = (payload) =>
+    request("GET", API + `/patient/${payload.id}/sod/`, {}, payload)
+
+export const getOodLast = (payload) =>
+    request("GET", API + `/patient/${payload.id}/ood/last/`, {}, payload)
+
+export const getFindSection29 = (payload) =>
+    request("GET", API + `/patient/${payload.id}/section29/find/`, {}, payload)
+
+export const addOod = (payload): Promise<SuccessResponse> =>
+    request("POST", API + `/patient/${payload.patientId}/ood/`, {}, payload)
+
+export const addSod = (payload): Promise<SuccessResponse> =>
+    request("POST", API + `/patient/${payload.patientId}/sod/`, {}, payload)

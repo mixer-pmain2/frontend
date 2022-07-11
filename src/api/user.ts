@@ -9,6 +9,11 @@ export const signIn = ({token}) => {
     return request("GET", url, headers, {})
 }
 
+// export const login = ({username, password}) => {
+//     const url = API + "/auth/login/"
+//     return request("POST", url, {}, {username, password})
+// }
+
 export const getPrava = ({id}) => {
     const url = API + `/user/${id}/prava/`
     return request('GET', url, {}, {})

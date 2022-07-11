@@ -32,6 +32,7 @@ const TableLimit = (props: TableLimitProps) => {
         mapper={mapper}
         pageSize={100}
         onClick={handleClick}
+        updState={false}
     />
 }
 

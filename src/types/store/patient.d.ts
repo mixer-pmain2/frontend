@@ -38,7 +38,7 @@ type PatientHospitalStore = {
     where: string
 }
 
-type PatientSindromStore = {
+type PatientSyndromeStore = {
     id: number
     date: string
     diagnose: string
@@ -111,7 +111,7 @@ type PatientStore = {
     visit?: PatientVisitStore[]
     uchet?: PatientUchetStore[]
     hospital?: PatientHospitalStore[]
-    sindrom?: PatientSindromStore[]
+    syndrome?: PatientSyndromeStore[]
     invalid?: PatientInvalidStore[]
     custody?: PatientCustodyStore[]
     vaccination?: PatientVaccinationStore[]

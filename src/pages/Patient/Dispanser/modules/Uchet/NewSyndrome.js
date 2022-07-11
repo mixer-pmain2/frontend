@@ -7,12 +7,12 @@ import {formatDate} from "utility/string";
 import {ButtonRemove} from "components/Button";
 import Modal, {BTN_CANCEL, BTN_OK} from "components/Modal";
 
-import {addSindrom, deleteSindrom} from "store/actions/patient";
+import {addSyndrome, deleteSyndrome} from "store/actions/patient";
 import {notifyError, notifySuccess} from "components/Notify";
 import DiagnoseTree from "components/DiagnoseTree";
 
 
-const NewSindrom = ({dispatch, patient, user, onClose}) => {
+const NewSyndrome = ({dispatch, patient, user, onClose}) => {
     const [state, setState] = useState({
         row: null,
         isOpenModal: false,
@@ -36,7 +36,7 @@ const NewSindrom = ({dispatch, patient, user, onClose}) => {
     }
 
     const handleDelete = () => {
-        dispatch(deleteSindrom({patientId: patient.id, id: state.row?.id}))
+        dispatch(deleteSyndrome({patientId: patient.id, id: state.row?.id}))
             .then(res => {
                 if (res.success) {
                     notifySuccess("Запись удалена")
@@ -78,7 +78,7 @@ const NewSindrom = ({dispatch, patient, user, onClose}) => {
         })
     }
 
-    const handleAddSindrom = () => {
+    const handleAddSyndrome = () => {
         setState({
             ...state,
             diagType: 4,
@@ -92,7 +92,7 @@ const NewSindrom = ({dispatch, patient, user, onClose}) => {
             isOpenDialogDiag: false,
         })
         console.log(form)
-        dispatch(addSindrom({...form, cache: false}))
+        dispatch(addSyndrome({...form, cache: false}))
             .then(res => {
                 if (res.success) {
                     notifySuccess("Диагноз добавлен")
@@ -121,12 +121,12 @@ const NewSindrom = ({dispatch, patient, user, onClose}) => {
         })
     }
 
-    const countSindrom = () => {
-        return patient.sindrom?.filter(v => v.diagnose.indexOf('F') + 1).length || 0
+    const countSyndrome = () => {
+        return patient.syndrome?.filter(v => v.diagnose.indexOf('F') + 1).length || 0
     }
 
     const countSomat = () => {
-        return patient.sindrom?.filter(v => v.diagnose.indexOf('F')).length || 0
+        return patient.syndrome?.filter(v => v.diagnose.indexOf('F')).length || 0
     }
 
     const mapper = (v) => <>
@@ -143,14 +143,14 @@ const NewSindrom = ({dispatch, patient, user, onClose}) => {
         <Table
             columns={["Диагноз", "Расшифровка", "Дата", "Врач", ""]}
             mapper={mapper}
-            data={patient?.sindrom || []}
+            data={patient?.syndrome || []}
         />
         <div className="d-flex flex-row justify-content-between">
             <div>
                 Максимальное количество синдромов и хронических заболеваний по 4.
             </div>
             <div>
-                {countSindrom() < 4 && <button className="btn btn-outline-primary" onClick={handleAddSindrom}
+                {countSyndrome() < 4 && <button className="btn btn-outline-primary" onClick={handleAddSyndrome}
                                                style={{marginRight: 5}}>
                     Добавить синдром
                 </button>}
@@ -194,4 +194,4 @@ const NewSindrom = ({dispatch, patient, user, onClose}) => {
 export default connect(state => ({
     patient: state.patient,
     user: state.user,
-}))(NewSindrom)
+}))(NewSyndrome)

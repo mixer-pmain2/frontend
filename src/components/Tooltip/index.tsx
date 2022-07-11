@@ -12,7 +12,13 @@ export const TooltipTypes = {
     primary: "primary"
 }
 
-const Tooltip = ({body, id, type = TooltipTypes.info}) => {
+type TooltipProps = {
+    body?
+    id
+    type?
+}
+
+const Tooltip = ({body, id, type = TooltipTypes.info}: TooltipProps) => {
 
     let customStyle = null
 

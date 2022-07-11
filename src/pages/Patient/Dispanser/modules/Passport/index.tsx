@@ -13,6 +13,7 @@ import {updAddress, updPassport} from "store/actions/patient";
 import {notifyError, notifySuccess} from "components/Notify";
 import Table from "components/Table";
 import {findArea, findDistrict, findRegion, findRepublic, findStreet} from "store/actions/application";
+import * as patientActions from "../../../../../store/actions/patient";
 
 
 const FindSideComponent = ({name, column, find, state, form, onChange, onClick, style = {}}) => {
@@ -129,6 +130,7 @@ const Passport = (p: PassportProps) => {
             .then(res => {
                 if (res.success) {
                     notifySuccess("Данные обновлены")
+                    p.dispatch(patientActions.getUchet({id: p.patient.id, cache: false}))
                 } else {
                     notifyError(res.message)
                 }
@@ -291,7 +293,7 @@ const Passport = (p: PassportProps) => {
                 className="flex-column"
                 options={[{label: "Не работае", value: 0}, {label: "Работает", value: 1}]}
                 name={"works"}
-                onChange={handleChange}
+                onChange={e => setForm(s => ({...s, works: Number(e.target.value)}))}
                 value={form.works}
                 readOnly={!state.editable}
             />

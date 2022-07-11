@@ -16,7 +16,7 @@ import * as patientActions from "store/actions/patient";
 import SelectSection from "./SelectSection";
 import SelectCategory from "./SelectCategory";
 import NewUchet from "./NewUchet";
-import NewSindrom from "./NewSindrom";
+import NewSyndrome from "./NewSyndrome";
 import {PageTitle} from "components/Title";
 import { dispanserSubModules, loadComponent } from 'consts/app'
 import Icons from "components/Icons";
@@ -56,13 +56,13 @@ const HistoryUchet = ({patient}) => {
         <div className="mb-4">
             <h6>Синдромы</h6>
             <div style={{marginLeft: 15}}>
-                {patient.sindrom?.filter(v => (v.diagnose.indexOf('F') + 1)).map((v, i) => diagItems(i, v.diagnose, v.diagnoseT))}
+                {patient.syndrome?.filter(v => (v.diagnose.indexOf('F') + 1)).map((v, i) => diagItems(i, v.diagnose, v.diagnoseT))}
             </div>
         </div>
         <div>
             <h6>Хронические соматические заболевания</h6>
             <div style={{marginLeft: 15}}>
-                {patient.sindrom?.filter(v => !(v.diagnose.indexOf('F') + 1)).map((v, i) => diagItems(i, v.diagnose, v.diagnoseT))}
+                {patient.syndrome?.filter(v => !(v.diagnose.indexOf('F') + 1)).map((v, i) => diagItems(i, v.diagnose, v.diagnoseT))}
             </div>
         </div>
     </div>
@@ -248,7 +248,7 @@ const Uchet = ({dispatch, patient, application, user}) => {
     useEffect(() => {
         const p = new Patient(patient)
         dispatch(patientActions.getUchet({id: patient.id}))
-        dispatch(patientActions.getHistorySindrom({id: patient.id}))
+        dispatch(patientActions.getHistorySyndrome({id: patient.id}))
         const lastState = p.getLastUchet()?.reason?.startsWith('S')
             ? `Снят с учета ${formatDate(p.getLastUchet().date)}г. Причина: ${p.getLastUchet()?.reasonS?.toLowerCase()}`
             : ""
@@ -301,7 +301,7 @@ const Uchet = ({dispatch, patient, application, user}) => {
         <hr/>
         {state.tab === T_UCHET && <HistoryUchet patient={patient}/>}
         {state.tab === T_NEW && <NewUchet onClose={closeTab} date={form.date}/>}
-        {state.tab === T_SIN_SOM && <NewSindrom onClose={closeTab}/>}
+        {state.tab === T_SIN_SOM && <NewSyndrome onClose={closeTab}/>}
         <Modal
             title={"№ участка"}
             body={<SelectSection

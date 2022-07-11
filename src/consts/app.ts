@@ -16,17 +16,6 @@ const initModule = {
     patientRequire: false
 }
 
-export const subModules = {
-    report: {
-        ...initModule,
-        id: 101,
-        title: 'Отчеты',
-        img: false,
-        unit: 0,
-        access: 0,
-    }
-}
-
 export const dispanserSubModules = {
     visit: {
         id: iota(),
@@ -132,11 +121,27 @@ export const dispanserSubModules = {
         access: accessModule.dispanser.section22.access,
         patientRequire: true
     },
+    ood: {
+        id: iota(),
+        title: 'Профилактика  ООД',
+        img: icons.module.dispanser.ood,
+        unit: accessModule.dispanser.ood.unit,
+        access: accessModule.dispanser.ood.access,
+        patientRequire: true
+    }
 
 }
 
 export const appPages = {
     dispanser: dispanserSubModules,
+    report: {
+        ...initModule,
+        id: iota(),
+        title: 'Отчеты',
+        img: false,
+        unit: 0,
+        access: 0,
+    },
     administration: {
         id: iota(),
         title: 'Администрирование',
@@ -154,8 +159,14 @@ export const loadComponent = {
     history_uchet: iota(),
     history_vaccination: iota(),
     history_invalid: iota(),
-    history_sindrom: iota(),
+    history_syndrome: iota(),
     history_custody: iota(),
+    ood: {
+        sod: iota(),
+        oodLast: iota(),
+        findSection29: iota(),
+        section22: iota()
+    },
     administration: {
         locationDoctor: {
             doctor: iota()

@@ -12,6 +12,7 @@ import Vaccinations from './modules/Vaccinations'
 import Infection from './modules/Infection'
 import UKL from './modules/UKL'
 import Prof from './modules/Prof'
+import Ood from "./modules/Ood";
 
 import { dispanserSubModules } from 'consts/app'
 import Section23 from 'pages/Patient/Dispanser/modules/Section23'
@@ -31,17 +32,23 @@ const AmbTabs = [
     // dispanserSubModules.section23,
     // dispanserSubModules.UKL,
     dispanserSubModules.passport,
-    dispanserSubModules.section22
+    dispanserSubModules.section22,
+    dispanserSubModules.ood
 ]
 
-const Dispanser = (props) => {
+type DispanserProps = {
+    patient: PatientStore
+    user: UserStore
+}
+
+const Dispanser = (props: DispanserProps) => {
     const { patient, user } = props
     const [currentTab, setCurrentTab] = useState(-1)
 
     const tabsFilter = (tabs) => {
         return tabs.filter(v =>
-            (v.unit & user.unit) &&
-            (v.access & user.access[user.unit]) &&
+            ((v.unit & user.unit) || (v.unit === 0)) &&
+            ((v.access & user.access[user.unit]) || (v.access === 0)) &&
             [Boolean(patient.id), false].indexOf(v.patientRequire) + 1)
     }
 
@@ -65,10 +72,11 @@ const Dispanser = (props) => {
         {currentTab === dispanserSubModules.section23.id && <Section23/>}
         {currentTab === dispanserSubModules.passport.id && <Passport/>}
         {currentTab === dispanserSubModules.section22.id && <Section22/>}
+        {currentTab === dispanserSubModules.ood.id && <Ood/>}
     </div>
 }
 
-export default connect(state => ({
+export default connect((state: RootStore) => ({
     patient: state.patient,
     user: state.user
 }))(Dispanser)

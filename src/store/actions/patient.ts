@@ -18,9 +18,9 @@ export const findByFio = ({fio}) => dispatch => {
         )
 }
 
-export const findById = ({id}) => dispatch => {
+export const findById = (payload: {id, cache?}) => dispatch => {
     dispatch(appActions.loadingAdd(loadComponent.find_by_id))
-    return patientApi.findByID({id})
+    return patientApi.findByID(payload)
         .then(res => {
             dispatch(select(res))
             return res
@@ -83,33 +83,33 @@ export const newReg = (payload) => dispatch =>
 export const newRegTransfer = (payload) => dispatch =>
     patientApi.newRegTransfer(payload)
         .then(res => {
-            dispatch(getUchet({...payload, cache: false}))
+            dispatch(getUchet({id: payload.patientId, cache: false}))
             return res
         })
 
-export const getHistorySindrom = (payload) => dispatch => {
-    dispatch(loadingAdd(loadComponent.history_sindrom))
-    return patientApi.getSindrom(payload)
+export const getHistorySyndrome = (payload) => dispatch => {
+    dispatch(loadingAdd(loadComponent.history_syndrome))
+    return patientApi.getSyndrome(payload)
         .then(res => {
-            dispatch(patientReducer.setSindrom(res))
+            dispatch(patientReducer.setSyndrome(res))
             return res
         })
         .finally(() =>
-            dispatch(loadingRemove(loadComponent.history_sindrom))
+            dispatch(loadingRemove(loadComponent.history_syndrome))
         )
 }
 
-export const deleteSindrom = (payload) => dispatch =>
-    patientApi.deleteSindrom(payload)
+export const deleteSyndrome = (payload) => dispatch =>
+    patientApi.deleteSyndrome(payload)
         .then(res => {
-            dispatch(getHistorySindrom({...payload, id: payload.patientId, cache: false}))
+            dispatch(getHistorySyndrome({...payload, id: payload.patientId, cache: false}))
             return res
         })
 
-export const addSindrom = (payload) => dispatch =>
-    patientApi.addSindrom(payload)
+export const addSyndrome = (payload) => dispatch =>
+    patientApi.addSyndrome(payload)
         .then(res => {
-            dispatch(getHistorySindrom({...payload, id: payload.patientId, cache: false}))
+            dispatch(getHistorySyndrome({...payload, id: payload.patientId, cache: false}))
             return res
         })
 
@@ -193,25 +193,55 @@ export const getInfection = payload => dispatch =>
 export const updPassport = payload => dispatch =>
     patientApi.updPassport(payload)
         .then(res => {
-            dispatch(findById(payload))
+            dispatch(findById({id: payload.id, cache: false}))
             return res
         })
 
 export const updAddress = payload => dispatch =>
     patientApi.updAddress(payload)
         .then(res => {
-            dispatch(findById(payload))
+            dispatch(findById({id: payload.id, cache: false}))
             return res
         })
 
 export const getSection22 = payload => dispatch =>
     patientApi.getSection22(payload)
         .then(res => {
-            return res
+            return res as unknown as Section22[]
         })
 
 export const addSection22 = payload => dispatch =>
     patientApi.addSection22(payload)
         .then(res => {
+            return res
+        })
+
+export const getSod = payload => dispatch =>
+    patientApi.getSod(payload)
+        .then((res) => {
+            return res as unknown as SOD[]
+        })
+
+export const getOodLast = payload => dispatch =>
+    patientApi.getOodLast(payload)
+        .then((res) => {
+            return res as unknown as OOD
+        })
+
+export const getFindSection29 = payload => dispatch =>
+    patientApi.getFindSection29(payload)
+        .then((res) => {
+            return res as unknown as FindSection29[]
+        })
+
+export const addOod = (payload: OOD) => dispatch =>
+    patientApi.addOod(payload)
+        .then((res) => {
+            return res
+        })
+
+export const addSod = (payload: SOD) => dispatch =>
+    patientApi.addSod(payload)
+        .then((res) => {
             return res
         })

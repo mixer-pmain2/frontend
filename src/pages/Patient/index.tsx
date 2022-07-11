@@ -28,11 +28,11 @@ const PatientDetail = ({onReset, patient}: PatientDetailProps) => {
     }
 
     const patItem = (text) =>
-        <span className="input-group-text bg-light" id="basic-addon3" style={{marginRight: 10}}>
+        <span className="input-group-text bg-light mb-3" id="basic-addon3" style={{marginRight: 10}}>
             {text}
         </span>
 
-    const patLabel = (title, text) => <div className="input-group w-auto" style={{marginRight: 10}}>
+    const patLabel = (title, text) => <div className="d-flex flex-row mb-3" style={{marginRight: 10}}>
         <span className="input-group-text">{title}</span>
         <span className="input-group-text bg-light" id="basic-addon3">
             {text}
@@ -40,10 +40,10 @@ const PatientDetail = ({onReset, patient}: PatientDetailProps) => {
     </div>
 
     return <div>
-        <div className="mb-3 d-flex flex-row justify-content-between">
-            <a href="#" className="btn btn-outline-secondary" style={{marginRight: 10}}
+        <div className="d-flex flex-row justify-content-between">
+            <a href="#" className="btn btn-outline-secondary mb-3" style={{marginRight: 10}}
                onClick={onReset}>Сброс</a>
-            <div className="input-group" style={{marginRight: 10, width: 300}}>
+            <div className="d-flex flex-row mb-3" style={{marginRight: 10, minWidth: 150, maxWidth: 200}}>
                 <span className="input-group-text">Шифр</span>
                 <input
                     type="text"
@@ -56,7 +56,7 @@ const PatientDetail = ({onReset, patient}: PatientDetailProps) => {
                     readOnly={true}
                 />
             </div>
-            <div className="input-group w-100" style={{marginRight: 10}}>
+            <div className="d-flex flex-row w-100 mb-3" style={{marginRight: 10, minWidth: 400}}>
                 <span className="input-group-text" id="basic-addon3">Ф.И.О.</span>
                 <input
                     type="text"
@@ -70,9 +70,9 @@ const PatientDetail = ({onReset, patient}: PatientDetailProps) => {
             {patItem(patient?.sex)}
             {patItem(formatDate(patient?.bday))}
             {patItem(patient?.snils)}
-            <button className="input-group-text btn btn-outline-primary">Найти</button>
+            <button className="input-group-text btn btn-outline-primary mb-3">Найти</button>
         </div>
-        <div className="mb-3 d-flex flex-row">
+        <div className="mb-3 d-flex flex-row flex-wrap">
             {!state.isUchet && state.lastUchet?.reason && patLabel("Снят с учета", `${formatDate(p.getLastUchet().date)}г.`)}
             {!state.isUchet && state.lastUchet?.reason && patLabel("Причина", `${p.getLastUchet()?.reasonS?.toLowerCase()}`)}
             {state.isUchet && patLabel("Участок", state.lastUchet?.section)}

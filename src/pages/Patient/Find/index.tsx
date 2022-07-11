@@ -168,7 +168,7 @@ const FindPatient = ({dispatch}) => {
     </Layout>
 }
 
-export default connect(state => ({
+export default connect((state: RootStore) => ({
     patient: state.patient,
     application: state.application
 }))(FindPatient)

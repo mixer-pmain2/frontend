@@ -32,6 +32,7 @@ const TableAnomaly = (props: TableAnomalyProps) => {
         mapper={mapper}
         pageSize={100}
         onClick={handleClick}
+        updState={false}
     />
 }
 

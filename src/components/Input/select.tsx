@@ -1,4 +1,4 @@
-import React from "react";
+import React, {ReactNode} from "react";
 
 type SelectProps = {
     className?: string
@@ -6,6 +6,7 @@ type SelectProps = {
         label
         value
     }[]
+    mapper?: (option: any) => ReactNode
     currentValue
     onChange: (name: string, value: string) => void
     name?
@@ -22,9 +23,11 @@ const Select = (p: SelectProps) => {
         {p.title && <label htmlFor={p.name} style={{marginRight: 5, marginBottom: 5}}>{p.title}</label>}
         <select className="form-select w-100" name={p.name} id={p.name} value={p.currentValue}
                 onChange={handleChange}>
-            {p.options.map((v, i) =>
-                <option key={i} value={v.value}>{v.label}</option>)
-            }
+            {p.options.map((v, i) => {
+                if (p.mapper)
+                    return p.mapper(v)
+                return <option key={i} value={v.value}>{v.label}</option>
+            })}
         </select>
     </div>
 }

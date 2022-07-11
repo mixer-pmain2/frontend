@@ -5,6 +5,7 @@ import * as userAction from "../../store/actions/user"
 import {useNavigate} from "react-router-dom";
 import {linkDict} from "../../routes";
 import {PageTitle} from "../../components/Title";
+import {notifyError} from "../../components/Notify";
 
 const SignInPage = ({dispatch}) => {
     const navigate = useNavigate()

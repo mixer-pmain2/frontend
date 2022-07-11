@@ -1,7 +1,12 @@
 type SuccessResponse = {
-    success?
-    message?
-    error?
+    success: boolean
+    message: string
+    error: number
+    data?
+}
+
+type DataResponse = {
+
 }
 
 type QueryParams = {
@@ -47,4 +52,34 @@ type ChangePassword = {
     userId
     password
     newPassword
+}
+
+type SOD = {
+    patientId
+    date
+    section
+    part
+}
+
+type OOD = {
+    danger
+    syndrome
+    difficulties
+    attitude
+    userId
+    patientId
+}
+
+type FindSection29 = {
+    dateStart
+    diagnose
+    dateEnd
+    section
+}
+
+type Section22 = {
+    dateStart
+    dateEnd
+    section
+    part
 }

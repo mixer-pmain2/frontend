@@ -15,10 +15,12 @@ type TableProps = {
     onCancelSelect?: (call: () => void) => void
     pagination?: boolean
     height?: string
+    updState?: boolean
 }
 
 const Table = (props: TableProps) => {
-    const PAGE_SIZE = props.pageSize || 10
+    const {updState = true} = props
+    const PAGE_SIZE = props?.pageSize || 10
     const {columns, data, mapper, onDoubleClick, selecting, onClick, loading, style, pagination = true} = props
     const [currentPage, setCurrentPage] = useState(0)
     const [selectedRow, setSelectedRow] = useState(null)
@@ -57,8 +59,10 @@ const Table = (props: TableProps) => {
 
     props.onCancelSelect && props.onCancelSelect(cancelSelect)
     useEffect(() => {
-        setCurrentPage(0)
-        setSelectedRow(null)
+        if (updState) {
+            setCurrentPage(0)
+            setSelectedRow(null)
+        }
     }, [data])
 
     const headerStyle: CSSProperties = !pagination ? {
@@ -71,7 +75,7 @@ const Table = (props: TableProps) => {
         display: "block"
     } : {}
 
-    return <div style={{...style}} >
+    return <div style={{...style}}>
         <table className="table table-striped table-hover w-100">
             {
                 columns && <thead style={headerStyle}>

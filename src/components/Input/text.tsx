@@ -1,4 +1,4 @@
-import React from "react";
+import React, {memo} from "react";
 
 type InputTextProps = {
     type?
@@ -35,8 +35,10 @@ const InputText = (p: InputTextProps) => {
         error
     } = p
 
-    return <div className={`d-flex ${isRow ? 'flex-row' : 'flex-column'} ${isRow ? "align-items-center" : "justify-items-center"}`} style={style}>
-        <label htmlFor="input" className="form-label" style={{marginRight: 5}}>{title}</label>
+    return <div
+        className={`d-flex ${isRow ? 'flex-row' : 'flex-column'} ${isRow ? "align-items-center" : "justify-items-center"}`}
+        style={style}>
+        {title && <label htmlFor="input" className="form-label" style={{marginRight: 5}}>{title}</label>}
         <input
             type={type}
             className={`form-control ${error ? "border-danger" : ""}`}
@@ -56,4 +58,4 @@ const InputText = (p: InputTextProps) => {
     </div>
 }
 
-export default InputText
+export default memo(InputText)

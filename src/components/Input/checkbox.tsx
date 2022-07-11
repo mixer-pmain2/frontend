@@ -2,7 +2,7 @@ import React from "react";
 
 type CheckboxProps = {
     className?
-    name
+    name?
     checked
     title
     onChange

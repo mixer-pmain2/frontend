@@ -34,6 +34,7 @@ const TableReason = (props: TableReasonProps) => {
         mapper={mapper}
         pageSize={100}
         onClick={handleClick}
+        updState={false}
     />
 }
 
