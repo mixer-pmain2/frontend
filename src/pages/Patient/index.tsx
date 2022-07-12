@@ -73,7 +73,7 @@ const PatientDetail = ({onReset, patient}: PatientDetailProps) => {
             <button className="input-group-text btn btn-outline-primary mb-3">Найти</button>
         </div>
         <div className="mb-3 d-flex flex-row flex-wrap">
-            {!state.isUchet && state.lastUchet?.reason && patLabel("Снят с учета", `${formatDate(p.getLastUchet().date)}г.`)}
+            {!state.isUchet && state.lastUchet?.reason && patLabel("Снят с учета", `${formatDate(p.getLastUchet()?.date)}г.`)}
             {!state.isUchet && state.lastUchet?.reason && patLabel("Причина", `${p.getLastUchet()?.reasonS?.toLowerCase()}`)}
             {state.isUchet && patLabel("Участок", state.lastUchet?.section)}
             {state.isUchet && patLabel("Учет", state.lastUchet?.categoryS)}

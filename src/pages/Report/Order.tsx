@@ -309,7 +309,7 @@ const Order = (p: OrderProps) => {
                         let className = ""
                         if (v.group?.indexOf("notWork") + 1) return null
                         if (v.group?.indexOf("ukl") + 1) className = "bg-warning"
-                        return <option className={`${className}`} value={v.value}>{v.label}</option>
+                        return <option key={`${v.value}`} className={`${className}`} value={v.value}>{v.label}</option>
                     }}
                     currentValue={form.code}
                     name={"code"}

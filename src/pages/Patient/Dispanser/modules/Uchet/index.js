@@ -23,8 +23,6 @@ import Icons from "components/Icons";
 import InputDate from "components/Input/date";
 import {accessRole} from "../../../../../configs/access";
 import { useLoading } from 'components/Progress'
-import { loadingAdd } from 'store/actions/application.ts'
-import { loadingRemove } from 'store/actions/application'
 
 
 const HistoryUchet = ({patient}) => {
@@ -109,7 +107,7 @@ const Uchet = ({dispatch, patient, application, user}) => {
 
     const handleNew = () => {
         const pat = new Patient(patient)
-        const patLastReason = pat.getLastUchet().reason
+        const patLastReason = pat.getLastUchet()?.reason
         if (patLastReason === reason.DEAD) {
             notifyWarning("Для умершего не доступно")
             return
@@ -118,15 +116,6 @@ const Uchet = ({dispatch, patient, application, user}) => {
     }
     const handleSomSin = () => setState({...state, tab: T_SIN_SOM})
     const closeTab = () => setState({...state, tab: T_UCHET})
-
-    const onChangeForm = (e) => {
-        const name = e.target.name
-        let value = e.target.value
-        setForm({
-            ...form,
-            [name]: value
-        })
-    }
 
     const setDate = (date) => {
         setForm({
@@ -142,7 +131,7 @@ const Uchet = ({dispatch, patient, application, user}) => {
         isEnable = isEnable && user.section[user.unit]?.filter(v => v > 17).length
         isEnable = isEnable && (user.access[user.unit] & Access.dispanser["Работа регистратора"]) === 0
         isEnable = isEnable && (user.access[user.unit] & Access.dispanser["Только просмотр (справочная система)"]) === 0
-        isEnable = isEnable && !p.getLastUchet().reason.startsWith('S')
+        isEnable = isEnable && !p.getLastUchet()?.reason.startsWith('S')
         isEnable = isEnable || user.section[user.unit]?.filter(v => v === 10).length
         isEnable = isEnable || (user.access[user.unit] & Access.dispanser["Прямой доступ к данным"]) > 0
 
@@ -151,7 +140,7 @@ const Uchet = ({dispatch, patient, application, user}) => {
 
     const isHis = () => {
         const p = new Patient(patient)
-        return (Boolean(user.section[user.unit]?.indexOf(p.getLastUchet().section) + 1) && p.isUchet()) ||
+        return (Boolean(user.section[user.unit]?.indexOf(p.getLastUchet()?.section) + 1) && p.isUchet()) ||
             Boolean(user.section[user.unit]?.indexOf(10) + 1)
     }
 
@@ -250,7 +239,7 @@ const Uchet = ({dispatch, patient, application, user}) => {
         dispatch(patientActions.getUchet({id: patient.id}))
         dispatch(patientActions.getHistorySyndrome({id: patient.id}))
         const lastState = p.getLastUchet()?.reason?.startsWith('S')
-            ? `Снят с учета ${formatDate(p.getLastUchet().date)}г. Причина: ${p.getLastUchet()?.reasonS?.toLowerCase()}`
+            ? `Снят с учета ${formatDate(p.getLastUchet()?.date)}г. Причина: ${p.getLastUchet()?.reasonS?.toLowerCase()}`
             : ""
         setState({
             ...state,

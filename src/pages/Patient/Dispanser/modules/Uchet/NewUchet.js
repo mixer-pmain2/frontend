@@ -62,7 +62,7 @@ const NewUchet = ({dispatch, application, patient, user, onClose, date}) => {
         if (lastUchet?.section > 0) {
             let _r = _reason.filter(v => !v.startsWith('S'))
                 .filter(v => !([reason.NEW, reason.SECTION_TRANSFER].indexOf(v) + 1))
-            if (lastUchet.category === 10) {
+            if (lastUchet?.category === 10) {
                 _r = _r.filter(v => v !== reason.TRANSFER_CATEGORY)
             }
             return _r

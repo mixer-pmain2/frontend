@@ -10,7 +10,6 @@ export default class Patient {
         return this.patient.uchet?.[0]
     }
 
-
     lastUchet() {
         if (this.patient?.uchet?.length > 0)
             return this.patient.uchet?.[0]
