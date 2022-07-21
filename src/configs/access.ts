@@ -40,8 +40,8 @@ export const unit = {
         Unit["Детский диспансер"] |
         Unit["Подростковая психиатрия"] |
         Unit.ОИЛС |
-        Unit.Суицидология
-
+        Unit.Суицидология |
+        Unit["Сельские районы"]
 }
 
 export const accessModule = {
@@ -166,6 +166,11 @@ export const accessPage = {
         },
         {
             unit: 16,
+            access: accessRole.dispanser.doct | accessRole.dispanser.registrator | accessRole.dispanser.asu |
+                accessRole.dispanser.ukl | accessRole.dispanser.administrator | accessRole.dispanser.other
+        },
+        {
+            unit: 512,
             access: accessRole.dispanser.doct | accessRole.dispanser.registrator | accessRole.dispanser.asu |
                 accessRole.dispanser.ukl | accessRole.dispanser.administrator | accessRole.dispanser.other
         },

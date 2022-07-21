@@ -1,18 +1,17 @@
 import {API, request} from "./request";
 
+export const login = (payload) => {
+    const url = API + "/auth/login/"
+    return request("POST", url, {}, payload)
+}
 
 export const signIn = ({token}) => {
     const url = API + "/auth/signin/"
     const headers = {
-        "Authorization": "Basic "+token
+        "Authorization": "Bearer "+token
     }
     return request("GET", url, headers, {})
 }
-
-// export const login = ({username, password}) => {
-//     const url = API + "/auth/login/"
-//     return request("POST", url, {}, {username, password})
-// }
 
 export const getPrava = ({id}) => {
     const url = API + `/user/${id}/prava/`

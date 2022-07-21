@@ -95,7 +95,7 @@ const GetPatient = (props: GetPatientProps) => {
     const navigation = useNavigate()
     const {id} = useParams()
 
-    const foundById = (id) => {
+    const foundById = async (id) => {
         return dispatch(patientActions.findById({id}))
             .then(res => {
                 dispatch(patientActions.select(res))

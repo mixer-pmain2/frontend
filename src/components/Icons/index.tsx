@@ -46,6 +46,7 @@ export const iconsUnit = {
     4: require("assets/images/295067-3f51b5.svg"),
     8: require("assets/images/295067-3f51b5.svg"),
     16: require("assets/images/2025726-3f51b5.svg"),
+    512: require("assets/images/295067-3f51b5.svg"),
     1024: require("assets/images/295067-3f51b5.svg"),
     2048: require("assets/images/295067-3f51b5.svg"),
     16777216: require("assets/images/295067-3f51b5.svg"),

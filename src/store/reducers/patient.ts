@@ -20,6 +20,7 @@ export const patientStore = createSlice({
         },
         reset: (state: {}) => {
             state = {}
+            saveToStore(state, storeName)
             return state
         },
         setUchet: (state, action) => {

@@ -1,6 +1,18 @@
 import * as userReducer from '../reducers/user'
+import * as patientReducer from '../reducers/patient'
 import * as userApi from 'api/user'
 import {getToken, removeToken, setToken} from 'api/request'
+
+export const login = (payload: {username, password}) => dispatch => {
+    return userApi.login(payload)
+        .then((res: any) => {
+            if (res?.data?.id) {
+                setToken(res.data.token)
+                dispatch(userReducer.login({...res.data}))
+            }
+            return res
+        })
+}
 
 export const signIn = ({username, password}) => dispatch => {
     const token = btoa(unescape(encodeURIComponent(username + ':' + password)))
@@ -26,6 +38,7 @@ export const signIn = ({username, password}) => dispatch => {
 
 export const logout = () => dispatch => {
     dispatch(userReducer.logout())
+    dispatch(patientReducer.reset())
     removeToken()
 }
 

@@ -11,6 +11,8 @@ import {createJob} from "../../api/report";
 import {notifyError, notifySuccess} from "../../components/Notify";
 import InputText from "../../components/Input/text";
 import {isEmptyField} from "../../utility/app";
+import {Access} from "../../consts/user";
+import User from "../../classes/User";
 
 const errorClasses = "border border-1 border-danger"
 
@@ -83,6 +85,7 @@ type OrderProps = {
 }
 
 const Order = (p: OrderProps) => {
+    const u = new User(p.user)
     const [state, setState] = useState<{
         enabledOrderSubmit: boolean
         filters: ReportFilters[]
@@ -171,6 +174,16 @@ const Order = (p: OrderProps) => {
         const labelStyle = {minWidth: 150}
         const filterStyle = {width: 430}
         const filterHalfStyle = {width: 150}
+        let sectionOptions: {
+            label: string,
+            value: string
+        }[] = [{
+            label: "-",
+            value: "0"
+        }]
+        p.user.section?.[p.user.unit]?.map((v) =>
+            sectionOptions.push({label: v?.toString(), value: v?.toString()})
+        )
         switch (code) {
             case "rangeDate":
                 return <FilterRange
@@ -222,7 +235,7 @@ const Order = (p: OrderProps) => {
             case "rangeSection":
                 return <div className="d-flex flex-row ">
                     <label style={labelStyle}>Участок</label>
-                    {(p.user.access[p.user.unit] & 2) === 2
+                    {u.isAdministrator()
                         ? <div className={`d-flex flex-row ${isErrorField(code) ? errorClasses : ""}`}>
                             <InputText
                                 type={"number"}
@@ -240,10 +253,7 @@ const Order = (p: OrderProps) => {
                         : <div style={filterHalfStyle}
                                className={`d-flex flex-row ${isErrorField(code) ? errorClasses : ""}`}>
                             <FilterSection
-                                options={[{
-                                    label: "-",
-                                    value: "0"
-                                }, ...p.user.section?.[p.user.unit]?.map(v => ({label: v, value: v}))]}
+                                options={sectionOptions}
                                 value={form.filters.rangeSection[0]}
                                 onChange={(n, v) => onChangeFilter("rangeSection", [Number(v), form.filters?.rangeSection[1]])}
                             />
@@ -252,7 +262,7 @@ const Order = (p: OrderProps) => {
             case "section":
                 return <div className="d-flex flex-row ">
                     <label style={labelStyle}>Участок</label>
-                    {(p.user.access[p.user.unit] & 2) === 2
+                    {u.isAdministrator()
                         ? <div className={`d-flex flex-row ${isErrorField("rangeSection") ? errorClasses : ""}`}>
                             <InputText
                                 type={"number"}
@@ -264,10 +274,7 @@ const Order = (p: OrderProps) => {
                         : <div style={filterHalfStyle}
                                className={`d-flex flex-row ${isErrorField("rangeSection") ? errorClasses : ""}`}>
                             <FilterSection
-                                options={[{
-                                    label: "-",
-                                    value: "0"
-                                }, ...p.user.section?.[p.user.unit]?.map(v => ({label: v, value: v}))]}
+                                options={sectionOptions}
                                 value={form.filters.rangeSection[0]}
                                 onChange={(n, v) => onChangeFilter("rangeSection", [Number(v), form.filters?.rangeSection[1]])}
                             />

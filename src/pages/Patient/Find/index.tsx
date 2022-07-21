@@ -113,7 +113,7 @@ const FindPatient = ({dispatch}) => {
             action = true
             document.removeEventListener("keydown", onEscDown, false);
         }
-    }, [])
+    })
 
     return <Layout>
         <form onSubmit={handleFindPatient} autoComplete="off">
@@ -163,6 +163,7 @@ const FindPatient = ({dispatch}) => {
                 onDoubleClick={handleSelectPatient}
                 onClick={handleClickPatient}
                 selecting={true}
+                updState={false}
             />
         </>}
     </Layout>

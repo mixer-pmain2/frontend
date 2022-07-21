@@ -12,12 +12,13 @@ import {getAge, stringToDate} from "utility/date";
 import {formatDateToInput} from "utility/string";
 import useParams from "utility/app"
 
-import {Unit} from "consts/user";
+import { Unit } from 'consts/user'
 import {messageNotValidAge, srcReason, visitHomeTypeGroup, visitTypeGroup} from "consts/visit";
 import {PageTitle} from "components/Title";
 import {dispanserSubModules} from "consts/app";
 import InputDate from "components/Input/date";
 import Patient from "classes/Patient";
+
 
 interface VisitProps {
     dispatch?: () => any,
@@ -86,7 +87,7 @@ const Visit = ({dispatch, application, patient, user}: VisitProps) => {
             )}
         </div>
 
-    const ViewUch = ({data}) => {
+    const viewUch = ({data}) => {
 
         return <div className="mb-3">
             <span className="fs-5">Участок</span>
@@ -156,7 +157,6 @@ const Visit = ({dispatch, application, patient, user}: VisitProps) => {
     }
 
     const handleNewVisit = () => {
-        console.log(form)
         if (form.diagnose === "" || form.diagnose.length < 3) {
             setState({
                 ...state,
@@ -300,7 +300,7 @@ const Visit = ({dispatch, application, patient, user}: VisitProps) => {
                     )}
                 </div>
                 <div className="d-flex flex-column justify-content-start" style={{width: 200}}>
-                    <ViewUch data={user.section[user.unit]}/>
+                    {viewUch({data:user.section[user.unit]})}
                     <div className="d-flex flex-column">
                         <span className="text-danger">{state.error}</span>
                         <input type="submit" className="btn btn-primary" value="Записать" disabled={!isValidVisit()}/>

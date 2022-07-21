@@ -23,6 +23,7 @@ import Icons from "components/Icons";
 import InputDate from "components/Input/date";
 import {accessRole} from "../../../../../configs/access";
 import { useLoading } from 'components/Progress'
+import User from 'classes/User.ts'
 
 
 const HistoryUchet = ({patient}) => {
@@ -104,6 +105,7 @@ const Uchet = ({dispatch, patient, application, user}) => {
         min: "",
         max: ""
     })
+    const u = new User(user)
 
     const handleNew = () => {
         const pat = new Patient(patient)
@@ -269,13 +271,12 @@ const Uchet = ({dispatch, patient, application, user}) => {
                     <button className="btn btn-outline-primary" style={{marginRight: 5}}
                             onClick={handleNew}>{Icons.event.add}</button>}
                 {
-                    state.enableTransfer && !state.isHis && state.isDoctor && !state.isAnonim &&
+                    ((state.enableTransfer && !state.isHis && state.isDoctor && !state.isAnonim) || u.isAdmin()) &&
                     <button className="btn btn-outline-primary" style={{marginRight: 15}} onClick={handleNewTransfer}>
                         Прием с других участков
                     </button>
                 }
                 <div className="d-flex flex-row align-items-center">
-                    {/*<label style={{marginRight: 5}} htmlFor="date">Дата изменения</label>*/}
                     <InputDate className="form-control" style={{width: 150, marginRight: 15}}
                                name="date"
                                value={form.date || formatDateToInput(new Date())} onChange={setDate}

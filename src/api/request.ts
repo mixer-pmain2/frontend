@@ -28,7 +28,7 @@ export const request = async (method, url, headers = {}, body = {}) => {
         method,
         url,
         headers: {
-            'Authorization': `Basic ${getToken()}`,
+            'Authorization': `Bearer ${getToken()}`,
             'Content-Type': 'text/plain',
             ...headers
         },
@@ -54,6 +54,5 @@ export const reqError = (err) => {
             Notify(notifyType.ERROR, err.message)()
     }
     return status
-
 }
 

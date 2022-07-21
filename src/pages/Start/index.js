@@ -10,55 +10,8 @@ import {linkDict} from "../../routes";
 import {useNavigate} from "react-router-dom";
 import {iconsUnit} from "components/Icons";
 import { UnitName } from 'consts/user.ts'
+import { accessPage } from '../../configs/access'
 
-
-const unitList = [
-    {
-        title: "Взрослая психиатрия",
-        img: iconsUnit[1],
-        unit: 1
-    },
-    {
-        title: "Психотерапия",
-        img: iconsUnit[2],
-        unit: 2
-    },
-    {
-        title: "Специалисты",
-        img: iconsUnit[1024],
-        unit: 1024
-    },
-    {
-        title: "Суицидология",
-        img: iconsUnit[4],
-        unit: 4
-    },
-    {
-        title: UnitName['2048'],
-        img: iconsUnit['2048'],
-        unit: 2048
-    },
-    {
-        title: "ОИЛС",
-        img: iconsUnit[8],
-        unit: 8
-    },
-    {
-        title: "Детский диспансер",
-        img: iconsUnit[16],
-        unit: 16
-    },
-    {
-        title: "Подростковая психиатрия",
-        img: iconsUnit[16777216],
-        unit: 16777216
-    },
-    {
-        title: "Детская консультация",
-        img: iconsUnit[33554432],
-        unit: 33554432
-    }
-]
 
 const StartPage = ({dispatch, user, application}) => {
     const navigate = useNavigate()
@@ -82,11 +35,12 @@ const StartPage = ({dispatch, user, application}) => {
     const unitFilter = (units) =>
       units.filter(v => user?.access?.[v.unit])
 
-    const unitListFiltered = unitFilter(unitList)
+    const unitListFiltered = unitFilter(accessPage.dispanser)
+
     return <Layout>
         <div className="row d-flex justify-content-center">
             {unitListFiltered.length ? unitListFiltered.map((v, i) =>
-                <Card key={i} title={v.title} img={v.img} onClick={_ => handleSelectUnit(v.unit)}/>
+                <Card key={i} title={UnitName[v.unit]} img={iconsUnit[v.unit]} onClick={_ => handleSelectUnit(v.unit)}/>
             ) : <h5>Нет доступных подразделений</h5>}
 
         </div>
