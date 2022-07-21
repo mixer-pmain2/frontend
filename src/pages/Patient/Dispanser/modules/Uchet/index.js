@@ -1,32 +1,31 @@
-import React, {useEffect, useState} from "react";
-import {connect} from "react-redux";
+import React, { useEffect, useState } from 'react'
+import { connect } from 'react-redux'
 
-import {formatDate, formatDateToInput} from "utility/string";
-import useParams from "utility/app";
-import Patient from "classes/Patient";
-import {reason} from "consts/uchet";
-import {Access} from "consts/user";
+import { formatDate, formatDateToInput } from 'utility/string'
+import useParams from 'utility/app'
+import Patient from 'classes/Patient'
+import { reason } from 'consts/uchet'
+import { Access } from 'consts/user'
 
-import Modal, {BTN_CANCEL, BTN_OK} from "components/Modal";
-import {notifyError, notifySuccess, notifyWarning} from "components/Notify";
-import Table from "components/Table";
+import Modal, { BTN_CANCEL, BTN_OK } from 'components/Modal'
+import { notifyError, notifySuccess, notifyWarning } from 'components/Notify'
+import Table from 'components/Table'
 
-import * as patientActions from "store/actions/patient";
+import * as patientActions from 'store/actions/patient'
 
-import SelectSection from "./SelectSection";
-import SelectCategory from "./SelectCategory";
-import NewUchet from "./NewUchet";
-import NewSyndrome from "./NewSyndrome";
-import {PageTitle} from "components/Title";
+import SelectSection from './SelectSection'
+import SelectCategory from './SelectCategory'
+import NewUchet from './NewUchet'
+import NewSyndrome from './NewSyndrome'
+import { PageTitle } from 'components/Title'
 import { dispanserSubModules, loadComponent } from 'consts/app'
-import Icons from "components/Icons";
-import InputDate from "components/Input/date";
-import {accessRole} from "../../../../../configs/access";
+import Icons from 'components/Icons'
+import InputDate from 'components/Input/date'
+import { accessRole } from '../../../../../configs/access'
 import { useLoading } from 'components/Progress'
 import User from 'classes/User.ts'
 
-
-const HistoryUchet = ({patient}) => {
+const HistoryUchet = ({ patient }) => {
     const mapper = (row) => {
         return <>
             <td>{row.section}</td>
@@ -40,33 +39,32 @@ const HistoryUchet = ({patient}) => {
     }
 
     const diagItems = (index, title, value) =>
-        <div key={index} style={{display: "flex", flexDirection: "row"}}>
-            <div style={{width: 100}}>{title}</div>
+        <div key={index} style={{ display: 'flex', flexDirection: 'row' }}>
+            <div style={{ width: 100 }}>{title}</div>
             <div>{value}</div>
         </div>
 
     return <div>
         <Table
-            columns={["Участок", "Дата", "Категори", "Причина", "Учет", "Расшифровка диагноза", "Врач"]}
+            columns={['Участок', 'Дата', 'Категори', 'Причина', 'Учет', 'Расшифровка диагноза', 'Врач']}
             data={patient?.uchet || []}
             mapper={mapper}
             loading={useLoading(loadComponent.history_uchet)}
         />
         <div className="mb-4">
             <h6>Синдромы</h6>
-            <div style={{marginLeft: 15}}>
+            <div style={{ marginLeft: 15 }}>
                 {patient.syndrome?.filter(v => (v.diagnose.indexOf('F') + 1)).map((v, i) => diagItems(i, v.diagnose, v.diagnoseT))}
             </div>
         </div>
         <div>
             <h6>Хронические соматические заболевания</h6>
-            <div style={{marginLeft: 15}}>
+            <div style={{ marginLeft: 15 }}>
                 {patient.syndrome?.filter(v => !(v.diagnose.indexOf('F') + 1)).map((v, i) => diagItems(i, v.diagnose, v.diagnoseT))}
             </div>
         </div>
     </div>
 }
-
 
 const T_UCHET = 0
 const T_NEW = 1
@@ -80,13 +78,13 @@ const initForm = {
 const CATEGORY_NON_PRINUD = [1, 2, 3, 4, 5, 6]
 const CATEGORY_PRINUD = [7, 8]
 
-const Uchet = ({dispatch, patient, application, user}) => {
+const Uchet = ({ dispatch, patient, application, user }) => {
     const params = useParams(application.params)
     const [state, setState] = useState({
         tab: T_UCHET,
         isDoctor: user.access[user.unit] | accessRole.dispanser.administrator | accessRole.dispanser.doct,
         enableTransfer: false,
-        patientLastState: "",
+        patientLastState: '',
         isOpenSectionModal: false,
         isOpenCategoryModal: false,
         isSubmit: false,
@@ -102,8 +100,8 @@ const Uchet = ({dispatch, patient, application, user}) => {
     })
 
     const [dateRange, setDateRange] = useState({
-        min: "",
-        max: ""
+        min: '',
+        max: ''
     })
     const u = new User(user)
 
@@ -111,13 +109,13 @@ const Uchet = ({dispatch, patient, application, user}) => {
         const pat = new Patient(patient)
         const patLastReason = pat.getLastUchet()?.reason
         if (patLastReason === reason.DEAD) {
-            notifyWarning("Для умершего не доступно")
+            notifyWarning('Для умершего не доступно')
             return
         }
-        setState({...state, tab: T_NEW})
+        setState({ ...state, tab: T_NEW })
     }
-    const handleSomSin = () => setState({...state, tab: T_SIN_SOM})
-    const closeTab = () => setState({...state, tab: T_UCHET})
+    const handleSomSin = () => setState({ ...state, tab: T_SIN_SOM })
+    const closeTab = () => setState({ ...state, tab: T_UCHET })
 
     const setDate = (date) => {
         setForm({
@@ -131,11 +129,11 @@ const Uchet = ({dispatch, patient, application, user}) => {
         let isEnable = !!p.getLastUchet()?.category
 
         isEnable = isEnable && user.section[user.unit]?.filter(v => v > 17).length
-        isEnable = isEnable && (user.access[user.unit] & Access.dispanser["Работа регистратора"]) === 0
-        isEnable = isEnable && (user.access[user.unit] & Access.dispanser["Только просмотр (справочная система)"]) === 0
+        isEnable = isEnable && (user.access[user.unit] & Access.dispanser['Работа регистратора']) === 0
+        isEnable = isEnable && (user.access[user.unit] & Access.dispanser['Только просмотр (справочная система)']) === 0
         isEnable = isEnable && !p.getLastUchet()?.reason.startsWith('S')
         isEnable = isEnable || user.section[user.unit]?.filter(v => v === 10).length
-        isEnable = isEnable || (user.access[user.unit] & Access.dispanser["Прямой доступ к данным"]) > 0
+        // isEnable = isEnable || (user.access[user.unit] & Access.dispanser["Прямой доступ к данным"]) > 0
 
         return isEnable
     }
@@ -220,7 +218,7 @@ const Uchet = ({dispatch, patient, application, user}) => {
             dispatch(patientActions.newRegTransfer(form))
                 .then(res => {
                     if (res.success) {
-                        notifySuccess("Учетные данные изменены")
+                        notifySuccess('Учетные данные изменены')
                     } else {
                         notifyError(res?.message)
                     }
@@ -230,7 +228,7 @@ const Uchet = ({dispatch, patient, application, user}) => {
                         ...state,
                         isSubmit: false
                     })
-                    setForm({...form, ...initForm})
+                    setForm({ ...form, ...initForm })
                 })
         }
 
@@ -238,11 +236,11 @@ const Uchet = ({dispatch, patient, application, user}) => {
 
     useEffect(() => {
         const p = new Patient(patient)
-        dispatch(patientActions.getUchet({id: patient.id}))
-        dispatch(patientActions.getHistorySyndrome({id: patient.id}))
+        dispatch(patientActions.getUchet({ id: patient.id }))
+        dispatch(patientActions.getHistorySyndrome({ id: patient.id }))
         const lastState = p.getLastUchet()?.reason?.startsWith('S')
             ? `Снят с учета ${formatDate(p.getLastUchet()?.date)}г. Причина: ${p.getLastUchet()?.reasonS?.toLowerCase()}`
-            : ""
+            : ''
         setState({
             ...state,
             enableTransfer: isEnableTransfer(),
@@ -254,6 +252,17 @@ const Uchet = ({dispatch, patient, application, user}) => {
             isAnonim: p.isAnonim()
         })
     }, [])
+
+    useEffect(() => {
+        const p = new Patient(patient)
+        setState(s => ({
+            ...s,
+            enableTransfer: isEnableTransfer(),
+            isHis: isHis(),
+            isUchet: p.isUchet(),
+            isAnonim: p.isAnonim()
+        }))
+    }, [patient])
 
     useEffect(() => {
         setDateRange({
@@ -268,16 +277,18 @@ const Uchet = ({dispatch, patient, application, user}) => {
             <div className="d-flex flex-row align-items-center">
                 {
                     state.isDoctor && (state.isHis || !state.isUchet) && !state.isAnonim &&
-                    <button className="btn btn-outline-primary" style={{marginRight: 5}}
+                    <button className="btn btn-outline-primary" style={{ marginRight: 5 }}
                             onClick={handleNew}>{Icons.event.add}</button>}
                 {
-                    ((state.enableTransfer && !state.isHis && state.isDoctor && !state.isAnonim) || u.isAdmin()) &&
-                    <button className="btn btn-outline-primary" style={{marginRight: 15}} onClick={handleNewTransfer}>
-                        Прием с других участков
-                    </button>
+                    (state.enableTransfer && ((!state.isHis && state.isDoctor && !state.isAnonim) || u.isAdmin()))
+                        ? <button className="btn btn-outline-primary" style={{ marginRight: 15 }}
+                                  onClick={handleNewTransfer}>
+                            Прием с других участков
+                        </button>
+                        : null
                 }
                 <div className="d-flex flex-row align-items-center">
-                    <InputDate className="form-control" style={{width: 150, marginRight: 15}}
+                    <InputDate className="form-control" style={{ width: 150, marginRight: 15 }}
                                name="date"
                                value={form.date || formatDateToInput(new Date())} onChange={setDate}
                                min={dateRange.min} max={dateRange.max}/>
@@ -293,12 +304,12 @@ const Uchet = ({dispatch, patient, application, user}) => {
         {state.tab === T_NEW && <NewUchet onClose={closeTab} date={form.date}/>}
         {state.tab === T_SIN_SOM && <NewSyndrome onClose={closeTab}/>}
         <Modal
-            title={"№ участка"}
+            title={'№ участка'}
             body={<SelectSection
                 sections={user.section?.[user?.unit]?.filter(v => v > 17) || []}
                 section={state.section}
                 onChange={v => {
-                    setState({...state, section: Number(v)})
+                    setState({ ...state, section: Number(v) })
                 }}
             />}
             isOpen={state.isOpenSectionModal}
@@ -307,10 +318,10 @@ const Uchet = ({dispatch, patient, application, user}) => {
             onCancel={onCancelSection}
         />
         <Modal
-            title={"Смена группы"}
+            title={'Смена группы'}
             body={<SelectCategory
                 categories={([18, 19].indexOf(form.section) + 1) ? CATEGORY_PRINUD : CATEGORY_NON_PRINUD}
-                onChange={v => setState({...state, category: Number(v)})}
+                onChange={v => setState({ ...state, category: Number(v) })}
             />}
             isOpen={state.isOpenCategoryModal}
             btnNum={BTN_OK}
