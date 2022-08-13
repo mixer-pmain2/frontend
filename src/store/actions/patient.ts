@@ -17,6 +17,16 @@ export const findByFio = ({fio}) => dispatch => {
             dispatch(loadingRemove(loadComponent.find_by_fio))
         )
 }
+export const findByAddress = (payload) => dispatch => {
+    dispatch(appActions.loadingAdd(loadComponent.find_by_address))
+    return patientApi.findByAddress(payload)
+        .then(res => {
+            return res
+        })
+        .finally(() =>
+            dispatch(loadingRemove(loadComponent.find_by_address))
+        )
+}
 
 export const findById = (payload: {id, cache?}) => dispatch => {
     dispatch(appActions.loadingAdd(loadComponent.find_by_id))
@@ -242,6 +252,12 @@ export const addOod = (payload: OOD) => dispatch =>
 
 export const addSod = (payload: SOD) => dispatch =>
     patientApi.addSod(payload)
+        .then((res) => {
+            return res
+        })
+
+export const getDoctorVisitByPatient = (payload) => dispatch =>
+    patientApi.getDoctorVisitByPatient(payload)
         .then((res) => {
             return res
         })

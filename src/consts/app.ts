@@ -153,6 +153,7 @@ export const appPages = {
 
 export const loadComponent = {
     find_by_fio: iota(),
+    find_by_address: iota(),
     find_by_id: iota(),
     history_visit: iota(),
     history_hospital: iota(),

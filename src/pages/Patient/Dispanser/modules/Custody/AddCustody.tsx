@@ -76,7 +76,15 @@ const AddCustody = (p: AddCustodyProps) => {
 
         </div>
         <div className="d-flex flex-column" style={{width: 150}}>
-            <InputDate title={"Дата решения суда"} isRow={false} value={form.dateStart} onChange={setDate} className="mb-5"/>
+            <InputDate
+                title={"Дата решения суда"}
+                isRow={false}
+                value={form.dateStart}
+                onChange={setDate}
+                className="mb-5"
+                showYearDropdown
+                min={"1900-01-01"}
+            />
             <Button className="btn-outline-danger mb-1" onClick={p.onClose}>Отмена</Button>
             <Button className="btn-outline-primary mb-1" onClick={NewCustody}>Записать</Button>
         </div>

@@ -39,7 +39,7 @@ const StartPage = ({ dispatch, user, application }) => {
 
     return <Layout>
         <div className="d-flex justify-content-center flex-column align-items-center">
-            {unitListFiltered.length ? unitListFiltered.map((v, i) => <div style={{minWidth: 600, maxWidth: 800}}>
+            {unitListFiltered.length ? unitListFiltered.map((v, i) => <div key={i} style={{minWidth: 600, maxWidth: 800}}>
                     <CardLine key={i} title={UnitName[v.unit]} img={iconsUnit[v.unit]}
                               onClick={_ => handleSelectUnit(v.unit)}/>
                 </div>

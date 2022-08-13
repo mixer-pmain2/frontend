@@ -14,7 +14,7 @@ export const formatDate = (s = "", format = "dd.mm.YYYY") => {
 export const formatDateTime = (s = "", format = "dd.mm.YYYY") => {
     const date = new Date(s)
 
-    return `${setLen(date.getDay(), "0", 2)}.${setLen(date.getMonth() + 1, "0", 2)}.${date.getFullYear()} ${date.getHours()}:${setLen(date.getMinutes(), "0", 2)}:${setLen(date.getSeconds(), "0", 2)}`
+    return `${setLen(date.getDate(), "0", 2)}.${setLen(date.getMonth() + 1, "0", 2)}.${date.getFullYear()} ${date.getHours()}:${setLen(date.getMinutes(), "0", 2)}:${setLen(date.getSeconds(), "0", 2)}`
 }
 
 export const formatDateToInput = (d) => {

@@ -6,3 +6,10 @@ export const newDoctorLocation = (payload) => dispatch => {
             return r
         })
 }
+
+export const newDoctorLeadSection = (payload) => dispatch => {
+    return adApi.newDoctorLeadSection(payload)
+        .then(r => {
+            return r
+        })
+}

@@ -14,10 +14,10 @@ import {notifyError, notifySuccess} from "components/Notify";
 import Table from "components/Table";
 import {findArea, findDistrict, findRegion, findRepublic, findStreet} from "store/actions/application";
 import * as patientActions from "../../../../../store/actions/patient";
+import User from "../../../../../classes/User";
 
 
 const FindSideComponent = ({name, column, find, state, form, onChange, onClick, style = {}}) => {
-    console.log(name)
     return <div className="flex-grow-1" style={style}>
         <InputText
             style={{marginBottom: 10}}
@@ -54,6 +54,7 @@ type PassportProps = {
 }
 
 const Passport = (p: PassportProps) => {
+    const u = new User(p.user)
     const [find, setFind] = useState<{
         republic: string
         region: string
@@ -98,7 +99,8 @@ const Passport = (p: PassportProps) => {
         }[]
     }>({
         showEditAddress: false,
-        editable: (p.user.access[p.user.unit] & Access.dispanser["Только просмотр (справочная система)"]) == 0,
+        editable: ((p.user.access[p.user.unit] & Access.dispanser["Только просмотр (справочная система)"]) == 0)
+            || (p.user.access[p.user.unit] & Access.dispanser["Работа регистратора"]) > 0,
         republic: [],
         region: [],
         district: [],

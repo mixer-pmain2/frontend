@@ -20,13 +20,13 @@ const NavMenu = ({onLogout, user, app, patient}: NavMenuProps) => {
     const uAccess = user?.access ? user?.access[user?.unit] : 0
 
     const urlPatient = () =>
-        linkDict.patient.replace(/:id/g, patient?.id)
+        linkDict.patient.replace(/:id/g, patient.id.toString())
 
     const fio = capitalizeFirstLetter(user?.lname?.toLowerCase()) + " "
         + capitalizeFirstLetter(user?.fname?.toLowerCase())[0] + "."
         + capitalizeFirstLetter(user?.sname?.toLowerCase())[0] + "."
 
-    return <nav className="navbar navbar-expand-lg navbar-light bg-light">
+    return <nav className="navbar navbar-expand-lg navbar-light app-navbar">
         <div className="container-fluid">
             <Link to={linkDict.start} className="navbar-brand">PMain2 Web</Link>
             <div className="collapse navbar-collapse" id="navbarSupportedContent">
@@ -39,6 +39,9 @@ const NavMenu = ({onLogout, user, app, patient}: NavMenuProps) => {
                         <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li>
                                 <Link to={linkDict.findPatient} className="dropdown-item">Поиск пациента</Link>
+                            </li>
+                            <li>
+                                <Link to={linkDict.findPatientByAddress} className="dropdown-item">Поиск по адресу</Link>
                             </li>
                             {isAccessedPage(accessPage.newPatient, user) && <li>
                                 <Link to={linkDict.newPatient} className="dropdown-item">Новый пациент</Link>

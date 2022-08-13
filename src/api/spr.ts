@@ -74,5 +74,8 @@ export const findSection = (payload) =>
 export const findSectionDoctor = (payload) =>
     request('GET', API + `/spr/doctor/section/`, {}, payload)
 
+export const findLeadDoctor = (payload) =>
+    request('GET', API + `/spr/doctor/lead/`, {}, payload)
+
 export const getDoctors = (payload) =>
     request('GET', API + `/spr/doctors/`, {}, payload)

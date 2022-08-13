@@ -10,7 +10,6 @@ const Initialisation = ({dispatch, user}: {dispatch, user: UserStore}) => {
 
     useEffect(() => {
         if (user?.id) {
-            console.log("upd user data")
             dispatch(userActions.getPrava({id: user?.id}))
             dispatch(userActions.getUch({id: user?.id}))
         }

@@ -63,7 +63,7 @@ export type StateType = {
     month: number
     year: number
     z152: boolean
-    rowDoctor: null|Doctor,
+    rowDoctor: null | Doctor,
     sumRate: number
 }
 
@@ -93,24 +93,27 @@ const RateAllocation = (p: AdministrationProps & { title }) => {
 
     const updateData = () => {
         if (state.rowDoctor) {
-            p.dispatch(getRate({
-                doctorId: state.rowDoctor.id,
-                month: state.month + 1,
-                year: state.year,
-                unit: Units[state.unitValue].unit.reduce((sum, a) => sum + a, 0),
-                cache: false
-            }))
-                .then(res => {
-                    setDataDoctorRate(res)
-                })
-            p.dispatch(getVisitCountPlan({
-                doctorId: state.rowDoctor.id,
-                month: state.month + 1,
-                year: state.year
-            }))
-                .then(res => {
-                    setDataDoctorCountVisit(res)
-                })
+            (async () => {
+                await p.dispatch(getRate({
+                    doctorId: state.rowDoctor.id,
+                    month: state.month + 1,
+                    year: state.year,
+                    unit: Units[state.unitValue].unit.reduce((sum, a) => sum + a, 0),
+                    cache: false
+                }))
+                    .then(res => {
+                        setDataDoctorRate(res)
+                    })
+                await p.dispatch(getVisitCountPlan({
+                    doctorId: state.rowDoctor.id,
+                    month: state.month + 1,
+                    year: state.year,
+                    cache: false,
+                }))
+                    .then(res => {
+                        setDataDoctorCountVisit(res)
+                    })
+            })()
         }
     }
 

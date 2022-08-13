@@ -4,8 +4,6 @@ import {connect} from "react-redux";
 import * as patientActions from "store/actions/patient"
 import {loadingAdd, loadingRemove} from "store/actions/application";
 
-import {formatDateToInput} from "utility/string";
-import useParams from "utility/app";
 import {category, categoryAmbulance, categoryConsultant, reason} from "consts/uchet";
 import Patient from "classes/Patient";
 

@@ -1,8 +1,11 @@
 import React from "react";
 import DatePicker, {registerLocale} from "react-datepicker"
+import MaskedTextInput from "react-text-mask";
+
 import ruLocale from "date-fns/locale/ru"
 
 import "react-datepicker/dist/react-datepicker.css";
+
 import {stringToDate} from "utility/date";
 import {formatDateToInput} from "utility/string";
 
@@ -38,9 +41,11 @@ const InputDate = (props: InputDateProps) => {
             minDate={min ? stringToDate(min) : ""}
             locale="ru"
             maxDate={max ? stringToDate(max) : ""}
-            customInput={<input style={{...props.inputStyle}}/>}
+            // customInput={<input style={{...props.inputStyle}}/>}
+            customInput={<MaskedTextInput type={"text"} mask={[/\d/, /\d/, ".", /\d/, /\d/, ".", /\d/, /\d/, /\d/, /\d/]}/>}
             style={{}}
             disabled={disabled}
+
         />
     </div>
 }

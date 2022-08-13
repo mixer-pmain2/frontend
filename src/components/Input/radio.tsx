@@ -10,7 +10,20 @@ export const RadioItem = ({name, title, value, id, checked, onChange, disabled=f
     </div>
 }
 
-const GroupRadio = ({options, name, onChange, value, className="", readOnly=false}) => {
+type GroupRadioProps = {
+    options: {
+        label: string
+        value: any
+        disabled?: boolean
+    }[]
+    name: string
+    onChange?
+    value
+    className?: string
+    readOnly?: boolean
+}
+
+const GroupRadio = ({options, name, onChange, value, className="", readOnly=false}: GroupRadioProps) => {
 
     return <div className={`d-flex ${className}`}>
         {options?.map((v, i) => <RadioItem
@@ -21,7 +34,7 @@ const GroupRadio = ({options, name, onChange, value, className="", readOnly=fals
             name={name}
             id={`${name}_${i}`}
             onChange={onChange}
-            disabled={readOnly}
+            disabled={readOnly || v.disabled}
         />)}
     </div>
 }

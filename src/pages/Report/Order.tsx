@@ -13,6 +13,7 @@ import InputText from "../../components/Input/text";
 import {isEmptyField} from "../../utility/app";
 import {Access} from "../../consts/user";
 import User from "../../classes/User";
+import {accessPage, isAccessed} from "../../configs/access";
 
 const errorClasses = "border border-1 border-danger"
 
@@ -98,7 +99,7 @@ const Order = (p: OrderProps) => {
         report: null
     })
     const [form, setForm] = useState<ReportJobRequest>({
-        code: "",
+        code: null,
         userId: p.user.id,
         unit: p.user.unit,
         filters: {
@@ -235,7 +236,7 @@ const Order = (p: OrderProps) => {
             case "rangeSection":
                 return <div className="d-flex flex-row ">
                     <label style={labelStyle}>Участок</label>
-                    {u.isAdministrator()
+                    {u.isAdministrator() || u.isAdmin()
                         ? <div className={`d-flex flex-row ${isErrorField(code) ? errorClasses : ""}`}>
                             <InputText
                                 type={"number"}
@@ -262,7 +263,7 @@ const Order = (p: OrderProps) => {
             case "section":
                 return <div className="d-flex flex-row ">
                     <label style={labelStyle}>Участок</label>
-                    {u.isAdministrator()
+                    {u.isAdministrator() || u.isAdmin()
                         ? <div className={`d-flex flex-row ${isErrorField("rangeSection") ? errorClasses : ""}`}>
                             <InputText
                                 type={"number"}
@@ -309,13 +310,16 @@ const Order = (p: OrderProps) => {
                 <Select
                     options={[
                         {label: "-", value: ""},
-                        ...Reports.sort((a, b) => a.title?.charCodeAt(0) - b.title?.charCodeAt(0))
+                        ...Reports
+                            .filter(v => isAccessed([{unit: v.unit || 0, access: v.access || 0}], u.unit, u.access) || u.isAdmin())
+                            .sort((a, b) => a.order - b.order)
                             .map(v => ({label: v.title, value: v.code, group: v.reportGroup}))
                     ]}
                     mapper={(v) => {
                         let className = ""
                         if (v.group?.indexOf("notWork") + 1) return null
                         if (v.group?.indexOf("ukl") + 1) className = "bg-warning"
+                        if (v.group?.indexOf("force") + 1) className = "bg-warning"
                         return <option key={`${v.value}`} className={`${className}`} value={v.value}>{v.label}</option>
                     }}
                     currentValue={form.code}

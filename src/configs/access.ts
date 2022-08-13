@@ -33,9 +33,10 @@ export const accessRole = {
 }
 
 export const unit = {
-    disp: Unit.АПЛ |
-        Unit["Взрослая психиатрия"] |
+    disp: Unit["Взрослая психиатрия"] |
+        Unit.Психотерапия |
         Unit.Специалисты |
+        Unit.АПЛ |
         Unit["Детская консультация"] |
         Unit["Детский диспансер"] |
         Unit["Подростковая психиатрия"] |
@@ -214,6 +215,12 @@ export const accessPage = {
             access: 0
         }
     ],
+    findPatientByAddress: [
+        {
+            unit: 0,
+            access: 0
+        }
+    ],
     newPatient: [
         {
             unit: 0,
@@ -224,6 +231,19 @@ export const accessPage = {
         }
     ],
     report: [
+        {
+            unit: 0,
+            access: 0
+            /*
+            accessRole.dispanser.doct |
+                accessRole.dispanser.asu |
+                Access.dispanser["Администр. взрослого диспансера"] |
+                Access.dispanser["Администр. детского диспансера"] |
+                Access.dispanser["Работа регистратора"]
+                */
+        }
+    ],
+    reportOrder: [
         {
             unit: 0,
             access: accessRole.dispanser.doct |

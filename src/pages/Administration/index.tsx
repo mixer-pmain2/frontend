@@ -29,16 +29,16 @@ const tabs: Tab[] & {component?} = [
         title: "Распределение ставок",
         component: RateAllocation
     },
-    {
-        id: iota(),
-        title: "Определение врачей",
-        component: ThisDoctor
-    },
-    {
-        id: iota(),
-        title: "Ввод справки",
-        component: EnterSprav
-    },
+    // {
+    //     id: iota(),
+    //     title: "Определение врачей",
+    //     component: ThisDoctor
+    // },
+    // {
+    //     id: iota(),
+    //     title: "Ввод справки",
+    //     component: EnterSprav
+    // },
     {
         id: iota(),
         title: "Ответственный за участок",

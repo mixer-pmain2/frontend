@@ -11,7 +11,7 @@ type SubMenuProps = {
 
 const SubMenu = ({tabs, onChange, curTab, style, tooltip=true}: SubMenuProps) => {
     style = {...style, cursor: "pointer"}
-    return <ul className="nav nav-tabs" style={{...style}}>
+    return <ul className="nav nav-tabs app-nav-tabs" style={{...style}}>
         {
             tabs.map((v, i) => {
                 const isActive = curTab === v.id

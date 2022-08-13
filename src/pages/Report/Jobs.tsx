@@ -40,7 +40,7 @@ const Jobs = (p: JobsProps) => {
             if (isNotEmpty(row.filters[v])) {
                 const value = Array.isArray(row.filters[v]) ? row.filters[v].filter(v => isNotEmpty(v)).join("-") : row.filters[v]
                 if (isNotEmpty(value))
-                    return `${Filters[v].title}: ${filterValueFormat(value)}`
+                    return `${Filters[v]?.title || v}: ${filterValueFormat(value)}`
             }
         })
 

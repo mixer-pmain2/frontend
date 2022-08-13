@@ -1,5 +1,5 @@
 type ReportFilters = "dateStart" | "dateEnd" | "unit" | "category" | "typeCategory" | "typeCategoryDK" | "rangeSection" | "rangeDate" | "section"
-type FieldToFilters = "dateStart" | "dateEnd" | "unit" | "category" | "typeCategory" | "rangeSection" | "rangeDate"
+type FieldToFilters = "id" | "dateStart" | "dateEnd" | "unit" | "category" | "typeCategory" | "rangeSection" | "rangeDate"
 type ReportStatusType = "NEW" | "PROGRESS" | "DONE" | "ERROR"
 
 type ReportTypes = "ReceptionLog" | "VisitsPerPeriod" | "AdmittedToTheHospital" | "ThoseInTheHospital" |
@@ -9,7 +9,7 @@ type ReportTypes = "ReceptionLog" | "VisitsPerPeriod" | "AdmittedToTheHospital" 
     "IndicatorsQuality" | "Form030-1u-02" | "HospitalTreatment" | "AmbulatoryTreatment" | "PBSTIN" |
     "TakenOnADN" | "TakenFromADN" | "TakenForADNAccordingToClinical" | "CommitmentOfOODOnADN"
 
-type ReportGroup = "notWork" | "ukl"
+type ReportGroup = "notWork" | "ukl" | "force"
 
 type Report = {
     id: number
@@ -19,9 +19,13 @@ type Report = {
     filters: ReportFilters[]
     requireFilters?: ReportFilters[]
     reportGroup?: ReportGroup[]
+    order?: number
+    unit?: number
+    access?: number
 }
 
 type ReportJobFilter = {
+    id?: number
     rangeDate?: string[]
     dateStart?
     dateEnd?
@@ -32,14 +36,14 @@ type ReportJobFilter = {
 
 type ReportJobRequest = {
     userId: number
-    code: string
+    code: ReportTypes
     unit: number
     filters: ReportJobFilter
 }
 
 type ReportJob = {
     id: number
-    code: string
+    code: ReportTypes
     filters: ReportJobFilter
     status: ReportStatusType
     date: string

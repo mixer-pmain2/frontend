@@ -16,6 +16,12 @@ export const findByFio = ({fio}) => {
     return request("GET", url, {}, {lname, fname, sname})
 }
 
+export const findByAddress = (payload) => {
+
+    const url = API + `/patient/findByAddress/`
+    return request("GET", url, {}, payload)
+}
+
 export const findByID = (payload) => {
     const url = API + `/patient/${payload.id}/`
     return request("GET", url, {}, payload)
@@ -134,3 +140,27 @@ export const addOod = (payload): Promise<SuccessResponse> =>
 
 export const addSod = (payload): Promise<SuccessResponse> =>
     request("POST", API + `/patient/${payload.patientId}/sod/`, {}, payload)
+
+export const getDoctorVisitByPatient = (payload): Promise<Doctor[]> =>
+    request("GET", API + `/ukl/doctors/visit/`, {}, payload)
+
+export const getUKLVisitByPatient = (payload): Promise<UKLData> =>
+    request("GET", API + `/ukl/visit/`, {}, payload)
+
+export const saveUKLVisitByPatient = (payload): Promise<SuccessResponse> =>
+    request("POST", API + `/ukl/visit/`, {}, payload)
+
+export const getUKLSuicide = (payload): Promise<UKLData> =>
+    request("GET", API + `/ukl/suicide/`, {}, payload)
+
+export const saveUKLSuicide = (payload): Promise<SuccessResponse> =>
+    request("POST", API + `/ukl/suicide/`, {}, payload)
+
+export const getUKLPsychotherapy = (payload): Promise<UKLData> =>
+    request("GET", API + `/ukl/psychotherapy/`, {}, payload)
+
+export const saveUKLPsychotherapy = (payload): Promise<SuccessResponse> =>
+    request("POST", API + `/ukl/psychotherapy/`, {}, payload)
+
+export const getUKL = (payload): Promise<UKLData[]> =>
+    request("GET", API + `/ukl/`, {}, payload)

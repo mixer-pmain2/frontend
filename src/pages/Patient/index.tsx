@@ -28,11 +28,11 @@ const PatientDetail = ({onReset, patient}: PatientDetailProps) => {
     }
 
     const patItem = (text) =>
-        <span className="input-group-text bg-light mb-3" id="basic-addon3" style={{marginRight: 10}}>
+        <span className="input-group-text bg-light mb-3" id="basic-addon3" style={{marginRight: 5}}>
             {text}
         </span>
 
-    const patLabel = (title, text) => <div className="d-flex flex-row mb-3" style={{marginRight: 10}}>
+    const patLabel = (title, text) => <div className="d-flex flex-row mb-3" style={{marginRight: 5}}>
         <span className="input-group-text">{title}</span>
         <span className="input-group-text bg-light" id="basic-addon3">
             {text}
@@ -40,12 +40,13 @@ const PatientDetail = ({onReset, patient}: PatientDetailProps) => {
     </div>
 
     return <div>
-        <div className="d-flex flex-row justify-content-between">
-            <a href="#" className="btn btn-outline-secondary mb-3" style={{marginRight: 10}}
+        <div className="d-flex flex-row justify-content-start">
+            <a href="#" className="btn btn-outline-secondary mb-3" style={{marginRight: 5}}
                onClick={onReset}>Сброс</a>
-            <div className="d-flex flex-row mb-3" style={{marginRight: 10, minWidth: 150, maxWidth: 200}}>
+            <div className="input-group d-flex flex-row mb-3" style={{marginRight: 5, flexWrap: "nowrap", width: 160}}>
                 <span className="input-group-text">Шифр</span>
                 <input
+                    style={{width: 150}}
                     type="text"
                     className="form-control bg-light"
                     autoFocus={true}
@@ -56,9 +57,10 @@ const PatientDetail = ({onReset, patient}: PatientDetailProps) => {
                     readOnly={true}
                 />
             </div>
-            <div className="d-flex flex-row w-100 mb-3" style={{marginRight: 10, minWidth: 400}}>
+            <div className="input-group d-flex flex-row mb-3" style={{marginRight: 5, flexWrap: "nowrap"}}>
                 <span className="input-group-text" id="basic-addon3">Ф.И.О.</span>
                 <input
+                    style={{minWidth: 400}}
                     type="text"
                     className="form-control bg-light"
                     autoFocus={true}

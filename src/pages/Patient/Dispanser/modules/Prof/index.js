@@ -9,6 +9,7 @@ import * as apiPatient from "api/patient";
 import {PageTitle} from "components/Title";
 import {dispanserSubModules} from "consts/app";
 import InputDate from "components/Input/date";
+import Application from 'classes/Application.ts'
 
 
 const Prof = ({dispatch, user, application}) => {

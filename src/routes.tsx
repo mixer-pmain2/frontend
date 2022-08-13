@@ -15,6 +15,7 @@ import FindPatient from './pages/Patient/Find'
 import Report from 'pages/Report'
 import NewPatient from 'pages/Patient/New'
 import Administration from 'pages/Administration'
+import FindByAddress from "./pages/Patient/Find/FindByAddress";
 
 export const linkDict = {
     start: '/',
@@ -25,6 +26,7 @@ export const linkDict = {
     patient: '/patient/:id',
     newPatient: '/patient/new',
     findPatient: '/patient/find',
+    findPatientByAddress: '/patient/findByAddress',
 
     administration: '/administration',
     report: '/report',
@@ -52,7 +54,7 @@ const page = (access) => {
 const routes = [
     {
         path: linkDict.signin,
-        element: <SignInPageState/>
+        element: () => <SignInPageState/>
     },
     {
         path: linkDict.start,
@@ -65,6 +67,10 @@ const routes = [
     {
         path: linkDict.findPatient,
         element: page(access.accessPage.findPatient)(<FindPatient/>)
+    },
+    {
+        path: linkDict.findPatientByAddress,
+        element: page(access.accessPage.findPatient)(<FindByAddress/>)
     },
     {
         path: linkDict.newPatient,

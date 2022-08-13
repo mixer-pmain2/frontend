@@ -1,6 +1,6 @@
 import React from "react";
 
-import {formatDateToInput} from "utility/string";
+import { formatDate, formatDateToInput } from 'utility/string'
 
 import InputText from "components/Input/text";
 import InputDate from "components/Input/date";
@@ -36,7 +36,7 @@ const FormNewPatient = ({form, setForm, onSubmit}) => {
             lname: "",
             fname: "",
             sname: "",
-            bday: "",
+            bday: "1900-01-01",
             isAnonim: false,
             sex: ""
         })
@@ -66,6 +66,7 @@ const FormNewPatient = ({form, setForm, onSubmit}) => {
                     onChange={setDate}
                     showYearDropdown
                     value={form.bday}
+                    min={"1900-01-01"}
                 />
             </div>
             <div style={{width: 200}}>

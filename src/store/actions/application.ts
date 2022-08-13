@@ -138,4 +138,11 @@ export const getDoctors = (payload: {unit: number, cache?: boolean}) => dispatch
         })
 }
 
+export const findLeadDoctor = (payload) => dispatch => {
+    return appApi.findLeadDoctor(payload)
+        .then(r => {
+            return r
+        })
+}
+
 

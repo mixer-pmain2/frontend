@@ -55,7 +55,15 @@ const CancelCustody = (p: CancelCustodyProps) => {
     }, [p.data])
 
     return <div className="d-flex flex-row align-items-end">
-        <InputDate isRow={false} title={"Дата решения суда"} value={form.dateEnd} onChange={setDate} style={{marginRight: 5}}/>
+        <InputDate
+            isRow={false}
+            title={"Дата решения суда"}
+            value={form.dateEnd}
+            onChange={setDate}
+            style={{marginRight: 5}}
+            showYearDropdown
+            min={"1900-01-01"}
+        />
         <Button className="btn-outline-danger mb-1" onClick={p.onClose} style={{marginRight: 5}}>Отмента</Button>
         <Button className="btn-outline-primary mb-1" onClick={handleCancelCustody}>Записать</Button>
     </div>

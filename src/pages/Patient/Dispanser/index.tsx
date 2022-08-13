@@ -30,7 +30,7 @@ const AmbTabs = [
     dispanserSubModules.vaccinations,
     dispanserSubModules.infection,
     // dispanserSubModules.section23,
-    // dispanserSubModules.UKL,
+    dispanserSubModules.UKL,
     dispanserSubModules.passport,
     dispanserSubModules.section22,
     dispanserSubModules.ood
@@ -52,6 +52,10 @@ const Dispanser = (props: DispanserProps) => {
             [Boolean(patient.id), false].indexOf(v.patientRequire) + 1)
     }
 
+    const handleUnTab = () => {
+        setCurrentTab(null)
+    }
+
     return <div>
         {<Menu
             tabs={tabsFilter(AmbTabs)}
@@ -68,7 +72,7 @@ const Dispanser = (props: DispanserProps) => {
         {currentTab === dispanserSubModules.groupWork.id && <GroupWork/>}
         {currentTab === dispanserSubModules.vaccinations.id && <Vaccinations/>}
         {currentTab === dispanserSubModules.infection.id && <Infection/>}
-        {currentTab === dispanserSubModules.UKL.id && <UKL/>}
+        {currentTab === dispanserSubModules.UKL.id && <UKL onClose={handleUnTab}/>}
         {currentTab === dispanserSubModules.section23.id && <Section23/>}
         {currentTab === dispanserSubModules.passport.id && <Passport/>}
         {currentTab === dispanserSubModules.section22.id && <Section22/>}

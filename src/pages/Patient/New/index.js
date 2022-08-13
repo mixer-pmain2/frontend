@@ -11,7 +11,7 @@ import * as appActions from "store/actions/application";
 import * as patientActions from "store/actions/patient";
 import FormNewPatient from "pages/Patient/New/form";
 import FoundTable from "pages/Patient/New/found";
-import {formatDate} from "utility/string";
+import { formatDate, formatDateToInput } from 'utility/string'
 
 const mapper = (row) => {
     return <>
@@ -40,7 +40,7 @@ const NewPatient = ({dispatch, user}) => {
         lname: "",
         fname: "",
         sname: "",
-        bday: "",
+        bday: "1900-01-01",
         isAnonim: false,
         sex: "",
         userId: user.id,

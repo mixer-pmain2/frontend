@@ -8,6 +8,14 @@ export default class User {
         this.user = obj
     }
 
+    get access(): number {
+        return this.user.access[this.user.unit]
+    }
+
+    get unit(): number {
+        return this.user.unit
+    }
+
     isAdmin(): boolean {
         return (this.user.access[this.user.unit] & Access.dispanser["Прямой доступ к данным"]) > 0
     }
@@ -30,6 +38,10 @@ export default class User {
 
     getSection(): number[] {
         return this.user.section?.[this.user.unit]
+    }
+
+    isUnit(unit: number): boolean {
+        return (this.unit & unit) > 0
     }
 
 }

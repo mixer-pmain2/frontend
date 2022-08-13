@@ -1,15 +1,17 @@
+type ApplicationParams = {
+    comment: string
+    dateEnd: string
+    dateStart: string
+    param: string
+    paramD: number
+    paramI: number
+    paramS: string
+}
+
 type ApplicationStore = {
     loading: boolean
     loadingList: number[]
-    params: {
-        comment: string
-        dateEnd: string
-        dateStart: string
-        param: string
-        paramD: number
-        paramI: number
-        paramS: string
-    }[]
+    params: ApplicationParams[]
     spr: {
         access: {
             unit: number

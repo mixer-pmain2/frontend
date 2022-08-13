@@ -21,8 +21,10 @@ const Select = (p: SelectProps) => {
 
     return <div className={`d-flex w-100 ${p.className}`}>
         {p.title && <label htmlFor={p.name} style={{marginRight: 5, marginBottom: 5}}>{p.title}</label>}
-        <select className="form-select w-100" name={p.name} id={p.name} value={p.currentValue}
-                onChange={handleChange}>
+        <select
+            className="form-select w-100" name={p.name} id={p.name} value={p.currentValue}
+            onChange={handleChange}
+        >
             {p.options.map((v, i) => {
                 if (p.mapper)
                     return p.mapper(v)

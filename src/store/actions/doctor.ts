@@ -4,7 +4,7 @@ import * as apiDoctor from "../../api/doctor";
 export const getRate = (payload: DoctorFindParam & QueryParams) => dispatch =>
     apiDoctor.getRate(payload)
 
-export const getVisitCountPlan = (payload: DoctorFindParam) => dispatch =>
+export const getVisitCountPlan = (payload: DoctorFindParam & QueryParams) => dispatch =>
     apiDoctor.getVisitCountPlan(payload)
 
 export const getUnits = (payload: DoctorFindParam) => dispatch =>

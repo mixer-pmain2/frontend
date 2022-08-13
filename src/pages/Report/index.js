@@ -6,16 +6,21 @@ import Layout from 'pages/Layout'
 import SubMenu from 'components/SubMenu'
 import Jobs from 'pages/Report/Jobs'
 import Order from 'pages/Report/Order.tsx'
+import { accessPage, isAccessedPage } from '../../configs/access'
 
-const tabs = [{
-    id: 1,
-    title: 'Список отчетов'
-}, {
-    id: 2,
-    title: 'Заказать отчет'
-}]
 
 const Report = ({ dispatch, user }) => {
+
+    const tabs = [{
+        id: 1,
+        title: 'Список отчетов',
+        accessed: true
+    }, {
+        id: 2,
+        title: 'Заказать отчет',
+        accessed: isAccessedPage(accessPage.reportOrder, user)
+    }]
+
     const t = appPages.report
     const [curTab, setCurTab] = useState(tabs[0].id)
 
@@ -23,7 +28,7 @@ const Report = ({ dispatch, user }) => {
         <PageTitle title={t.title}/>
         <SubMenu
             style={{marginBottom: 15}}
-            tabs={tabs}
+            tabs={tabs.filter(v => v.accessed)}
             curTab={curTab}
             onChange={setCurTab}
             tooltip={false}
