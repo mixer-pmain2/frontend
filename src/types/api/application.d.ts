@@ -199,3 +199,59 @@ type UKLData = {
     date3: string,
     doctor: number
 }
+
+type ForcedMData = {
+    id: number
+    number: number
+    dateStart: string
+    dateEnd: string
+    watch: string
+    mechanism: string
+    state: string
+}
+
+type ForcedData = {
+    id: number
+    patientId: number
+    number: number
+    courtDate: string
+    courtConclusionDate: string
+    courtId: number
+    typeCrimeId: number
+    viewId: number
+    forcedP: number
+    sick: number
+    mechanism: number
+    doctorId1: number
+    doctorId2: number
+    dateView: string
+    conclusionId: number
+    actNumber: number
+    actDate: string
+    dateEnd: string
+    typeId: number
+    userId?: number
+}
+
+type ViewedData = {
+    id: number
+    number?: number
+    viewDate: string
+    doctorName1: string
+    doctorName2: string
+    conclusion: string
+    actNumber: number
+    actDate: string
+    view: string
+    courtDate: string
+    courtConclusionDate: string
+    type: string
+    dateEnd: string
+    courtName: string
+
+}
+
+type SprVisitN = {
+    code: number
+    name: string
+}

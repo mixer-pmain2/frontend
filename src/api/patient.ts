@@ -126,7 +126,7 @@ export const getSection22 = (payload) =>
 export const addSection22 = (payload) =>
     request("POST", API + `/patient/${payload.patientId}/section22/`, {}, payload)
 
-export const getSod = (payload) =>
+export const getSod = (payload): Promise<SOD[]> =>
     request("GET", API + `/patient/${payload.id}/sod/`, {}, payload)
 
 export const getOodLast = (payload) =>
@@ -138,7 +138,7 @@ export const getFindSection29 = (payload) =>
 export const addOod = (payload): Promise<SuccessResponse> =>
     request("POST", API + `/patient/${payload.patientId}/ood/`, {}, payload)
 
-export const addSod = (payload): Promise<SuccessResponse> =>
+export const addSod = (payload: SOD): Promise<SuccessResponse> =>
     request("POST", API + `/patient/${payload.patientId}/sod/`, {}, payload)
 
 export const getDoctorVisitByPatient = (payload): Promise<Doctor[]> =>
@@ -164,3 +164,25 @@ export const saveUKLPsychotherapy = (payload): Promise<SuccessResponse> =>
 
 export const getUKL = (payload): Promise<UKLData[]> =>
     request("GET", API + `/ukl/`, {}, payload)
+
+export const getForcedM = (payload): Promise<ForcedMData[]> =>
+    request("GET", API + `/patient/${payload.patientId}/forced/`, {}, payload)
+
+export const getViewed = (payload): Promise<ViewedData[]> =>
+    request("GET", API + `/patient/${payload.patientId}/viewed/`, {}, payload)
+
+export const getForced = (payload: {id: number, cache?: boolean}): Promise<ForcedData> =>
+    request("GET", API + `/patient/forced/`, {}, payload)
+
+export const postForced = (payload: ForcedData): Promise<SuccessResponse> =>
+    request("POST", API + `/patient/${payload.patientId}/forced/`, {}, payload)
+
+export const getForcedNumber = (payload): Promise<{number: number}> =>
+    request("GET", API + `/patient/${payload.patientId}/forced/number/`, {}, payload)
+
+export const postNewForced = (payload: ForcedData): Promise<SuccessResponse> =>
+    request("POST", API + `/patient/${payload.patientId}/forced/new/`, {}, payload)
+
+export const postEndForced = (payload: ForcedData): Promise<SuccessResponse> =>
+    request("POST", API + `/patient/${payload.patientId}/forced/end/`, {}, payload)
+

@@ -128,6 +128,14 @@ export const dispanserSubModules = {
         unit: accessModule.dispanser.ood.unit,
         access: accessModule.dispanser.ood.access,
         patientRequire: true
+    },
+    forced: {
+        id: iota(),
+        title: "Принудительное лечение",
+        img: icons.module.dispanser.forced,
+        unit: accessModule.dispanser.forced.unit,
+        access: accessModule.dispanser.forced.access,
+        patientRequire: true
     }
 
 }

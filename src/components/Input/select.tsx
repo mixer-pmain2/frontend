@@ -7,13 +7,15 @@ type SelectProps = {
         value
     }[]
     mapper?: (option: any) => ReactNode
-    currentValue
+    currentValue?
     onChange: (name: string, value: string) => void
     name?
     title?
+    defaultValue?: any
 }
 
 const Select = (p: SelectProps) => {
+    const {defaultValue = undefined} = p
 
     const handleChange = (e) => {
         p.onChange(e.target.name, e.target.value)
@@ -22,7 +24,7 @@ const Select = (p: SelectProps) => {
     return <div className={`d-flex w-100 ${p.className}`}>
         {p.title && <label htmlFor={p.name} style={{marginRight: 5, marginBottom: 5}}>{p.title}</label>}
         <select
-            className="form-select w-100" name={p.name} id={p.name} value={p.currentValue}
+            className="form-select w-100" name={p.name} id={p.name} value={defaultValue != undefined ? defaultValue : p.currentValue}
             onChange={handleChange}
         >
             {p.options.map((v, i) => {

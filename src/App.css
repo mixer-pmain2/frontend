@@ -70,3 +70,11 @@ body {
     border-left: solid 10px #0d6efd;
     transition-duration: 0.3s;
 }
+
+.mr-5 {
+    margin-right: 5px;
+}
+
+.mr-15 {
+    margin-right: 15px;
+}

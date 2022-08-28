@@ -43,7 +43,9 @@ function Layout({children, user, application, dispatch, patient}: LayoutProps) {
                 <div className="mb-5">
                     {navMenu(user, application, patient)}
                 </div>
-                {children}
+                <div style={{minHeight: "100vh"}}>
+                    {children}
+                </div>
             </div> : <SignInPage/>
         }
         <NotificationContainer/>
@@ -52,8 +54,9 @@ function Layout({children, user, application, dispatch, patient}: LayoutProps) {
             <Loading type={typeLoading.PRIMARY} isLoading={application?.loadingList?.length > 0}/>
         </div>
         {application?.loadingList?.length > 0 && <Progress style={{position: "fixed", top: 0, left: 0, width: "100%"}}/>}
-        <footer style={{height: 150}}>
-
+        <footer style={{marginTop: 100, marginBottom: 40}}>
+            <hr/>
+            БУЗОО "КПБ им. Н.Н. Солодникова"
         </footer>
     </div>
 }

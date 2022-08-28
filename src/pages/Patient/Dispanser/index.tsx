@@ -18,6 +18,7 @@ import { dispanserSubModules } from 'consts/app'
 import Section23 from 'pages/Patient/Dispanser/modules/Section23'
 import Passport from 'pages/Patient/Dispanser/modules/Passport'
 import Section22 from 'pages/Patient/Dispanser/modules/Section22'
+import Forced from "./modules/Forced";
 
 const AmbTabs = [
     dispanserSubModules.history,
@@ -33,7 +34,8 @@ const AmbTabs = [
     dispanserSubModules.UKL,
     dispanserSubModules.passport,
     dispanserSubModules.section22,
-    dispanserSubModules.ood
+    dispanserSubModules.ood,
+    dispanserSubModules.forced
 ]
 
 type DispanserProps = {
@@ -72,11 +74,12 @@ const Dispanser = (props: DispanserProps) => {
         {currentTab === dispanserSubModules.groupWork.id && <GroupWork/>}
         {currentTab === dispanserSubModules.vaccinations.id && <Vaccinations/>}
         {currentTab === dispanserSubModules.infection.id && <Infection/>}
-        {currentTab === dispanserSubModules.UKL.id && <UKL onClose={handleUnTab}/>}
         {currentTab === dispanserSubModules.section23.id && <Section23/>}
         {currentTab === dispanserSubModules.passport.id && <Passport/>}
         {currentTab === dispanserSubModules.section22.id && <Section22/>}
         {currentTab === dispanserSubModules.ood.id && <Ood/>}
+        {currentTab === dispanserSubModules.UKL.id && <UKL onClose={handleUnTab}/>}
+        {currentTab === dispanserSubModules.forced.id && <Forced/>}
     </div>
 }
 

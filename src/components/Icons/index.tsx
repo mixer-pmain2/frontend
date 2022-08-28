@@ -4,7 +4,8 @@ import {
     BsClockFill,
     BsBookFill,
     BsEmojiSunglassesFill,
-    BsReddit
+    BsReddit,
+    BsSearch
 } from "react-icons/bs";
 import {
     RiParentFill,
@@ -26,18 +27,15 @@ import {
 import {
     GiPistolGun
 } from "react-icons/gi"
-import {
-    GrStatusGood
-} from "react-icons/gr";
+import {SiSalesforce} from "react-icons/si"
 import {
     FaRegClock
 } from "react-icons/fa";
 import {
     MdDownloadForOffline,
-    MdErrorOutline
+    MdErrorOutline,
+    MdOutlineCleaningServices
 } from "react-icons/md";
-import {Provider} from "react-redux";
-
 
 
 export const iconsUnit = {
@@ -70,6 +68,7 @@ const Icons = {
             passport: <RiPassportFill/>,
             section22: <RiFilePaper2Fill/>,
             ood: <BsReddit/>,
+            forced: <SiSalesforce/>
         }
     },
     event: {
@@ -79,7 +78,9 @@ const Icons = {
         edit: <RiEditFill/>,
         arrowRight: <RiArrowRightSFill/>,
         arrowRightLine: <RiArrowRightSLine/>,
-        information: <MdErrorOutline/>
+        information: <MdErrorOutline/>,
+        search: <BsSearch/>,
+        clean: <MdOutlineCleaningServices/>,
     },
     status: {
         NEW: <FaRegClock/>,

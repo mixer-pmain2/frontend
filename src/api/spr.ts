@@ -15,6 +15,11 @@ export const getSprVisit = () => {
   return request('GET', url, {}, {})
 }
 
+export const getSprVisitByCode = (payload: {code: number}): Promise<SprVisitN[]> => {
+  const url = API + "/spr/visit/code/"
+  return request('GET', url, {}, payload)
+}
+
 export const getSprDiag = (req) => {
   const url = API + `/spr/diag/`
   return request('GET', url, {}, req)

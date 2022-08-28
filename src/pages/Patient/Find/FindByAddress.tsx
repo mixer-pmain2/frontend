@@ -9,7 +9,7 @@ import Table from "components/Table";
 import {findArea, findDistrict, findRegion, findRepublic, findStreet} from "store/actions/application";
 import Button from "components/Button";
 import Modal, {BTN_CLOSE, BTN_CUSTOM} from "components/Modal";
-import {findByAddress, findById} from "store/actions/patient";
+import {findByAddress} from "store/actions/patient";
 import {notifyError, notifyInfo} from "components/Notify";
 import {formatDate} from "utility/string";
 import * as patientActions from "../../../store/actions/patient";
@@ -180,8 +180,8 @@ const FindByAddress = (p: FindByAddressProps) => {
     const handleSubmit = () => {
         let post = {}
         const keys = Object.keys(form)
-        keys.map(v => {
-            if (["house", "build"].indexOf(v) == -1 && form[v] && state[`${v}Title`]) {
+        keys.forEach(v => {
+            if (["house", "build"].indexOf(v) === -1 && form[v] && state[`${v}Title`]) {
                 post[v] = form[v]
             } else if (form[v] && ["house", "build"].indexOf(v) > -1) {
                 post[v] = form[v]

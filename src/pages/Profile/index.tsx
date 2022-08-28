@@ -6,6 +6,7 @@ import {capitalizeFirstLetter} from 'utility/string'
 import Button from 'components/Button'
 import ChangePassword from "./ChangePassword";
 import {iota} from "../../utility/app";
+import AccessTab from "./AccessTab";
 
 type MenuItemProps = {
     children
@@ -31,6 +32,11 @@ const subPages = [
         id: iota(),
         title: "Изменить пароль",
         component: ChangePassword,
+    },
+    {
+        id: iota(),
+        title: "Права",
+        component: AccessTab,
     },
 ]
 

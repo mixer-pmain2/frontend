@@ -7,7 +7,7 @@ type TableProps = {
     data: any[]
     mapper: (row: Object) => any
     onDoubleClick?
-    selecting?
+    selecting?: boolean
     onClick?
     loading?: boolean
     style?

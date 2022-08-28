@@ -18,7 +18,7 @@ const StartPage = ({ dispatch, user, application }) => {
 
     const initUser = useCallback(() => {
         if (user?.id) {
-            dispatch(userActions.getPrava({ id: user?.id }))
+            dispatch(userActions.getPrava({ id: user?.id, cache: false }))
             dispatch(userActions.getUch({ id: user?.id }))
         }
     }, [user?.id])

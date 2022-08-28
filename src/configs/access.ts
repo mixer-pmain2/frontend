@@ -11,7 +11,7 @@ export const isAccessed = (accessList, uUnit, uAccess) => {
     return false
 }
 
-export const isAccessedPage = (accessList: {access: number, unit: number}[], user: UserStore) => {
+export const isAccessedPage = (accessList: { access: number, unit: number }[], user: UserStore) => {
     return isAccessed(accessList, user.unit, user.access?.[user.unit])
 }
 
@@ -139,6 +139,13 @@ export const accessModule = {
         ood: {
             access: 0,
             unit: Unit.АПЛ
+        },
+        forced: {
+            access: accessRole.dispanser.asu |
+                Access.dispanser["Работа с принудкой"] |
+                Access.dispanser["Работа регистратора"] |
+                Access.dispanser["Только просмотр (справочная система)"],
+            unit: 0
         }
     }
 }
