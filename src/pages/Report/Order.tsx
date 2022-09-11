@@ -103,6 +103,7 @@ const Order = (p: OrderProps) => {
         userId: p.user.id,
         unit: p.user.unit,
         filters: {
+            unit: p.user.unit,
             rangeDate: [formatDateToInput(new Date()), formatDateToInput(new Date())],
             dateStart: formatDateToInput(new Date()),
             dateEnd: formatDateToInput(new Date()),

@@ -4,7 +4,6 @@ import HistoryUKL from "../HistoryUKL";
 import {notifyError, notifySuccess} from "components/Notify";
 import {createJob} from "api/report";
 import {useNavigate} from "react-router-dom";
-import {linkDict} from "routes";
 
 
 type ModalHistoryProps = {
@@ -40,8 +39,8 @@ const ModalHistory = (p: ModalHistoryProps) => {
         })
             .then(res => {
                 if (res.success) {
-                    notifySuccess("Отчет заказан")
-                    navigate(linkDict.report)
+                    notifySuccess("Отчет заказан. Перейдите в \"Отчеты\"")
+                    // navigate(linkDict.report)
                 } else {
                     notifyError(res.message)
                 }

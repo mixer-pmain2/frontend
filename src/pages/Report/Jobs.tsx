@@ -1,14 +1,14 @@
 import React, {useEffect, useState} from "react";
 import {connect} from "react-redux";
-import {downloadReport, getJobs} from "../../api/report";
-import Table from "../../components/Table";
-import {CategoryType, Filters, Reports} from "../../configs/report";
-import {formatDate, formatDateTime} from "../../utility/string";
-import Icons from "../../components/Icons";
-import {notifyError, notifySuccess} from "../../components/Notify";
+import {downloadReport, getJobs} from "api/report";
+import Table from "components/Table";
+import {CategoryType, Filters, Reports, UnShowFilters} from "configs/report";
+import {formatDate, formatDateTime} from "utility/string";
+import Icons from "components/Icons";
+import {notifyError, notifySuccess} from "components/Notify";
 import Tooltip, {TooltipTypes} from "components/Tooltip";
 import {styles} from "styles"
-import {isNotEmpty} from "../../utility/app";
+import {isNotEmpty} from "utility/app";
 
 
 type JobsProps = {
@@ -56,11 +56,11 @@ const Jobs = (p: JobsProps) => {
                     {row.filters.rangeDate?.length && <div style={{marginRight: 15}}>
                         {Filters.rangeDate.title}: {row.filters.rangeDate.filter(v => v != "")?.map(v => formatDate(v)).join(" - ")}
                     </div>}
-                    {Object.keys(row.filters).filter(v => ["dateStart", "dateEnd", "rangeDate"].indexOf(v) === -1)
+                    {Object.keys(row.filters).filter((v: ReportFilters) => UnShowFilters.indexOf(v) === -1)
                         .filter(v => {
                             return (isNotEmpty(row.filters[v]))
                         }).length ?
-                        <a href="#"
+                        <a
                            data-tip
                            data-for={`filters${row.id}`}
                            className="d-flex align-items-center"

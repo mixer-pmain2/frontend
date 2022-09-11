@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
-import {getUKL} from "../../../../../api/patient";
-import Table from "../../../../../components/Table";
-import {formatDate} from "../../../../../utility/string";
+import {getUKL} from "api/patient";
+import Table from "components/Table";
+import {formatDate} from "utility/string";
 
 
 const mapper = (row: UKLData) => {
@@ -13,12 +13,12 @@ const mapper = (row: UKLData) => {
         return getColumns(name).reduce((sum, a) => sum + row[a], 0)
     }
 
-    const getUnit = () => {
+    const getUnitName = () => {
         if (row.registratId != 0) return "Дисп."
         if (row.visitId != 0) return "Психотер./Суицид."
         return ""
     }
-
+    console.log(getColumns("p1_").map(v => row[v]))
     return <>
         <td>{getSum("p1_")}</td>
         <td>{formatDate(row.date1)}</td>
@@ -26,7 +26,7 @@ const mapper = (row: UKLData) => {
         <td>{formatDate(row.date2)}</td>
         <td>{getSum("p3_")}</td>
         <td>{formatDate(row.date3)}</td>
-        <td>{getUnit()}</td>
+        <td>{getUnitName()}</td>
     </>
 }
 

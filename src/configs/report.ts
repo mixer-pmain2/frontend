@@ -54,8 +54,8 @@ export const Reports: Report[] = [
         id: iota(),
         code: "ReceptionLog",
         title: "Журнал приема",
-        filters: ["dateStart"],
-        requireFilters: ["dateStart"],
+        filters: ["dateStart", "unit"],
+        requireFilters: ["dateStart", "unit"],
         order: 1
     },
     {
@@ -116,11 +116,11 @@ export const Reports: Report[] = [
     },
     {
         id: iota(),
-        code: "39FormGeneral",
+        code: "Form39General",
         title: "39 форма общая",
-        filters: ["rangeDate"],
-        requireFilters: ["rangeDate"],
-        reportGroup: ["notWork"],
+        filters: ["rangeDate", "unit"],
+        requireFilters: ["rangeDate", "unit"],
+        // reportGroup: ["notWork"],
         order: 9
     },
     {
@@ -227,3 +227,5 @@ export const Reports: Report[] = [
         unit: Unit.АПЛ
     },
 ]
+
+export const UnShowFilters: ReportFilters[] = ["dateStart", "dateEnd", "rangeDate", "unit"]

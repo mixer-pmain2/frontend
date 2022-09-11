@@ -3,7 +3,7 @@ type FieldToFilters = "id" | "dateStart" | "dateEnd" | "unit" | "category" | "ty
 type ReportStatusType = "NEW" | "PROGRESS" | "DONE" | "ERROR"
 
 type ReportTypes = "ReceptionLog" | "VisitsPerPeriod" | "AdmittedToTheHospital" | "ThoseInTheHospital" |
-    "DischargedFromHospital" | "Unvisited" | "Registered" | "Deregistered" | "39doctorsForm" | "39FormGeneral" |
+    "DischargedFromHospital" | "Unvisited" | "Registered" | "Deregistered" | "39doctorsForm" | "Form39General" |
     "DLOMagazine" | "ConsistingOnTheSite" | "MismatchOfDiagnoses" | "DischargedAndNotTaken" |
     "MonthlyCompletionPercentage" | "UKL" | "ReceptionSuicidologistServices" | "Average visit" | "ProtocolUKL" |
     "IndicatorsQuality" | "Form030-1u-02" | "HospitalTreatment" | "AmbulatoryTreatment" | "PBSTIN" |
@@ -32,6 +32,7 @@ type ReportJobFilter = {
     category?
     typeCategory?
     rangeSection?: number[]
+    unit?: number
 }
 
 type ReportJobRequest = {
