@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 import {PageTitle} from "components/Title";
 import {getForcedM} from "api/patient";
 import Table from "components/Table";
-import {formatDate, formatDateToInput} from "utility/string";
+import {formatDate} from "utility/string";
 import Viewed from "./Viewed";
 import Button from "components/Button";
 import Icons from "components/Icons";
@@ -62,18 +62,21 @@ const Forced = (p: ForcedProps) => {
         <PageTitle title={"Принудительное лечение"}/>
         <div className="d-flex flex-row">
             <Button
+                tooltip={"Новая принудка"}
                 className="btn-outline-primary" style={{marginRight: 5}}
                 onClick={_ => setState(s => ({...s, showNewForced: true}))}
             >
                 {Icons.event.add}
             </Button>
             <Button
+                tooltip={"Осмотр"}
                 className="btn-outline-primary" style={{marginRight: 5}}
                 onClick={_ => setState(s => ({...s, showNewViewed: true}))}
             >
                 {Icons.event.search}
             </Button>
             <Button
+                tooltip={"Чужая принудка"}
                 className="btn-outline-primary"
                 onClick={_ => setState(s => ({...s, showEndForced: true}))}
             >
