@@ -79,6 +79,7 @@ const ModalEndForced = (p: ModalEndForcedProps) => {
     }, [])
 
     return <Modal
+        title={"Чужая принудка"}
         body={<div>
             <div className="mb-3">
                 <label className="form-label">Дата начала ПЛ</label>

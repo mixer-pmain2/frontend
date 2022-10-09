@@ -305,6 +305,7 @@ const NewViewed = (p: NewViewedProps) => {
     }
 
     return <Modal
+        title={"Осмотр"}
         style={{minWidth: 800}}
         body={<ViewedFormComponent
             data={p.viewedRow}

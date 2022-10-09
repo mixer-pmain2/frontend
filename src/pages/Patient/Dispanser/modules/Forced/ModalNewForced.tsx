@@ -189,6 +189,7 @@ const ModalNewForced = (p: ModalNewForcedProps) => {
     }, [])
 
     return <Modal
+        title={"Новая принудка"}
         style={{minWidth: 800}}
         body={<div className="d-flex flex-row justify-content-start">
             <div style={{marginRight: 15, width: 400}}>
@@ -227,7 +228,7 @@ const ModalNewForced = (p: ModalNewForcedProps) => {
                     />
                 </div>
                 <div className="mb-3">
-                    <label className="form-label">Вид п. л.</label>
+                    <label className="form-label">Механизм ООД</label>
                     <Select
                         options={state.mehList}
                         currentValue={form.mechanism}
