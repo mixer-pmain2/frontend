@@ -3,7 +3,7 @@ import Cookies from 'js-cookie'
 
 import Notify, {notifyType} from '../components/Notify'
 
-export const API = (process.env.NODE_ENV === 'production') ? '/api/v0' : 'http://localhost:80/api/v0'
+export const API = (process.env.NODE_ENV === 'production') ? '/api/v0' : 'http://localhost:8080/api/v0'
 
 export const setToken = (v) =>
     Cookies.set('token', v)
