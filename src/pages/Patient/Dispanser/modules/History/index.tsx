@@ -45,9 +45,12 @@ const HistoryVisit = ({patient, loading}) => {
 }
 
 const HistoryHospital = ({patient, loading}) => {
-    const [selectRow, setSelectRow] = useState(patient?.visit?.[0])
-    const mapper = (row) => {
+    const [selectRow, setSelectRow] = useState(patient?.hospital?.[0])
+    const mapper = (row: PatientHospitalStore) => {
         return <>
+            <td>
+                {row.otd}
+            </td>
             <td>
                 {formatDate(row.dateStart)}
             </td>
@@ -55,21 +58,24 @@ const HistoryHospital = ({patient, loading}) => {
                 {formatDate(row.dateEnd)}
             </td>
             <td>
-                {row.otd}
-            </td>
-            <td>
                 {row.diagStart}
             </td>
             <td>
                 {row.diagEnd}
             </td>
+            <td>
+                {row.historyNumber}
+            </td>
+            <td>
+                {row.where}
+            </td>
         </>
     }
 
     return <div>
-        <span>Диагноз выписки </span><span title={selectRow?.diagEndS}>{shorty(selectRow?.diagEndS)}</span>
+        <span>Диагноз выписки </span><span title={selectRow?.diagEndS}>{shorty(selectRow?.diagEndS, 115)}</span>
         <Table
-            columns={["Дата поступления", "Дата выписки", "Отделение", "Диагноз поступления", "Диагноз выписки"]}
+            columns={["Отделение", "Дата поступления", "Дата выписки", "Диагноз поступления", "Диагноз выписки", "№ ист.", "Куда выписан"]}
             data={patient?.hospital || []}
             mapper={mapper}
             selecting={true}
@@ -103,7 +109,7 @@ const History = ({dispatch, patient, application}) => {
     </div>
 }
 
-export default connect(state => ({
+export default connect((state: RootStore) => ({
     patient: state.patient,
     application: state.application
 }))(History)
