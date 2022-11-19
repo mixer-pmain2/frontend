@@ -117,3 +117,10 @@ type PatientStore = {
     vaccination?: PatientVaccinationStore[]
     infection?: PatientInfectionStore[]
 }
+
+type PatientPolicyStore = {
+    patientId: number
+    company: number
+    number: string
+    series: string
+}

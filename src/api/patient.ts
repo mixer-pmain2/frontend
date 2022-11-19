@@ -186,3 +186,8 @@ export const postNewForced = (payload: ForcedData): Promise<SuccessResponse> =>
 export const postEndForced = (payload: ForcedData): Promise<SuccessResponse> =>
     request("POST", API + `/patient/${payload.patientId}/forced/end/`, {}, payload)
 
+export const getPolicy = (payload: {patientId}): Promise<PatientPolicyStore&SuccessResponse> =>
+    request("GET", API + `/patient/${payload.patientId}/policy/`, {}, payload)
+
+export const savePolicy = (payload: PatientPolicyStore): Promise<SuccessResponse> =>
+    request("PUT", API + `/patient/${payload.patientId}/policy/`, {}, payload)

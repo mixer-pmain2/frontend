@@ -1,7 +1,7 @@
 import React, {memo, useCallback, useEffect, useState} from "react";
 import {connect} from "react-redux";
 
-import {PageTitle} from "components/Title";
+import {PageTitle, PageTitleLvl2} from "components/Title";
 import {dispanserSubModules} from "consts/app";
 import Panel from "components/Panel";
 import InputText from "components/Input/text";
@@ -14,7 +14,10 @@ import {notifyError, notifySuccess} from "components/Notify";
 import Table from "components/Table";
 import {findArea, findDistrict, findRegion, findRepublic, findStreet} from "store/actions/application";
 import * as patientActions from "../../../../../store/actions/patient";
+import * as apiSpr from "api/spr"
+import * as apiPatient from "api/patient"
 import User from "../../../../../classes/User";
+import Select from "../../../../../components/Input/select";
 
 
 const FindSideComponent = ({name, column, find, state, form, onChange, onClick, style = {}}) => {
@@ -97,6 +100,7 @@ const Passport = (p: PassportProps) => {
             code: string
             name: string
         }[]
+        company: SprVisitN[]
     }>({
         showEditAddress: false,
         editable: ((p.user.access[p.user.unit] & Access.dispanser["Только просмотр (справочная система)"]) == 0)
@@ -105,7 +109,8 @@ const Passport = (p: PassportProps) => {
         region: [],
         district: [],
         area: [],
-        street: []
+        street: [],
+        company: []
     })
     const [form, setForm] = useState({
         id: p.patient.id,
@@ -124,6 +129,13 @@ const Passport = (p: PassportProps) => {
         flat: p.patient.flat
     })
 
+    const [formPolicy, setFormPolicy] = useState<PatientPolicyStore>({
+        patientId: p.patient.id,
+        series: "",
+        number: "",
+        company: 0
+    })
+
     const submitForm = () => {
         p.dispatch(updPassport({
             ...form,
@@ -139,11 +151,29 @@ const Passport = (p: PassportProps) => {
             })
     }
 
+    const submitFormPolicy = () => {
+        apiPatient.savePolicy(formPolicy)
+            .then(res => {
+                if (res.success) {
+                    notifySuccess("Полис обновлен")
+                } else {
+                    notifyError(res.message)
+                }
+            })
+    }
+
     const handleChange = (e) => {
         setForm({
             ...form,
             [e.target.name]: e.target.value,
         })
+    }
+
+    const handleChangePolicy = (e) => {
+        setFormPolicy(s => ({
+            ...s,
+            [e.target.name]: e.target.value
+        }))
     }
 
     const handleToggleEditAddress = () => {
@@ -259,6 +289,21 @@ const Passport = (p: PassportProps) => {
 
     }, [find.street])
 
+    useEffect(() => {
+        apiPatient.getPolicy({patientId: p.patient.id})
+            .then(res => {
+                setFormPolicy(res)
+            })
+
+        apiSpr.getSprVisitByCode({code: 16})
+            .then(res => {
+                setState(s => ({
+                    ...s,
+                    company: res
+                }))
+            })
+    }, [])
+
     return <div>
         <PageTitle title={dispanserSubModules.passport.title}/>
         <Panel className="d-flex flex-row flex-wrap mb-1 " childrenClass="d-flex flex-row align-items-end">
@@ -303,6 +348,41 @@ const Passport = (p: PassportProps) => {
                 {state.editable ? <Button
                     className="btn-outline-primary"
                     onClick={submitForm}
+                >Обновить</Button> : null}
+            </div>
+        </Panel>
+        <Panel className="d-flex flex-row flex-wrap mb-1 " childrenClass="d-flex flex-row align-items-end">
+            <InputText
+                isRow={false}
+                title={"Серия полиса"}
+                value={formPolicy.series}
+                name={"series"}
+                onChange={handleChangePolicy}
+                type={"number"}
+                style={{marginRight: 5}}
+            />
+            <InputText
+                isRow={false}
+                title={"№ полиса"}
+                value={formPolicy.number}
+                name={"number"}
+                onChange={handleChangePolicy}
+                type={"number"}
+                style={{marginRight: 5}}
+            />
+            <div className="d-flex flex-column" style={{marginRight: 5}}>
+                <label className="form-label">Компания</label>
+                <Select
+                    options={state.company.map(v => ({value: v.code, label: v.name}))}
+                    name={"company"}
+                    onChange={(_, value) => setFormPolicy(s => ({...s, company: Number(value)}))}
+                    currentValue={formPolicy.company}
+                />
+            </div>
+            <div>
+                {state.editable ? <Button
+                    className="btn-outline-primary"
+                    onClick={submitFormPolicy}
                 >Обновить</Button> : null}
             </div>
         </Panel>
